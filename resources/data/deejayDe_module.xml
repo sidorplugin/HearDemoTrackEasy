@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name id="0">DeejayDe</name>
+	<address href="http://www.deejay.de/content.php?param=/"></address>
+	<icon path=":/images_ui/images/deejayDeFavicon.ico"></icon>
+	<categories>
+		<category>genre</category>
+	</categories>
+	<genres>
+		<genre title="Techno" link="/sm_News/sort_voe/perpage_160/page_">m_Techno</genre>
+		<genre title="House" link="/sm_News/sort_voe/perpage_160/page_">m_House</genre>
+		<genre title="Exclusive" link="/sm_News/sort_voe/perpage_160/page_">m_Exclusive</genre>
+		<genre title="Ambient" link="/sm_News/substyles_503_505_519_509/sort_voe/perpage_160/page_">m_Beats</genre>
+	</genres>
+</module>

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlayerWidgetForm</class>
+ <widget class="QWidget" name="PlayerWidgetForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>286</width>
+    <height>113</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #E0E0E0, stop: 1 #FFFFFF);
+    border: 2px solid gray;
+    border-radius: 4px;
+</string>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>6</number>
+      </property>
+      <property name="topMargin">
+       <number>6</number>
+      </property>
+      <property name="rightMargin">
+       <number>6</number>
+      </property>
+      <property name="bottomMargin">
+       <number>6</number>
+      </property>
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_TrackInfo">
+            <property name="minimumSize">
+             <size>
+              <width>250</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>250</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="slider_Rewind">
+            <property name="minimumSize">
+             <size>
+              <width>250</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>250</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QSlider::groove:horizontal {
+	background: red;
+    position: absolute;
+}
+
+QSlider::handle:horizontal {
+	height: 1px;
+    background: #545454;
+    margin: 0 -3px;
+}
+
+QSlider::add-page:horizontal {
+	background: #facd95;
+}
+
+QSlider::sub-page:horizontal {
+	background: #8b8b8b;
+}</string>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::NoTicks</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QToolButton" name="toolButton_Previous">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-top: 3px transparent;
+border-bottom: 3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../../resources/resources.qrc">
+                <normaloff>:/images_ui/images/player_start.png</normaloff>:/images_ui/images/player_start.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>36</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="shortcut">
+               <string>Z</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_Play">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-top: 3px transparent;
+border-bottom: 3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../../resources/resources.qrc">
+                <normaloff>:/images_ui/images/player_play.png</normaloff>:/images_ui/images/player_play.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>36</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="shortcut">
+               <string>X</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_Pause">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-top: 3px transparent;
+border-bottom: 3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;
+</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../../resources/resources.qrc">
+                <normaloff>:/images_ui/images/player_pause.png</normaloff>:/images_ui/images/player_pause.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>36</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="shortcut">
+               <string>C</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
+              </property>
+              <property name="autoRaise">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_Stop">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-top: transparent;
+border-bottom: transparent;
+border-right: transparent;
+border-left: transparent;
+</string>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../resources/resources.qrc">
+                <normaloff>:/images_ui/images/player_stop.png</normaloff>:/images_ui/images/player_stop.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>36</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="shortcut">
+               <string>V</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_Next">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-top: 3px transparent;
+border-bottom: 3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;
+hovered: true;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../../resources/resources.qrc">
+                <normaloff>:/images_ui/images/player_end.png</normaloff>:/images_ui/images/player_end.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>36</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="shortcut">
+               <string>B</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QSlider" name="slider_Volume">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>90</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10</width>
+            <height>90</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QSlider::groove:vertical {
+         background: black;
+         position: absolute;        
+}
+
+QSlider::handle:vertical {
+       height: 7px;
+       background: #545454;
+}
+
+QSlider::add-page:vertical {
+	background: #8b8b8b;
+}
+
+QSlider::sub-page:vertical {
+	background: #facd95;
+}</string>
+          </property>
+          <property name="value">
+           <number>50</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::NoTicks</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>1</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>1</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../resources/resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
