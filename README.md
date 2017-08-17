@@ -1,2 +1,2 @@
 # HearDemoTrackEasy
-Tool for musician and dj
+Tool for discophile and dj
