@@ -10,28 +10,28 @@ PlayerWidget::PlayerWidget()
 //  m_runningString = new RunningString(this);
 //  m_playerUi->verticalLayout->addWidget(m_runningString);
 
+  // Устанавливает фильтр событий на слайдеры для реализации перемещения.
+  m_playerUi->slider_Rewind->installEventFilter(this);
+  m_playerUi->slider_Volume->installEventFilter(this);
 
+  // Устанавливает диапазон громкости.
+  m_playerUi->slider_Volume->setRange(0, 100);
+
+  // Реализует систему обработки нескольких сигналов одним слотом.
   m_mapper = new QSignalMapper;
   connect(m_mapper, SIGNAL(mapped(QString)),
           this, SLOT(on_clickedControlButtons(QString)));
 
-  m_playerUi->slider_Rewind->installEventFilter(this);
-  m_playerUi->slider_Volume->installEventFilter(this);
+  // Хранит кнопки в списке для дальнейшего перебора в цикле.
+  m_buttons << m_playerUi->toolButton_Play
+            << m_playerUi->toolButton_Previous
+            << m_playerUi->toolButton_Next;
 
-  m_playerUi->slider_Volume->setRange(0, 100);
-
-  connect(m_playerUi->toolButton_Play, SIGNAL(clicked(bool)),
-          m_mapper, SLOT(map()));
-  m_mapper->setMapping(m_playerUi->toolButton_Play, "Play");
-
-  connect(m_playerUi->toolButton_Previous, SIGNAL(clicked(bool)),
-          m_mapper, SLOT(map()));
-  m_mapper->setMapping(m_playerUi->toolButton_Previous, "Previous");
-
-  connect(m_playerUi->toolButton_Next, SIGNAL(clicked(bool)),
-          m_mapper, SLOT(map()));
-  m_mapper->setMapping(m_playerUi->toolButton_Next, "Next");
-
+  // Для каждой кнопки устанавливает идентификатор в виде его имени.
+  foreach (QToolButton* button, m_buttons) {
+    connect(button, SIGNAL(clicked(bool)), m_mapper, SLOT(map()));
+    m_mapper->setMapping(button, button->objectName());
+  }
 
   connect(m_playerUi->toolButton_Pause, SIGNAL(clicked(bool)),
           m_player, SLOT(pause()));
@@ -91,17 +91,17 @@ void PlayerWidget::setPositionSliderRewind(qint64 position)
 
   // Если конец трека проигрывает следующий.
   if ((position == m_duration) && (m_duration != 0))
-      on_clickedControlButtons("Next");
+      on_clickedControlButtons("toolButton_Next");
 }
 
 // Действие на нажатие клавиш управления.
 // Отправляет команду запрос на воспроизведение трека.
 void PlayerWidget::on_clickedControlButtons(const QString& key)
 {
-  if (key == "Play") {
+  if (key == "toolButton_Play") {
     emit clicked(PlayerWidget::PlayButton);
   }
-  else if (key == "Next") {
+  else if (key == "toolButton_Next") {
     emit clicked(PlayerWidget::NextButton);
   }
   else

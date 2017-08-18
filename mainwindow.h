@@ -26,16 +26,30 @@ class MainWindow : public QMainWindow
 
 public:
   // Состояние программы.
-  enum State { ReadyState,              // Готов.
-               WaitingState,            // Ожидание.
-               FetchingState,           // Идет выборка.
-               FetchedState,            // Выборка окончена.
-               LoadingState,            // Идет загрузка.
-               LoadedState,             // Загрузка окончена.
-               SearchingState,          // Идет поиск.
-               SearchedState,           // Поиск окончен.
-               PlayingState             // Идет проигрывание трека.
-             };
+  enum State {
+    ReadyState,              // Готов.
+    WaitingState,            // Ожидание.
+    FetchingState,           // Идет выборка.
+    FetchedState,            // Выборка окончена.
+    LoadingState,            // Идет загрузка.
+    LoadedState,             // Загрузка окончена.
+    SearchingState,          // Идет поиск.
+    SearchedState,           // Поиск окончен.
+    PlayingState             // Идет проигрывание трека.
+  };
+
+  // Действия Ui.
+  enum Actions {
+    FetchAction,
+    DownloadAction,
+    SearchAction,
+    CancelAction,
+    InfoAction,
+    DeleteAction,
+    ClearAction,
+    PreferencesAction,
+    ExitAction
+  };
 
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
@@ -69,20 +83,7 @@ public slots:
 
 
 private slots:
-  // Действие на нажатие кнопки "Выбрать".
-  void slot_fetch();
-  // Действие на нажатие кнопки "Загрузить".
-  void slot_load();
-  // Показывает окно "Сведения".
-  void slot_info();
-  // Отменяет действие.
-  void slot_cancel();
-  // Запускает поиск.
-  void slot_search();
-  // Удаляет текущий трек.
-  void slot_removeTrack();
-  // Очищает БД.
-  void slot_clearDatabase();
+  void executeAction(int action);
   // Обрабатывает задачу action для строки row поступившую от виджета DbView.
   void slot_executeActionContextMenu(DbViewWidget::Action action);
   // Открывает окно Настроек.
@@ -118,6 +119,8 @@ private:
   FetchParametersWidget* m_fetchParametersWidget; // Виджет параметров выборки.
   DbViewWidget* m_dbViewWidget;        // Виджет "Просмотрщик БД".
   PlayerWidget* m_playerWidget;        // Виджет "Плеер".
+  QSignalMapper* m_mapper;
+  QMap <int, QAction*> m_actions;
 
 
 };

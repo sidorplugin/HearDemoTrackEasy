@@ -59,6 +59,7 @@ private:
 //  RunningString* m_runningString;
   Ui::PlayerWidgetForm* m_playerUi;
   qint64 m_duration;
+  QList <QToolButton*> m_buttons;
 };
 
 #endif // PLAYERWIDGET_H

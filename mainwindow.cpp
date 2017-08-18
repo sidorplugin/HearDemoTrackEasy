@@ -25,6 +25,7 @@ MainWindow::~MainWindow()
   delete m_fetchParametersWidget;
   delete m_dbViewWidget;
   delete m_playerWidget;
+  delete m_mapper;
 }
 
 
@@ -97,71 +98,32 @@ void MainWindow::setActions()
 {
   qDebug() << "MainWindow::setActions()";
 
+  m_actions.insert(MainWindow::FetchAction, ui->action_Fetch);
+  m_actions.insert(MainWindow::DownloadAction, ui->action_Download);
+  m_actions.insert(MainWindow::SearchAction, ui->action_Search);
+  m_actions.insert(MainWindow::CancelAction, ui->action_Cancel);
+  m_actions.insert(MainWindow::InfoAction, ui->action_Info);
+  m_actions.insert(MainWindow::DeleteAction, ui->action_Delete);
+  m_actions.insert(MainWindow::ClearAction, ui->action_Clear);
+  m_actions.insert(MainWindow::PreferencesAction, ui->action_Preferences);
+  m_actions.insert(MainWindow::ExitAction, ui->action_Exit);
+
   // TODO Сигналы в main распределить с помощью QSignallMapper.
+  m_mapper = new QSignalMapper(this);
+  connect(m_mapper, SIGNAL(mapped(int)),
+          this, SLOT(executeAction(int)));
 
-  connect(ui->action_Fetch, SIGNAL(triggered(bool)),
-          this, SLOT(slot_fetch()));
-
-  connect(ui->action_Download, SIGNAL(triggered(bool)),
-          this, SLOT(slot_load()));
-
-  connect(ui->action_Search, SIGNAL(triggered(bool)),
-          this, SLOT(slot_search()));
-
-  connect(ui->action_Cancel, SIGNAL(triggered(bool)),
-          this, SLOT(slot_cancel()));
-
-  connect(ui->action_Info, SIGNAL(triggered(bool)),
-          this, SLOT(slot_info()));
-
-  connect(ui->action_Delete, SIGNAL(triggered(bool)),
-          this, SLOT(slot_removeTrack()));
-
-  connect(ui->action_Clear, SIGNAL(triggered(bool)),
-          this, SLOT(slot_clearDatabase()));
-
-  connect(ui->action_Preferences, SIGNAL(triggered(bool)),
-          this, SLOT(slot_openPreferencesWindow()));
-
-  connect(ui->action_Exit, SIGNAL(triggered(bool)),
-          this, SLOT(close()));
+  QMapIterator <int, QAction*> i(m_actions);
+  while (i.hasNext()) {
+      i.next();
+      QAction* action = i.value();
+      connect(action, SIGNAL(triggered(bool)), m_mapper, SLOT(map()));
+      m_mapper->setMapping(action, i.key());
+  }
 
 }
 
 
-// Действие на нажатие кнопки "Выбрать".
-void MainWindow::slot_fetch()
-{
-   qDebug() << "MainWindow::slot_fetch()";
-  // TODO Валидатор входящих данных.
-  // Если данные правильные запускает выборку.
-
-  setState(MainWindow::FetchingState);
-  DataInput dataInput = getDataFromWidgets();
-  emit signal_fetch(dataInput);
-}
-
-
-// Действие на нажатие кнопки "Загрузить".
-void MainWindow::slot_load()
-{
-  qDebug() << "MainWindow::slot_load()";
-
-  setState(MainWindow::LoadingState);
-  DataInput dataInput = getDataFromWidgets();
-  emit signal_load(dataInput);
-}
-
-
-// Отменяет действие.
-// Cancel action.
-void MainWindow::slot_cancel()
-{
-  qDebug() << "MainWindow::slot_cancel";
-
-  setState(MainWindow::WaitingState);
-  emit signal_cancel();
-}
 
 
 // Слот реакция на нажатие кнопки Плеера.
@@ -197,6 +159,100 @@ void MainWindow::slot_play(TrackInfo track)
 }
 
 
+void MainWindow::executeAction(int action)
+{
+  switch (action) {
+    case MainWindow::FetchAction:
+    {
+      qDebug() << "MainWindow::FetchAction";
+      // TODO Валидатор входящих данных.
+      // Если данные правильные запускает выборку.
+
+      setState(MainWindow::FetchingState);
+      DataInput dataInput = getDataFromWidgets();
+      emit signal_fetch(dataInput);
+    }
+    break;
+
+    case MainWindow::DownloadAction:
+    {
+        qDebug() << "MainWindow::DownloadAction";
+
+        setState(MainWindow::LoadingState);
+        DataInput dataInput = getDataFromWidgets();
+        emit signal_load(dataInput);
+    }
+    break;
+
+    case MainWindow::SearchAction:
+    {
+
+    }
+    break;
+
+    case MainWindow::CancelAction:
+    {
+      qDebug() << "MainWindow::CancelAction";
+
+      setState(MainWindow::WaitingState);
+      emit signal_cancel();
+    }
+    break;
+
+    case MainWindow::InfoAction:
+    {
+      QMessageBox msgBox;
+      msgBox.setWindowIcon(QIcon(":/images_ui/images/deejayDeFavicon.ico"));
+      msgBox.setWindowTitle("Сведения о Hear Demo Track Easy");
+      msgBox.setIconPixmap(QPixmap("://images/information.png"));
+      msgBox.setText("Программа 'Hear Demo Track Easy' помогает любителям музыки и \n"
+                     "диджеям следить за новинками www.deejay.de, www.juno.co.uk и \n"
+                     "www.hardwax.com. \n");
+      msgBox.exec();
+    }
+    break;
+
+    case MainWindow::DeleteAction:
+    {
+      qDebug() << "MainWindow::DeleteAction";
+
+      // Выдает запрос на подтверждение удаления выделенной записи из БД.
+      int result = QMessageBox::question(this, "Удаление выделенной записи БД.",
+                            "Вы уверены что хотите удалить выделенную запись из БД?");
+
+      if (result == QMessageBox::Yes) {
+          int row = m_dbViewWidget->currentIndex().row();
+          emit signal_removeTrack(row);
+      }
+    }
+    break;
+
+    case MainWindow::ClearAction:
+    {
+        // Выдает запрос на подтверждение удаления всех записей из БД.
+        int result = QMessageBox::question(this, "Удаление всех записей БД.",
+                              "Вы уверены что хотите удалить все записи из БД?");
+
+        if (result == QMessageBox::Yes) {
+            emit signal_clearDatabase();
+        }
+    }
+    break;
+
+    case MainWindow::PreferencesAction:
+    {
+        Preferences preferencesWindow;
+        preferencesWindow.exec();
+    }
+    break;
+
+    case MainWindow::ExitAction:
+      close();
+    break;
+  }
+}
+
+
 // Показывает количество выбранных страниц (текущее, всего).
 void MainWindow::slot_pageFetched(int count, int total)
 {
@@ -205,13 +261,6 @@ void MainWindow::slot_pageFetched(int count, int total)
 
   ui->statusBar->showMessage(QString("Выбрано " + QString::number(count) +
                              " из " + QString::number(total) + " страниц"));
-}
-
-
-// Запускает поиск.
-void MainWindow::slot_search()
-{
-
 }
 
 
@@ -257,16 +306,6 @@ void MainWindow::slot_executeActionContextMenu(DbViewWidget::Action action)
 // Удаляет текущий трек.
 void MainWindow::slot_removeTrack()
 {
-  qDebug() << "MainWindow::deleteRowInTable";
-
-  // Выдает запрос на подтверждение удаления выделенной записи из БД.
-  int result = QMessageBox::question(this, "Удаление выделенной записи БД.",
-                        "Вы уверены что хотите удалить выделенную запись из БД?");
-
-  if (result == QMessageBox::Yes) {
-      int row = m_dbViewWidget->currentIndex().row();
-      emit signal_removeTrack(row);
-  }
 
 }
 
@@ -346,43 +385,6 @@ void MainWindow::enableToolBarButtons(bool ok)
   ui->action_Preferences->setEnabled(ok);
 }
 
-
-// Показывает окно "Сведения".
-// Show window "About".
-void MainWindow::slot_info()
-{
-  QMessageBox msgBox;
-  msgBox.setWindowIcon(QIcon(":/images_ui/images/deejayDeFavicon.ico"));
-  msgBox.setWindowTitle("Сведения о Hear Demo Track Easy");
-  msgBox.setIconPixmap(QPixmap("://images/information.png"));
-  msgBox.setText("Программа 'Hear Demo Track Easy' помогает любителям музыки и \n"
-                 "диджеям следить за новинками www.deejay.de, www.juno.co.uk и \n"
-                 "www.hardwax.com. \n");
-  msgBox.exec();
-}
-
-
-// Очищает БД.
-// Clear all elements from database.
-void MainWindow::slot_clearDatabase()
-{
-  // Выдает запрос на подтверждение удаления всех записей из БД.
-  int result = QMessageBox::question(this, "Удаление всех записей БД.",
-                        "Вы уверены что хотите удалить все записи из БД?");
-
-  if (result == QMessageBox::Yes) {
-      emit signal_clearDatabase();
-  }
-}
-
-
-// Открывает окно Настроек.
-// Open window "Preferences".
-void MainWindow::slot_openPreferencesWindow()
-{
-  Preferences preferencesWindow;
-  preferencesWindow.exec();
-}
 
 
 // Возвращает данные с виджетов.
