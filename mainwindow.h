@@ -41,7 +41,7 @@ public:
   // Действия Ui.
   enum Actions {
     FetchAction,
-    DownloadAction,
+    LoadAction,
     SearchAction,
     CancelAction,
     InfoAction,
@@ -86,8 +86,6 @@ private slots:
   void executeAction(int action);
   // Обрабатывает задачу action для строки row поступившую от виджета DbView.
   void slot_executeActionContextMenu(DbViewWidget::Action action);
-  // Открывает окно Настроек.
-  void slot_openPreferencesWindow();
   // Слот реакция на нажатие кнопки Плеера.
   void slot_onClickedPlayerButtons(PlayerWidget::Button button);
   // Показывает количество выбранных страниц (текущее, всего).

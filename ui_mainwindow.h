@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.0
+** Created by: Qt User Interface Compiler version 5.5.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -32,7 +32,7 @@ public:
     QAction *action_Delete;
     QAction *action_FailedLoads;
     QAction *action_Fetch;
-    QAction *action_Download;
+    QAction *action_Load;
     QAction *action_Cancel;
     QAction *action_Preferences;
     QAction *action_Exit;
@@ -94,11 +94,11 @@ public:
         QIcon icon4;
         icon4.addFile(QStringLiteral(":/images_ui/images/fetch.png"), QSize(), QIcon::Normal, QIcon::Off);
         action_Fetch->setIcon(icon4);
-        action_Download = new QAction(MainWindow);
-        action_Download->setObjectName(QStringLiteral("action_Download"));
+        action_Load = new QAction(MainWindow);
+        action_Load->setObjectName(QStringLiteral("action_Load"));
         QIcon icon5;
         icon5.addFile(QStringLiteral(":/images_ui/images/download.png"), QSize(), QIcon::Normal, QIcon::Off);
-        action_Download->setIcon(icon5);
+        action_Load->setIcon(icon5);
         action_Cancel = new QAction(MainWindow);
         action_Cancel->setObjectName(QStringLiteral("action_Cancel"));
         QIcon icon6;
@@ -239,7 +239,7 @@ public:
         menuBar->addAction(menu_4->menuAction());
         menuBar->addAction(menu_3->menuAction());
         menu->addAction(action_Fetch);
-        menu->addAction(action_Download);
+        menu->addAction(action_Load);
         menu->addAction(action_Search);
         menu->addAction(action_Cancel);
         menu->addSeparator();
@@ -250,7 +250,7 @@ public:
         menu_4->addAction(action_Preferences);
         menu_5->addAction(action_ShowControl);
         toolBar->addAction(action_Fetch);
-        toolBar->addAction(action_Download);
+        toolBar->addAction(action_Load);
         toolBar->addAction(action_Search);
         toolBar->addAction(action_Cancel);
         toolBar->addSeparator();
@@ -271,7 +271,7 @@ public:
 #endif // QT_NO_TOOLTIP
         action_FailedLoads->setText(QApplication::translate("MainWindow", "\320\235\320\265\321\203\320\264\320\260\321\207\320\275\320\260\321\217 \320\267\320\260\320\263\321\200\321\203\320\267\320\272\320\260...", 0));
         action_Fetch->setText(QApplication::translate("MainWindow", "\320\222\321\213\320\261\320\276\321\200\320\272\320\260", 0));
-        action_Download->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\272\320\260", 0));
+        action_Load->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\272\320\260", 0));
         action_Cancel->setText(QApplication::translate("MainWindow", "\320\236\321\202\320\274\320\265\320\275\320\260", 0));
         action_Preferences->setText(QApplication::translate("MainWindow", "\320\235\320\260\321\201\321\202\321\200\320\276\320\271\320\272\320\270", 0));
 #ifndef QT_NO_TOOLTIP

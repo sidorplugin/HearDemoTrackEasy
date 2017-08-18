@@ -163,7 +163,7 @@
      <string>Действия</string>
     </property>
     <addaction name="action_Fetch"/>
-    <addaction name="action_Download"/>
+    <addaction name="action_Load"/>
     <addaction name="action_Search"/>
     <addaction name="action_Cancel"/>
     <addaction name="separator"/>
@@ -262,7 +262,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="action_Fetch"/>
-   <addaction name="action_Download"/>
+   <addaction name="action_Load"/>
    <addaction name="action_Search"/>
    <addaction name="action_Cancel"/>
    <addaction name="separator"/>
@@ -307,7 +307,7 @@
     <string>Выборка</string>
    </property>
   </action>
-  <action name="action_Download">
+  <action name="action_Load">
    <property name="icon">
     <iconset resource="resources/resources.qrc">
      <normaloff>:/images_ui/images/download.png</normaloff>:/images_ui/images/download.png</iconset>

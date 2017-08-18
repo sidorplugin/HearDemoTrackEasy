@@ -80,7 +80,6 @@ void MainWindow::setConnections()
   connect(this, SIGNAL(signal_stateChanged(int)),
           m_dbViewWidget, SLOT(setState(int)));
 
-
   // Реакция на нажатие кнопок Плеера.
   connect(m_playerWidget, SIGNAL(clicked(PlayerWidget::Button)),
           this, SLOT(slot_onClickedPlayerButtons(PlayerWidget::Button)));
@@ -88,7 +87,6 @@ void MainWindow::setConnections()
   // Обрабатывает сигналы контекстного меню DbViewer'а.
   connect(m_dbViewWidget, SIGNAL(executeAction(DbViewWidget::Action)),
           this, SLOT(slot_executeActionContextMenu(DbViewWidget::Action)));
-
 
 }
 
@@ -99,7 +97,7 @@ void MainWindow::setActions()
   qDebug() << "MainWindow::setActions()";
 
   m_actions.insert(MainWindow::FetchAction, ui->action_Fetch);
-  m_actions.insert(MainWindow::DownloadAction, ui->action_Download);
+  m_actions.insert(MainWindow::LoadAction, ui->action_Load);
   m_actions.insert(MainWindow::SearchAction, ui->action_Search);
   m_actions.insert(MainWindow::CancelAction, ui->action_Cancel);
   m_actions.insert(MainWindow::InfoAction, ui->action_Info);
@@ -108,7 +106,6 @@ void MainWindow::setActions()
   m_actions.insert(MainWindow::PreferencesAction, ui->action_Preferences);
   m_actions.insert(MainWindow::ExitAction, ui->action_Exit);
 
-  // TODO Сигналы в main распределить с помощью QSignallMapper.
   m_mapper = new QSignalMapper(this);
   connect(m_mapper, SIGNAL(mapped(int)),
           this, SLOT(executeAction(int)));
@@ -174,7 +171,7 @@ void MainWindow::executeAction(int action)
     }
     break;
 
-    case MainWindow::DownloadAction:
+    case MainWindow::LoadAction:
     {
         qDebug() << "MainWindow::DownloadAction";
 
@@ -277,11 +274,11 @@ void MainWindow::slot_executeActionContextMenu(DbViewWidget::Action action)
 
         case DbViewWidget::Load :
             m_isSingleLoad = true;
-            slot_load();
+            executeAction(MainWindow::LoadAction);
         break;
 
         case DbViewWidget::SearchLabel :
-          slot_search();
+          executeAction(MainWindow::SearchAction);
         break;
 
         case DbViewWidget::SearchArtist :
@@ -296,17 +293,10 @@ void MainWindow::slot_executeActionContextMenu(DbViewWidget::Action action)
         break;
 
         case DbViewWidget::Remove :
-            slot_removeTrack();
+            executeAction(MainWindow::DeleteAction);
         break;
 
     }
-}
-
-
-// Удаляет текущий трек.
-void MainWindow::slot_removeTrack()
-{
-
 }
 
 
@@ -380,7 +370,7 @@ void MainWindow::enableToolBarButtons(bool ok)
 
   // Enable or disable buttons.
   ui->action_Fetch->setEnabled(ok);
-  ui->action_Download->setEnabled(ok);
+  ui->action_Load->setEnabled(ok);
   ui->action_Search->setEnabled(ok);
   ui->action_Preferences->setEnabled(ok);
 }
