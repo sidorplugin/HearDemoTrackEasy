@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "preferences.h"
 #include "ui_mainwindow.h"
 
 
@@ -24,7 +25,6 @@ MainWindow::~MainWindow()
   delete m_fetchParametersWidget;
   delete m_dbViewWidget;
   delete m_playerWidget;
-  delete m_waitingWidget;
 }
 
 
@@ -268,22 +268,6 @@ void MainWindow::slot_removeTrack()
 
 }
 
-// TODO в Настройки
-// Устанавливает папку сохранения.
-//void MainWindow::changePath()
-//{
-//  qDebug() << "MainWindow::changePath";
-
-//  QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-//                                           "/home",
-//                                           QFileDialog::ShowDirsOnly
-//                                         | QFileDialog::DontResolveSymlinks);
-//  if (!dir.isEmpty()) {
-//    m_dataInitialize.path = dir;
-//  }
-
-//}
-
 
 // Обновляет элементы интерфейса.
 void MainWindow::slot_updateUI(int state)
@@ -370,8 +354,8 @@ void MainWindow::slot_info()
   msgBox.setWindowTitle("Сведения о Hear Demo Track Easy");
   msgBox.setIconPixmap(QPixmap("://images/information.png"));
   msgBox.setText("Программа 'Hear Demo Track Easy' помогает любителям музыки и \n"
-                 "диджеям следить за новинками deejay.de, juno.co.uk и        \n"
-                 "hardwax.com. \n");
+                 "диджеям следить за новинками www.deejay.de, www.juno.co.uk и \n"
+                 "www.hardwax.com. \n");
   msgBox.exec();
 }
 
@@ -394,7 +378,8 @@ void MainWindow::slot_clearDatabase()
 // Open window "Preferences".
 void MainWindow::slot_openPreferencesWindow()
 {
-
+  Preferences* preferencesWindow = new Preferences(this);
+  preferencesWindow->exec();
 }
 
 

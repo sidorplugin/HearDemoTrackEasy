@@ -43,7 +43,8 @@ void Database::initialize()
 
   if (!m_database.open()) {
     error = m_database.lastError();
-    qWarning() << "error open Db " + error.text();
+    qWarning() << error.text();
+    return;
   }
 
   if (m_database.tables().isEmpty()) {

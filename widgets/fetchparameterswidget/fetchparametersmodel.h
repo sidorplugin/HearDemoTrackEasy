@@ -5,6 +5,9 @@
 
 #include <QStandardItemModel>
 
+const int ROWS = 6;
+const int COLUMNS = 1;
+
 // Константы ролей.
 const int ROLE_LIST = Qt::UserRole;
 const int ROLE_SOURCE_DATA = Qt::UserRole + 1;

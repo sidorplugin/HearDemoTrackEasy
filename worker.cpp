@@ -11,7 +11,6 @@ Worker::Worker(QObject *parent) : QObject(parent)
   qDebug() << "Worker::Worker";
   m_model = Database::getInstance()->model();
   createDownloader();
-  GlobalData::getInstance()->readGlobalSettings();
 }
 
 Worker::~Worker()

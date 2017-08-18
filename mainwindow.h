@@ -95,8 +95,6 @@ private slots:
   void setState(int state);
   // Обновляет элементы интерфейса.
   void slot_updateUI(int state);
-  // Устанавливает папку сохранения.
-//  void changePath();
 
 
 private:

@@ -5,9 +5,8 @@
 
 FetchParametersWidget::FetchParametersWidget()
 {
-  m_delegate = new FetchParametersItemDelegate(this);
-  // Создает модель.
   m_model = new FetchParametersModel(this);
+  m_delegate = new FetchParametersItemDelegate(this);
 
   // Настраивает таблицу.
   setModel(m_model);
@@ -29,6 +28,12 @@ FetchParametersWidget::FetchParametersWidget()
   connect(this, SIGNAL(pressed(QModelIndex)),
           this, SLOT(on_pressed(QModelIndex)));
 
+}
+
+FetchParametersWidget::~FetchParametersWidget()
+{
+  delete m_model;
+  delete m_delegate;
 }
 
 
@@ -61,18 +66,19 @@ QString FetchParametersWidget::getGenre() const
   return model()->index(FetchParametersModel::GenreItem, 0).data().toString();
 }
 
+
 // Возвращает значение поля "Период".
 QString FetchParametersWidget::getPeriod() const
 {
   return model()->index(FetchParametersModel::PeriodItem, 0).data().toString();
 }
 
+
 // Возвращает значение поля "Фильтр".
 QString FetchParametersWidget::getFilter() const
 {
   return model()->index(FetchParametersModel::FilterItem, 0).data().toString();
 }
-
 
 
 // Действия при изменении данных в модели.

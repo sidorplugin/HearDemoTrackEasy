@@ -26,6 +26,7 @@ public:
                 NextButton };
 
   PlayerWidget();
+  ~PlayerWidget();
 
 
 public slots:

@@ -26,6 +26,12 @@ void GlobalData::setGlobalSettings(const QString &root_string,
   delay = delay_value;
   waiting = waiting_value;
   loads = loads_value;
+
+  QSettings settings(":/data/data/settings.ini");
+  settings.setValue("General/Delay", delay);
+  settings.setValue("General/Root", root);
+  settings.setValue("General/Waiting", waiting);
+  settings.setValue("General/Loads", loads);
 }
 
 

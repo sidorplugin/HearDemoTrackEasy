@@ -39,13 +39,17 @@ int main(int argc, char *argv[])
                     "}"
                    );
 
-    // Создает интерфейс пользователя UI.
 
 //    QThread workerThread;
 
+    GlobalData::getInstance()->readGlobalSettings();
     GlobalData::getInstance()->readFromXmlFile(":/data/data/deejayDe_module.xml");
     GlobalData::getInstance()->readFromXmlFile(":/data/data/hardwax_module.xml");
     GlobalData::getInstance()->readFromXmlFile(":/data/data/juno_module.xml");
+
+    // Создает интерфейс пользователя UI.
+    MainWindow mainWindow;
+    mainWindow.show();
 
     // Создает рабочий компонент.
     Worker* worker = new Worker;
@@ -68,9 +72,6 @@ int main(int argc, char *argv[])
 //                     worker, SLOT(quit()));
 
     // Устанавливает соединения мастера и UI.
-
-    MainWindow mainWindow;
-    mainWindow.show();
 
     // Signals To Worker ---------------------------------------------------
     // Запрос на выборку данных.

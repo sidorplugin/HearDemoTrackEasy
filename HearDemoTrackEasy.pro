@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network webkitwidgets multimedia sql xml
+QT += core gui network webkitwidgets multimedia sql xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     dataclasses/moduleparameters.cpp \
     modules/hardwax/hardwaxlinkcreator.cpp \
     modules/juno/junolinkcreator.cpp \
-    widgets/fetchparameterswidget/fetchparametersmodel.cpp
+    widgets/fetchparameterswidget/fetchparametersmodel.cpp \
+    preferences.cpp
 
 HEADERS  += mainwindow.h \
     modules/deejayde/deejaydefetcher.h \
@@ -85,10 +86,12 @@ HEADERS  += mainwindow.h \
     dataclasses/moduleparameters.h \
     modules/hardwax/hardwaxlinkcreator.h \
     modules/juno/junolinkcreator.h \
-    widgets/fetchparameterswidget/fetchparametersmodel.h
+    widgets/fetchparameterswidget/fetchparametersmodel.h \
+    preferences.h
 
 FORMS    += mainwindow.ui \
-    widgets/playerwidget/playerwidgetform.ui
+            playerwidgetform.ui \
+            preferencesform.ui
 
 RESOURCES += \
     resources/resources.qrc

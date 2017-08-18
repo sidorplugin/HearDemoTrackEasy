@@ -19,6 +19,7 @@ class FetchParametersWidget : public QTableView
 public:
 
   FetchParametersWidget();
+  ~FetchParametersWidget();
 
   // Возвращает значение поля "Источник".
   QString getSource() const;

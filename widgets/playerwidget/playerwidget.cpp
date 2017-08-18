@@ -50,6 +50,13 @@ PlayerWidget::PlayerWidget()
 
 }
 
+PlayerWidget::~PlayerWidget()
+{
+  delete m_player;
+  delete m_playerUi;
+  delete m_mapper;
+}
+
 
 // Воспроизводит трек.
 void PlayerWidget::play(TrackInfo& track)

@@ -2,20 +2,19 @@
 #include "fetchparametersmodel.h"
 
 #include <QDate>
+#include <QDebug>
 
 FetchParametersModel::FetchParametersModel(QObject *parent)
                      : QStandardItemModel(parent)
 {
   // Задает параметры модели.
-  setRowCount(6);
-  setColumnCount(1);
+  setRowCount(ROWS);
+  setColumnCount(COLUMNS);
 
   // Создает item'ы модели.
-  for (int row = 0; row < 6; ++row) {
-    for (int column = 0; column < 1; ++column) {
-      QStandardItem *item = new QStandardItem();
-      setItem(row, column, item);
-    }
+  for (int i = 0; i < ROWS; ++i) {
+    QStandardItem *item = new QStandardItem();
+    setItem(i, 0, item);
   }
 
   QStringList labels;
@@ -28,7 +27,6 @@ FetchParametersModel::FetchParametersModel(QObject *parent)
   // Проходит по всем item'ам размещая в них данные.
   for (int i = 0; i <= FetchParametersModel::FilterItem; i++)
     setDataItem(i, parameters);
-
 }
 
 

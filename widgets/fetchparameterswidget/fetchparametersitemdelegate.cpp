@@ -88,7 +88,7 @@ void FetchParametersItemDelegate::setEditorData(QWidget *editor,
                     this, SLOT(closeAndCommitEditor()));
 
       }
-      break;
+    break;
     case FetchParametersModel::GenreItem:  // Поле "Жанр".
     case FetchParametersModel::PeriodItem: // Поле "Период".
     case FetchParametersModel::FilterItem: // Поле "Фильтр".
@@ -99,7 +99,7 @@ void FetchParametersItemDelegate::setEditorData(QWidget *editor,
         // В зависимости от значения в поле "Источник" устанавливает
         // определенный список.
         QStringList list;
-        QMap <QString, QVariant> m = index.data(ROLE_LIST).toMap();
+//        QMap <QString, QVariant> m = index.data(ROLE_LIST).toMap();
         list = index.data(ROLE_LIST).toMap().value(source).toStringList();
         // Добавляет список в ComboBox и устанавливает текущее значение.
         comboBox->addItems(list);
@@ -118,7 +118,6 @@ void FetchParametersItemDelegate::setEditorData(QWidget *editor,
         // Получает виджет QDateEdit из editor.
         QDateEdit *dateEdit = static_cast<QDateEdit*>(editor);
 
-        // Устанавливает определенные данные в виджет QDateEdit.
         // Считывает дату из модели и устанавливает в виджет QDateEdit.
         QString date = index.model()->data(index, Qt::DisplayRole).toString();
         dateEdit->setDate(QDate::fromString(date, "dd.MM.yyyy"));
