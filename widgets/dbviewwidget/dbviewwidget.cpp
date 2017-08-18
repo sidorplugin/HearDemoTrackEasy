@@ -119,7 +119,7 @@ QAction* DbViewWidget::createAction(int id, const QStringList& info, int state)
   QAction* action = new QAction(name, this);
   action->setIcon(QIcon(icon));
 
-  // Отключает нужные действия в контекстном меню.
+  // TODO Отключает нужные действия в контекстном меню.
   switch (state) {
     case 3 :
       if (name != "Воспроизвести")

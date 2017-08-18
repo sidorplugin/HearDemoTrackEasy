@@ -25,7 +25,6 @@
         <file>data/deejayDe_module.xml</file>
         <file>data/hardwax_module.xml</file>
         <file>data/juno_module.xml</file>
-        <file>data/settings.ini</file>
     </qresource>
     <qresource prefix="/styles">
         <file>style/darkstyle.qss</file>

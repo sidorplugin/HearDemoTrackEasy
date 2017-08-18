@@ -17,9 +17,7 @@ class Module : public QObject
 {
   Q_OBJECT
 public:
-  enum Mode { FetchMode,
-              SearchLabelMode,
-              SearchArtistMode };
+  enum Mode { FetchMode, SearchMode };
 
   Module(QObject *parent = 0) {}
   ~Module() {}
@@ -44,7 +42,7 @@ signals:
   // Остановлен.
   void stoped();
 
-protected slots:
+private slots:
   // Обработка сигнала парсера pageFetched.
   void on_fetched(Fetcher::State state);
 
@@ -56,7 +54,7 @@ public:
   LinkCreator* m_linkCreator;    // Создатель ссылок.
 
 private:
-  // Стартует выборку.
+  // Стартует выборку со страницы start до страницы end.
   void fetch(const QString& link, int start, int end);
 
 protected:

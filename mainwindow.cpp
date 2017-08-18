@@ -97,6 +97,8 @@ void MainWindow::setActions()
 {
   qDebug() << "MainWindow::setActions()";
 
+  // TODO Сигналы в main распределить с помощью QSignallMapper.
+
   connect(ui->action_Fetch, SIGNAL(triggered(bool)),
           this, SLOT(slot_fetch()));
 
@@ -378,8 +380,8 @@ void MainWindow::slot_clearDatabase()
 // Open window "Preferences".
 void MainWindow::slot_openPreferencesWindow()
 {
-  Preferences* preferencesWindow = new Preferences(this);
-  preferencesWindow->exec();
+  Preferences preferencesWindow;
+  preferencesWindow.exec();
 }
 
 

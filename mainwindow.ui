@@ -331,7 +331,10 @@
      <normaloff>:/images_ui/images/preferences.png</normaloff>:/images_ui/images/preferences.png</iconset>
    </property>
    <property name="text">
-    <string>Параметры</string>
+    <string>Настройки</string>
+   </property>
+   <property name="toolTip">
+    <string>Настройки</string>
    </property>
   </action>
   <action name="action_Exit">

@@ -119,6 +119,7 @@ int main(int argc, char *argv[])
     // в графический интерфейс.
     QObject::connect(worker, SIGNAL(signal_stateChanged(int)),
                      &mainWindow, SLOT(slot_updateUI(int)));
+
     // По окончании выборки страницы отображает изменения в графическом интерфейсе.
     QObject::connect(worker, SIGNAL(signal_pageFetched(int, int)),
                      &mainWindow, SLOT(slot_pageFetched(int, int)));

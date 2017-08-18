@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
+#include <QLineEdit>
 
 namespace Ui {
   class Preferences;
@@ -24,10 +25,6 @@ private slots:
 
 private:
   Ui::Preferences *ui;
-  int m_delay;
-  int m_loads;
-  int m_waiting;
-  QString m_root;
 };
 
 #endif // PREFERENCES_H

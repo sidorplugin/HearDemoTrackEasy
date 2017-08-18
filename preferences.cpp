@@ -2,17 +2,29 @@
 #include "preferences.h"
 #include "ui_preferencesForm.h"
 
+#include <QDebug>
+#include <QDirModel>
+#include <QCompleter>
+#include <QValidator>
+#include <QMessageBox>
+#include <QPushButton>
+
 Preferences::Preferences(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::Preferences)
 {
   ui->setupUi(this);
 
+  // Настройка QCompleter (подсказка и подстановка путей) для строки root.
+  QCompleter *completer = new QCompleter(this);
+  completer->setModel(new QDirModel(completer));
+  ui->lineEdit_Root->setCompleter(completer);
+
   // Загружает глобальные настройки и отображает их в виджете.
   GlobalData::getInstance()->readGlobalSettings();
-  ui->lineEdit_Delay->setText(QString::number(GlobalData::getInstance()->delay));
-  ui->lineEdit_Waiting->setText(QString::number(GlobalData::getInstance()->waiting));
-  ui->lineEdit_Loads->setText(QString::number(GlobalData::getInstance()->loads));
+  ui->spinBox_Delay->setValue(GlobalData::getInstance()->delay);
+  ui->spinBox_Waiting->setValue(GlobalData::getInstance()->waiting);
+  ui->spinBox_Loads->setValue(GlobalData::getInstance()->loads);
   ui->lineEdit_Root->setText(GlobalData::getInstance()->root);
 
   // По нажатию "Сохранить" вызывает слот сохранения настроек.
@@ -39,10 +51,9 @@ void Preferences::changeEvent(QEvent *e)
 
 void Preferences::save()
 {
-  m_delay = ui->lineEdit_Delay->text().toInt();
-  m_loads = ui->lineEdit_Loads->text().toInt();
-  m_waiting = ui->lineEdit_Waiting->text().toInt();
-  m_root = ui->lineEdit_Root->text();
-
-  GlobalData::getInstance()->setGlobalSettings(m_root, m_delay, m_waiting, m_loads);
+  GlobalData::getInstance()->setGlobalSettings(
+                             ui->lineEdit_Root->text(),
+                             ui->spinBox_Delay->text().toInt(),
+                             ui->spinBox_Waiting->text().toInt(),
+                             ui->spinBox_Loads->text().toInt());
 }

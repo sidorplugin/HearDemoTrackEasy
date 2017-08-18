@@ -22,16 +22,11 @@ void GlobalData::setGlobalSettings(const QString &root_string,
                                    int waiting_value,
                                    int loads_value)
 {
-  root = root_string;
-  delay = delay_value;
-  waiting = waiting_value;
-  loads = loads_value;
-
-  QSettings settings(":/data/data/settings.ini");
-  settings.setValue("General/Delay", delay);
-  settings.setValue("General/Root", root);
-  settings.setValue("General/Waiting", waiting);
-  settings.setValue("General/Loads", loads);
+  QSettings settings("settings.ini", QSettings::IniFormat);
+  settings.setValue("Delay", delay_value);
+  settings.setValue("Root", root_string);
+  settings.setValue("Waiting", waiting_value);
+  settings.setValue("Loads", loads_value);
 }
 
 
@@ -39,7 +34,7 @@ void GlobalData::setGlobalSettings(const QString &root_string,
 void GlobalData::readGlobalSettings()
 {
   qDebug() << "GlobalData::readGlobalSettings";
-  QSettings settings(":/data/data/settings.ini", QSettings::IniFormat);
+  QSettings settings("settings.ini", QSettings::IniFormat);
   delay = settings.value("Delay").toInt();
   root = settings.value("Root").toString();
   waiting = settings.value("Waiting").toInt();
