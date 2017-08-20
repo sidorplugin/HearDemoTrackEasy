@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     modules/hardwax/hardwaxlinkcreator.cpp \
     modules/juno/junolinkcreator.cpp \
     widgets/fetchparameterswidget/fetchparametersmodel.cpp \
-    preferences.cpp
+    preferences.cpp \
+    widgets/searchwidget/searchwidget.cpp
 
 HEADERS  += mainwindow.h \
     modules/deejayde/deejaydefetcher.h \
@@ -87,11 +88,13 @@ HEADERS  += mainwindow.h \
     modules/hardwax/hardwaxlinkcreator.h \
     modules/juno/junolinkcreator.h \
     widgets/fetchparameterswidget/fetchparametersmodel.h \
-    preferences.h
+    preferences.h \
+    widgets/searchwidget/searchwidget.h
 
 FORMS    += mainwindow.ui \
             playerwidgetform.ui \
-            preferencesform.ui
+            preferencesform.ui \
+    searchform.ui
 
 RESOURCES += \
     resources/resources.qrc

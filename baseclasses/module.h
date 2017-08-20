@@ -2,7 +2,6 @@
 #define MODULE_H
 
 #include "baseclasses/fetcher.h"
-#include "baseclasses/linkcreator.h"
 #include "baseclasses/pagesearcher.h"
 #include "dataclasses/datainput.h"
 
@@ -12,6 +11,8 @@
 // определенного ресурса. Метод exec() запускает модуль в работу, при готовности
 // результата испускает сигнал ready. Для остановки работы модуля существует
 // метод stop().
+
+class LinkCreator;
 
 class Module : public QObject
 {

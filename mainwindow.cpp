@@ -2,7 +2,6 @@
 #include "preferences.h"
 #include "ui_mainwindow.h"
 
-
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent),
@@ -49,12 +48,14 @@ int MainWindow::state()
 // Создает виджеты.
 void MainWindow::createWidgets()
 {
+  // TODO разобраться с парентами у виджетов.
+
   // Создает виджет для просмотра элементов БД.
   m_dbViewWidget = new DbViewWidget;
   ui->dockWidgetDbView->setWidget(m_dbViewWidget);
 
   // Создает виджет воспроизведения.
-  m_playerWidget = new PlayerWidget;
+  m_playerWidget = new PlayerWidget(this);
   ui->dockWidgetPlay->setWidget(m_playerWidget);
 
   // Создает виджет параметров выборки.
@@ -63,6 +64,10 @@ void MainWindow::createWidgets()
 
   // Создает виджет показа ожидания.
   m_waitingWidget = new WaitingWidget(m_dbViewWidget);
+
+  // Добавляет виджет поиска в toolBar.
+  m_searchWidget = new SearchWidget(this);
+  ui->dockWidgetSearch->setWidget(m_searchWidget);
 
 }
 
@@ -81,8 +86,8 @@ void MainWindow::setConnections()
           m_dbViewWidget, SLOT(setState(int)));
 
   // Реакция на нажатие кнопок Плеера.
-  connect(m_playerWidget, SIGNAL(clicked(PlayerWidget::Button)),
-          this, SLOT(slot_onClickedPlayerButtons(PlayerWidget::Button)));
+  connect(m_playerWidget, SIGNAL(clicked(int)),
+          this, SLOT(slot_onClickedPlayerButtons(int)));
 
   // Обрабатывает сигналы контекстного меню DbViewer'а.
   connect(m_dbViewWidget, SIGNAL(executeAction(DbViewWidget::Action)),
@@ -98,7 +103,6 @@ void MainWindow::setActions()
 
   m_actions.insert(MainWindow::FetchAction, ui->action_Fetch);
   m_actions.insert(MainWindow::LoadAction, ui->action_Load);
-  m_actions.insert(MainWindow::SearchAction, ui->action_Search);
   m_actions.insert(MainWindow::CancelAction, ui->action_Cancel);
   m_actions.insert(MainWindow::InfoAction, ui->action_Info);
   m_actions.insert(MainWindow::DeleteAction, ui->action_Delete);
@@ -121,12 +125,10 @@ void MainWindow::setActions()
 }
 
 
-
-
 // Слот реакция на нажатие кнопки Плеера.
 // В зависимости от нажатой кнопки плеера отправляет сигнал с номером
 // строки трека в базе.
-void MainWindow::slot_onClickedPlayerButtons(PlayerWidget::Button button)
+void MainWindow::slot_onClickedPlayerButtons(int button)
 {
   qDebug() << "MainWindow::slot_onClickedPlayerButtons";
 
@@ -178,12 +180,6 @@ void MainWindow::executeAction(int action)
         setState(MainWindow::LoadingState);
         DataInput dataInput = getDataFromWidgets();
         emit signal_load(dataInput);
-    }
-    break;
-
-    case MainWindow::SearchAction:
-    {
-
     }
     break;
 
@@ -278,7 +274,6 @@ void MainWindow::slot_executeActionContextMenu(DbViewWidget::Action action)
         break;
 
         case DbViewWidget::SearchLabel :
-          executeAction(MainWindow::SearchAction);
         break;
 
         case DbViewWidget::SearchArtist :
@@ -371,7 +366,6 @@ void MainWindow::enableToolBarButtons(bool ok)
   // Enable or disable buttons.
   ui->action_Fetch->setEnabled(ok);
   ui->action_Load->setEnabled(ok);
-  ui->action_Search->setEnabled(ok);
   ui->action_Preferences->setEnabled(ok);
 }
 

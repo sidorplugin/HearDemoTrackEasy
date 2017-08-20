@@ -1,7 +1,8 @@
 #include "hardwaxlinkcreator.h"
 
 
-QString HardwaxLinkCreator::create(const DataInput &data, const ModuleParameters &params)
+QString HardwaxLinkCreator::create(Module::Mode mode, const DataInput &data,
+                                   const ModuleParameters &params)
 {
   QString address = params.address();
   QStringList genreInfo = params.genreInfo(data.genre);

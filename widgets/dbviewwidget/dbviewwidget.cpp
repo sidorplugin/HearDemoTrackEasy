@@ -19,10 +19,10 @@ DbViewWidget::DbViewWidget(QWidget* parent)
 
     m_actionIconList << ":/images_ui/images/player_play.png"
                      << ":/images_ui/images/download.png"
-                     << ":/images_ui/images/search.png"
-                     << ":/images_ui/images/search.png"
-                     << ":/images_ui/images/search.png"
-                     << ":/images_ui/images/search.png"
+                     << ":/images_ui/images/search_label.png"
+                     << ":/images_ui/images/search_title.png"
+                     << ":/images_ui/images/link.png"
+                     << ":/images_ui/images/copy_title.png"
                      << ":/images_ui/images/delete.png";
 
     // Заполняет таблицу данными.

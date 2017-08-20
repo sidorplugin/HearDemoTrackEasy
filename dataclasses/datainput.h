@@ -15,6 +15,7 @@ public:
   QString genre;                   // Текущий жанр. Будет отображаться в БД.
   QString period;                  // Текущий период.
   QString filter;                  // Текущий фильтр.
+  QString search;                  // Строка поиска.
   int row;                         // Текущая строка в виджете просмотра треков.
 
   QDate dateStart;                 // Глубина выборки с.

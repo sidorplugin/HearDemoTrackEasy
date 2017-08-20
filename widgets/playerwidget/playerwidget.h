@@ -21,11 +21,13 @@ class PlayerWidget : public QWidget
 {
   Q_OBJECT
 public:
-  enum Button { PlayButton,
-                PreviousButton,
-                NextButton };
+  enum Button {
+      PlayButton,
+      PreviousButton,
+      NextButton
+  };
 
-  PlayerWidget();
+  PlayerWidget(QWidget *parent = 0);
   ~PlayerWidget();
 
 
@@ -35,7 +37,7 @@ public slots:
 
 signals:
   // Сигнал о нажатии кнопки управления плеером.
-  void clicked(PlayerWidget::Button buttton);
+  void clicked(int);
 
 private slots:
   // Перемотка трека на позицию.
@@ -44,10 +46,6 @@ private slots:
   void setDurationTrack(qint64 duration);
   // Устанавливает позицию слайдера перемотки.
   void setPositionSliderRewind(qint64 position);
-
-  // Действие на нажатие клавиш управления.
-  // Отправляет команду запрос на воспроизведение трека.
-  void on_clickedControlButtons(const QString& key);
 
 private:
   // Фильтрует событие нажатие мышью по слайдеру перемотки и слайдеру громкости.
@@ -59,7 +57,7 @@ private:
 //  RunningString* m_runningString;
   Ui::PlayerWidgetForm* m_playerUi;
   qint64 m_duration;
-  QList <QToolButton*> m_buttons;
+  QMap <int, QToolButton*> m_buttons;
 };
 
 #endif // PLAYERWIDGET_H

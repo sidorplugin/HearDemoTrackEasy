@@ -1,4 +1,5 @@
 #include "baseclasses/module.h"
+#include "baseclasses/linkcreator.h"
 #include "globaldata.h"
 
 #include <QEventLoop>
@@ -25,7 +26,7 @@ void Module::execute(Module::Mode mode, const DataInput &data)
         }
 
       // Возвращает ссылку для выборки.
-      QString link = m_linkCreator->create(data, parameters());
+      QString link = m_linkCreator->create(mode, data, parameters());
 
       QVariantList searchParameters;
       searchParameters.push_back(link);

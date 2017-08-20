@@ -1,6 +1,7 @@
 #include "junolinkcreator.h"
 
-QString JunoLinkCreator::create(const DataInput &data, const ModuleParameters &params)
+QString JunoLinkCreator::create(Module::Mode mode, const DataInput &data,
+                                const ModuleParameters &params)
 {
   QString address = params.address();
   QStringList genreInfo = params.genreInfo(data.genre);

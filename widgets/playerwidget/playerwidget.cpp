@@ -1,6 +1,6 @@
 #include "playerwidget.h"
 
-PlayerWidget::PlayerWidget()
+PlayerWidget::PlayerWidget(QWidget *parent) : QWidget(parent)
 {
   m_player = new QMediaPlayer(this);
 
@@ -19,18 +19,20 @@ PlayerWidget::PlayerWidget()
 
   // Реализует систему обработки нескольких сигналов одним слотом.
   m_mapper = new QSignalMapper;
-  connect(m_mapper, SIGNAL(mapped(QString)),
-          this, SLOT(on_clickedControlButtons(QString)));
+  connect(m_mapper, SIGNAL(mapped(int)),
+          this, SIGNAL(clicked(int)));
 
   // Хранит кнопки в списке для дальнейшего перебора в цикле.
-  m_buttons << m_playerUi->toolButton_Play
-            << m_playerUi->toolButton_Previous
-            << m_playerUi->toolButton_Next;
+  m_buttons.insert(PlayerWidget::PlayButton, m_playerUi->toolButton_Play);
+  m_buttons.insert(PlayerWidget::PreviousButton, m_playerUi->toolButton_Previous);
+  m_buttons.insert(PlayerWidget::NextButton, m_playerUi->toolButton_Next);
 
-  // Для каждой кнопки устанавливает идентификатор в виде его имени.
-  foreach (QToolButton* button, m_buttons) {
-    connect(button, SIGNAL(clicked(bool)), m_mapper, SLOT(map()));
-    m_mapper->setMapping(button, button->objectName());
+  QMapIterator <int, QToolButton*> i(m_buttons);
+  while (i.hasNext()) {
+      i.next();
+      QToolButton* button = i.value();
+      connect(button, SIGNAL(clicked(bool)), m_mapper, SLOT(map()));
+      m_mapper->setMapping(button, i.key());
   }
 
   connect(m_playerUi->toolButton_Pause, SIGNAL(clicked(bool)),
@@ -91,21 +93,7 @@ void PlayerWidget::setPositionSliderRewind(qint64 position)
 
   // Если конец трека проигрывает следующий.
   if ((position == m_duration) && (m_duration != 0))
-      on_clickedControlButtons("toolButton_Next");
-}
-
-// Действие на нажатие клавиш управления.
-// Отправляет команду запрос на воспроизведение трека.
-void PlayerWidget::on_clickedControlButtons(const QString& key)
-{
-  if (key == "toolButton_Play") {
-    emit clicked(PlayerWidget::PlayButton);
-  }
-  else if (key == "toolButton_Next") {
     emit clicked(PlayerWidget::NextButton);
-  }
-  else
-    emit clicked(PlayerWidget::PreviousButton);
 }
 
 

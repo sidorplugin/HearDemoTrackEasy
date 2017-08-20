@@ -6,7 +6,8 @@
 class HardwaxLinkCreator : public LinkCreator
 {
 public:
-  QString create(const DataInput& data, const ModuleParameters& params);
+  QString create(Module::Mode mode, const DataInput& data,
+                 const ModuleParameters& params);
 };
 
 #endif // HARDWAXLINKCREATOR_H

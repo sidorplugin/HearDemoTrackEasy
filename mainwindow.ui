@@ -36,33 +36,7 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="3" column="0">
-     <widget class="QDockWidget" name="dockWidgetPlay">
-      <property name="minimumSize">
-       <size>
-        <width>280</width>
-        <height>130</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>280</width>
-        <height>130</height>
-       </size>
-      </property>
-      <property name="features">
-       <set>QDockWidget::DockWidgetClosable</set>
-      </property>
-      <property name="allowedAreas">
-       <set>Qt::LeftDockWidgetArea</set>
-      </property>
-      <property name="windowTitle">
-       <string>Плеер</string>
-      </property>
-      <widget class="QWidget" name="dockWidgetContents_3"/>
-     </widget>
-    </item>
+   <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QDockWidget" name="dockWidgetParameters">
       <property name="sizePolicy">
@@ -95,7 +69,7 @@
       <widget class="QWidget" name="dockWidgetContents"/>
      </widget>
     </item>
-    <item row="0" column="1" rowspan="4">
+    <item row="0" column="1" rowspan="5">
      <widget class="QDockWidget" name="dockWidgetDbView">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -126,13 +100,13 @@
       <property name="minimumSize">
        <size>
         <width>280</width>
-        <height>180</height>
+        <height>110</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>280</width>
-        <height>180</height>
+        <height>110</height>
        </size>
       </property>
       <property name="features">
@@ -144,7 +118,33 @@
       <property name="windowTitle">
        <string>Поиск</string>
       </property>
-      <widget class="QWidget" name="dockWidgetContents_2"/>
+      <widget class="QWidget" name="dockWidgetContents_7"/>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QDockWidget" name="dockWidgetPlay">
+      <property name="minimumSize">
+       <size>
+        <width>280</width>
+        <height>130</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>280</width>
+        <height>130</height>
+       </size>
+      </property>
+      <property name="features">
+       <set>QDockWidget::DockWidgetClosable</set>
+      </property>
+      <property name="allowedAreas">
+       <set>Qt::LeftDockWidgetArea</set>
+      </property>
+      <property name="windowTitle">
+       <string>Плеер</string>
+      </property>
+      <widget class="QWidget" name="dockWidgetContents_3"/>
      </widget>
     </item>
    </layout>
@@ -164,7 +164,6 @@
     </property>
     <addaction name="action_Fetch"/>
     <addaction name="action_Load"/>
-    <addaction name="action_Search"/>
     <addaction name="action_Cancel"/>
     <addaction name="separator"/>
     <addaction name="action_Clear"/>
@@ -240,6 +239,12 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
    <property name="movable">
     <bool>false</bool>
    </property>
@@ -263,10 +268,10 @@
    </attribute>
    <addaction name="action_Fetch"/>
    <addaction name="action_Load"/>
-   <addaction name="action_Search"/>
    <addaction name="action_Cancel"/>
    <addaction name="separator"/>
    <addaction name="action_Preferences"/>
+   <addaction name="separator"/>
   </widget>
   <action name="action_Clear">
    <property name="icon">
@@ -336,6 +341,9 @@
    <property name="toolTip">
     <string>Настройки</string>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="action_Exit">
    <property name="icon">
@@ -362,15 +370,6 @@
    </property>
    <property name="text">
     <string>Показать панель управления</string>
-   </property>
-  </action>
-  <action name="action_Search">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/images_ui/images/search.png</normaloff>:/images_ui/images/search.png</iconset>
-   </property>
-   <property name="text">
-    <string>Поиск</string>
    </property>
   </action>
  </widget>

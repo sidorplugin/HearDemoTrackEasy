@@ -3,6 +3,7 @@
 
 #include "dataclasses/datainput.h"
 #include "dataclasses/moduleparameters.h"
+#include "baseclasses/module.h"
 
 #include <QString>
 
@@ -11,7 +12,7 @@ class LinkCreator
 public:
   LinkCreator() {}
 
-  virtual QString create(const DataInput& data,
+  virtual QString create(Module::Mode mode, const DataInput& data,
                          const ModuleParameters& params) = 0;
 };
 

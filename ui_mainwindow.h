@@ -38,17 +38,16 @@ public:
     QAction *action_Exit;
     QAction *action_Info;
     QAction *action_ShowControl;
-    QAction *action_Search;
     QWidget *centralWidget;
-    QGridLayout *gridLayout_2;
-    QDockWidget *dockWidgetPlay;
-    QWidget *dockWidgetContents_3;
+    QGridLayout *gridLayout;
     QDockWidget *dockWidgetParameters;
     QWidget *dockWidgetContents;
     QDockWidget *dockWidgetDbView;
     QWidget *dockWidgetContents_13;
     QDockWidget *dockWidgetSearch;
-    QWidget *dockWidgetContents_2;
+    QWidget *dockWidgetContents_7;
+    QDockWidget *dockWidgetPlay;
+    QWidget *dockWidgetContents_3;
     QMenuBar *menuBar;
     QMenu *menu;
     QMenu *menu_2;
@@ -109,6 +108,7 @@ public:
         QIcon icon7;
         icon7.addFile(QStringLiteral(":/images_ui/images/preferences.png"), QSize(), QIcon::Normal, QIcon::Off);
         action_Preferences->setIcon(icon7);
+        action_Preferences->setAutoRepeat(true);
         action_Exit = new QAction(MainWindow);
         action_Exit->setObjectName(QStringLiteral("action_Exit"));
         QIcon icon8;
@@ -124,29 +124,12 @@ public:
         QIcon icon10;
         icon10.addFile(QStringLiteral(":/images_ui/images/controller.png"), QSize(), QIcon::Normal, QIcon::Off);
         action_ShowControl->setIcon(icon10);
-        action_Search = new QAction(MainWindow);
-        action_Search->setObjectName(QStringLiteral("action_Search"));
-        QIcon icon11;
-        icon11.addFile(QStringLiteral(":/images_ui/images/search.png"), QSize(), QIcon::Normal, QIcon::Off);
-        action_Search->setIcon(icon11);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        gridLayout_2 = new QGridLayout(centralWidget);
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        dockWidgetPlay = new QDockWidget(centralWidget);
-        dockWidgetPlay->setObjectName(QStringLiteral("dockWidgetPlay"));
-        dockWidgetPlay->setMinimumSize(QSize(280, 130));
-        dockWidgetPlay->setMaximumSize(QSize(280, 130));
-        dockWidgetPlay->setFeatures(QDockWidget::DockWidgetClosable);
-        dockWidgetPlay->setAllowedAreas(Qt::LeftDockWidgetArea);
-        dockWidgetContents_3 = new QWidget();
-        dockWidgetContents_3->setObjectName(QStringLiteral("dockWidgetContents_3"));
-        dockWidgetPlay->setWidget(dockWidgetContents_3);
-
-        gridLayout_2->addWidget(dockWidgetPlay, 3, 0, 1, 1);
-
+        gridLayout = new QGridLayout(centralWidget);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         dockWidgetParameters = new QDockWidget(centralWidget);
         dockWidgetParameters->setObjectName(QStringLiteral("dockWidgetParameters"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -162,7 +145,7 @@ public:
         dockWidgetContents->setObjectName(QStringLiteral("dockWidgetContents"));
         dockWidgetParameters->setWidget(dockWidgetContents);
 
-        gridLayout_2->addWidget(dockWidgetParameters, 0, 0, 1, 1);
+        gridLayout->addWidget(dockWidgetParameters, 0, 0, 1, 1);
 
         dockWidgetDbView = new QDockWidget(centralWidget);
         dockWidgetDbView->setObjectName(QStringLiteral("dockWidgetDbView"));
@@ -178,19 +161,31 @@ public:
         dockWidgetContents_13->setObjectName(QStringLiteral("dockWidgetContents_13"));
         dockWidgetDbView->setWidget(dockWidgetContents_13);
 
-        gridLayout_2->addWidget(dockWidgetDbView, 0, 1, 4, 1);
+        gridLayout->addWidget(dockWidgetDbView, 0, 1, 5, 1);
 
         dockWidgetSearch = new QDockWidget(centralWidget);
         dockWidgetSearch->setObjectName(QStringLiteral("dockWidgetSearch"));
-        dockWidgetSearch->setMinimumSize(QSize(280, 180));
-        dockWidgetSearch->setMaximumSize(QSize(280, 180));
+        dockWidgetSearch->setMinimumSize(QSize(280, 110));
+        dockWidgetSearch->setMaximumSize(QSize(280, 110));
         dockWidgetSearch->setFeatures(QDockWidget::DockWidgetClosable);
         dockWidgetSearch->setAllowedAreas(Qt::LeftDockWidgetArea);
-        dockWidgetContents_2 = new QWidget();
-        dockWidgetContents_2->setObjectName(QStringLiteral("dockWidgetContents_2"));
-        dockWidgetSearch->setWidget(dockWidgetContents_2);
+        dockWidgetContents_7 = new QWidget();
+        dockWidgetContents_7->setObjectName(QStringLiteral("dockWidgetContents_7"));
+        dockWidgetSearch->setWidget(dockWidgetContents_7);
 
-        gridLayout_2->addWidget(dockWidgetSearch, 1, 0, 1, 1);
+        gridLayout->addWidget(dockWidgetSearch, 1, 0, 1, 1);
+
+        dockWidgetPlay = new QDockWidget(centralWidget);
+        dockWidgetPlay->setObjectName(QStringLiteral("dockWidgetPlay"));
+        dockWidgetPlay->setMinimumSize(QSize(280, 130));
+        dockWidgetPlay->setMaximumSize(QSize(280, 130));
+        dockWidgetPlay->setFeatures(QDockWidget::DockWidgetClosable);
+        dockWidgetPlay->setAllowedAreas(Qt::LeftDockWidgetArea);
+        dockWidgetContents_3 = new QWidget();
+        dockWidgetContents_3->setObjectName(QStringLiteral("dockWidgetContents_3"));
+        dockWidgetPlay->setWidget(dockWidgetContents_3);
+
+        gridLayout->addWidget(dockWidgetPlay, 2, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -227,6 +222,8 @@ public:
         QFont font2;
         font2.setKerning(true);
         toolBar->setFont(font2);
+        toolBar->setLayoutDirection(Qt::LeftToRight);
+        toolBar->setAutoFillBackground(false);
         toolBar->setMovable(false);
         toolBar->setIconSize(QSize(48, 48));
         toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -240,7 +237,6 @@ public:
         menuBar->addAction(menu_3->menuAction());
         menu->addAction(action_Fetch);
         menu->addAction(action_Load);
-        menu->addAction(action_Search);
         menu->addAction(action_Cancel);
         menu->addSeparator();
         menu->addAction(action_Clear);
@@ -251,10 +247,10 @@ public:
         menu_5->addAction(action_ShowControl);
         toolBar->addAction(action_Fetch);
         toolBar->addAction(action_Load);
-        toolBar->addAction(action_Search);
         toolBar->addAction(action_Cancel);
         toolBar->addSeparator();
         toolBar->addAction(action_Preferences);
+        toolBar->addSeparator();
 
         retranslateUi(MainWindow);
 
@@ -280,11 +276,10 @@ public:
         action_Exit->setText(QApplication::translate("MainWindow", "\320\222\321\213\321\205\320\276\320\264", 0));
         action_Info->setText(QApplication::translate("MainWindow", "\320\241\320\277\321\200\320\260\320\262\320\272\320\260", 0));
         action_ShowControl->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\272\320\260\320\267\320\260\321\202\321\214 \320\277\320\260\320\275\320\265\320\273\321\214 \321\203\320\277\321\200\320\260\320\262\320\273\320\265\320\275\320\270\321\217", 0));
-        action_Search->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\270\321\201\320\272", 0));
-        dockWidgetPlay->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\273\320\265\320\265\321\200", 0));
         dockWidgetParameters->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213", 0));
         dockWidgetDbView->setWindowTitle(QApplication::translate("MainWindow", "\320\221\320\260\320\267\320\260 \321\202\321\200\320\265\320\272\320\276\320\262", 0));
         dockWidgetSearch->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\276\320\270\321\201\320\272", 0));
+        dockWidgetPlay->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\273\320\265\320\265\321\200", 0));
         menu->setTitle(QApplication::translate("MainWindow", "\320\224\320\265\320\271\321\201\321\202\320\262\320\270\321\217", 0));
         menu_2->setTitle(QApplication::translate("MainWindow", "\320\244\320\260\320\271\320\273", 0));
         menu_3->setTitle(QApplication::translate("MainWindow", "\320\241\320\277\321\200\320\260\320\262\320\272\320\260", 0));

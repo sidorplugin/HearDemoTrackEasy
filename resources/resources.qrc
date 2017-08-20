@@ -20,6 +20,10 @@
         <file>images/player_start.png</file>
         <file>images/player_stop.png</file>
         <file>images/player_pause.png</file>
+        <file>images/copy_title.png</file>
+        <file>images/link.png</file>
+        <file>images/search_label.png</file>
+        <file>images/search_title.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>data/deejayDe_module.xml</file>

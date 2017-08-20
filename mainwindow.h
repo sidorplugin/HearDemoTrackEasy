@@ -7,6 +7,7 @@
 #include "widgets/dbviewwidget/dbviewwidget.h"
 #include "widgets/fetchparameterswidget/fetchparameterswidget.h"
 #include "widgets/playerwidget/playerwidget.h"
+#include "widgets/searchwidget/searchwidget.h"
 
 #include <QMainWindow>
 #include <QNetworkRequest>
@@ -42,7 +43,6 @@ public:
   enum Actions {
     FetchAction,
     LoadAction,
-    SearchAction,
     CancelAction,
     InfoAction,
     DeleteAction,
@@ -83,11 +83,12 @@ public slots:
 
 
 private slots:
+  //
   void executeAction(int action);
   // Обрабатывает задачу action для строки row поступившую от виджета DbView.
   void slot_executeActionContextMenu(DbViewWidget::Action action);
   // Слот реакция на нажатие кнопки Плеера.
-  void slot_onClickedPlayerButtons(PlayerWidget::Button button);
+  void slot_onClickedPlayerButtons(int button);
   // Показывает количество выбранных страниц (текущее, всего).
   void slot_pageFetched(int count, int total);
   // Устанавливает состояние программы.
@@ -117,6 +118,7 @@ private:
   FetchParametersWidget* m_fetchParametersWidget; // Виджет параметров выборки.
   DbViewWidget* m_dbViewWidget;        // Виджет "Просмотрщик БД".
   PlayerWidget* m_playerWidget;        // Виджет "Плеер".
+  SearchWidget* m_searchWidget;
   QSignalMapper* m_mapper;
   QMap <int, QAction*> m_actions;
 
