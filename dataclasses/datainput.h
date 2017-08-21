@@ -1,27 +1,44 @@
 #ifndef DATAINPUT_H
 #define DATAINPUT_H
 
-#include "dataclasses/trackinfo.h"
-
 #include <QString>
 #include <QHash>
 #include <QDate>
+#include <QVariant>
 
-// Структура DataInput хранит данные "Источника".
-struct DataInput
+// Структура DataInput хранит данные для передачи из виджетов на выполнение
+// рабочему модулю.
+class DataInput
 {
 public:
-  QString source;                  // Источник.
-  QString genre;                   // Текущий жанр. Будет отображаться в БД.
-  QString period;                  // Текущий период.
-  QString filter;                  // Текущий фильтр.
-  QString search;                  // Строка поиска.
-  int row;                         // Текущая строка в виджете просмотра треков.
+  enum Key {
+    Source,          // Источник.
+    Genre,           // Текущий жанр. Будет отображаться в БД.
+    Period,          // Текущий период.
+    Filter,          // Текущий фильтр.
+    Search,          // Информация по поиску.
+    Row,             // Текущая строка в виджете просмотра треков.
+    DateStart,       // Глубина выборки с.
+    DateEnd,         // Глубина выборки по.
+    SingleLoad       // Одиночная загрузка?
+  };
 
-  QDate dateStart;                 // Глубина выборки с.
-  QDate dateEnd;                   // Глубина выборки по.
+  // Устанавливает значение value по ключу key.
+  void setData(DataInput::Key key, const QVariant& value);
+  // Возвращает значение по ключу key.
+  QVariant data(DataInput::Key key);
+  // Возвращает строковое значение информации в виде списка.
+  QStringList toStringList() const;
 
-  bool isSingleLoad;               // Одиночная загрузка?
+private:
+  // Возвращает строковое значение ключа.
+  QString keyToString(DataInput::Key key) const;
+  // Возвращает строковое значение ключа на русском.
+  QString keyToRusString(DataInput::Key key) const;
+
+
+private:
+  QMap <DataInput::Key, QVariant> m_data;
 
 };
 

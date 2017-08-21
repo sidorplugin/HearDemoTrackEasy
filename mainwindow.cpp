@@ -65,7 +65,7 @@ void MainWindow::createWidgets()
   // Создает виджет показа ожидания.
   m_waitingWidget = new WaitingWidget(m_dbViewWidget);
 
-  // Добавляет виджет поиска в toolBar.
+  // Добавляет виджет поиска.
   m_searchWidget = new SearchWidget(this);
   ui->dockWidgetSearch->setWidget(m_searchWidget);
 
@@ -152,7 +152,7 @@ void MainWindow::slot_onClickedPlayerButtons(int button)
 
 
 // Проигрывает трек.
-void MainWindow::slot_play(TrackInfo track)
+void MainWindow::slot_play(TrackInfo& track)
 {
   m_playerWidget->play(track);
 }
@@ -167,9 +167,18 @@ void MainWindow::executeAction(int action)
       // TODO Валидатор входящих данных.
       // Если данные правильные запускает выборку.
 
-      setState(MainWindow::FetchingState);
       DataInput dataInput = getDataFromWidgets();
-      emit signal_fetch(dataInput);
+
+      QString msgString = "Параметры : \n\n" +
+              dataInput.toStringList().join("\n") +
+              "\n\nВы уверены что хотите произвести выборку с этими параметрами?";
+      // Выдает запрос на подтверждение выборки.
+      int result = QMessageBox::question(this, "Выборка", msgString);
+
+      if (result == QMessageBox::Yes) {
+          setState(MainWindow::FetchingState);
+          emit signal_fetch(dataInput);
+      }
     }
     break;
 
@@ -180,6 +189,15 @@ void MainWindow::executeAction(int action)
         setState(MainWindow::LoadingState);
         DataInput dataInput = getDataFromWidgets();
         emit signal_load(dataInput);
+    }
+    break;
+
+    case MainWindow::SearchAction:
+    {
+        qDebug() << "MainWindow::SearchAction";
+        setState(MainWindow::SearchingState);
+        DataInput dataInput = getDataFromWidgets();
+        emit signal_search(dataInput);
     }
     break;
 
@@ -274,9 +292,8 @@ void MainWindow::slot_executeActionContextMenu(DbViewWidget::Action action)
         break;
 
         case DbViewWidget::SearchLabel :
-        break;
-
         case DbViewWidget::SearchArtist :
+            executeAction(MainWindow::SearchAction);
         break;
 
         case DbViewWidget::CopyLink :
@@ -376,14 +393,15 @@ DataInput MainWindow::getDataFromWidgets()
 {
   DataInput dataInput;
 
-  dataInput.source = m_fetchParametersWidget->getSource();
-  dataInput.dateStart = m_fetchParametersWidget->getDateStart();
-  dataInput.dateEnd = m_fetchParametersWidget->getDateEnd();
-  dataInput.genre = m_fetchParametersWidget->getGenre();
-  dataInput.period = m_fetchParametersWidget->getPeriod();
-  dataInput.filter = m_fetchParametersWidget->getFilter();
-  dataInput.isSingleLoad = m_isSingleLoad;
-  dataInput.row = m_dbViewWidget->currentIndex().row();
+  dataInput.setData(DataInput::Source, m_fetchParametersWidget->getSource());
+  dataInput.setData(DataInput::DateStart, m_fetchParametersWidget->getDateStart());
+  dataInput.setData(DataInput::DateEnd, m_fetchParametersWidget->getDateEnd());
+  dataInput.setData(DataInput::Genre, m_fetchParametersWidget->getGenre());
+  dataInput.setData(DataInput::Period, m_fetchParametersWidget->getPeriod());
+  dataInput.setData(DataInput::Filter, m_fetchParametersWidget->getFilter());
+  dataInput.setData(DataInput::SingleLoad, m_isSingleLoad);
+  dataInput.setData(DataInput::Row, m_dbViewWidget->currentIndex().row());
+  dataInput.setData(DataInput::Search, m_searchWidget->getData());
 
   return dataInput;
 }

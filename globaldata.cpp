@@ -87,6 +87,14 @@ ModuleParameters GlobalData::readFromXmlFile(const QString &fileName)
         continue;
       }
 
+      if (xmlReader.name() == "group") {
+        xmlReader.readNext();
+        QString value = xmlReader.text().toString();
+        result.setSearchGroup(value);
+        continue;
+      }
+
+
       if (xmlReader.name() == "genre") {
         QString title = attributes.value("title").toString();
         QString link = attributes.value("link").toString();

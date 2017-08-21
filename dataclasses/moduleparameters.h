@@ -38,6 +38,9 @@ public:
   void setIcon(const QString& icon);
   QString icon() const;
 
+  void setSearchGroup(const QString& group);
+  QStringList searchGroups() const;
+
   void setGenre(const QString& genre, const QString& value, const QString& link);
   QStringList genreInfo(const QString& genre) const;
   QStringList genres() const;

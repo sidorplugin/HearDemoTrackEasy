@@ -47,7 +47,8 @@ SOURCES += main.cpp\
     modules/juno/junolinkcreator.cpp \
     widgets/fetchparameterswidget/fetchparametersmodel.cpp \
     preferences.cpp \
-    widgets/searchwidget/searchwidget.cpp
+    widgets/searchwidget/searchwidget.cpp \
+    dataclasses/datainput.cpp
 
 HEADERS  += mainwindow.h \
     modules/deejayde/deejaydefetcher.h \

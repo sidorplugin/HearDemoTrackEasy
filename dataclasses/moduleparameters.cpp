@@ -5,10 +5,11 @@
 class ModuleParametersPrivate
 {
 public:
-  QHash <QString, QVariant> parameters;
-  QHash <QString, QVariant> genres;
-  QHash <QString, QVariant> periods;
-  QHash <QString, QVariant> filters;
+  QMap <QString, QVariant> parameters;
+  QMap <QString, QVariant> genres;
+  QMap <QString, QVariant> periods;
+  QMap <QString, QVariant> filters;
+  QStringList searchGroups;
 };
 
 
@@ -86,6 +87,18 @@ QString ModuleParameters::icon() const
 }
 
 
+void ModuleParameters::setSearchGroup(const QString &group)
+{
+  m_d->searchGroups.push_back(group);
+}
+
+
+QStringList ModuleParameters::searchGroups() const
+{
+  return m_d->searchGroups;
+}
+
+
 void ModuleParameters::setGenre(const QString& genre, const QString& value,
                                 const QString &link)
 {
@@ -153,26 +166,28 @@ QStringList ModuleParameters::filters() const
 QStringList ModuleParameters::toStringList() const
 {
   QStringList result;
+
   result.push_back(QString::number(id()));
   result.push_back(name());
   result.push_back(address());
   result.push_back(icon());
+  result.append(searchGroups());
 
-  QHashIterator <QString, QVariant> g(m_d->genres);
+  QMapIterator <QString, QVariant> g(m_d->genres);
   while (g.hasNext()) {
     g.next();
     result.append(g.key());
     result.append(g.value().toStringList());
   }
 
-  QHashIterator <QString, QVariant> p(m_d->periods);
+  QMapIterator <QString, QVariant> p(m_d->periods);
   while (p.hasNext()) {
     p.next();
     result.append(p.key());
     result.append(p.value().toStringList());
   }
 
-  QHashIterator <QString, QVariant> f(m_d->filters);
+  QMapIterator <QString, QVariant> f(m_d->filters);
   while (f.hasNext()) {
     f.next();
     result.append(f.key());

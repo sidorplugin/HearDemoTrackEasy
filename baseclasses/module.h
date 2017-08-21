@@ -24,7 +24,7 @@ public:
   ~Module() {}
 
   // Запускает модуль.
-  void execute(Module::Mode mode, const DataInput& data);
+  void execute(Module::Mode mode, DataInput& input);
   // Останавливает модуль.
   void stop();
   // Устанавливает таблицу параметров модуля.

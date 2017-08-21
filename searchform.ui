@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>286</width>
+    <width>280</width>
     <height>79</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>286</width>
+    <width>280</width>
     <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>286</width>
+    <width>280</width>
     <height>16777215</height>
    </size>
   </property>
@@ -26,11 +26,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #E0E0E0, stop: 1 #FFFFFF);
-    border: 2px solid gray;
-    border-radius: 4px;
-</string>
+   <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="leftMargin">
@@ -50,9 +46,6 @@
    </property>
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
      <property name="title">
       <string/>
      </property>
@@ -60,7 +53,7 @@
       <item row="0" column="0">
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
-         <number>0</number>
+         <number>2</number>
         </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
@@ -68,7 +61,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QComboBox" name="comboBox">
+           <widget class="QComboBox" name="comboBox_Source">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -78,7 +71,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_2">
+           <widget class="QComboBox" name="comboBox_Group">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -97,6 +90,14 @@
             <height>31</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid gray</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -114,9 +115,6 @@
           <width>55</width>
           <height>55</height>
          </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
         </property>
         <property name="text">
          <string/>

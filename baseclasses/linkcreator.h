@@ -12,7 +12,7 @@ class LinkCreator
 public:
   LinkCreator() {}
 
-  virtual QString create(Module::Mode mode, const DataInput& data,
+  virtual QString create(Module::Mode mode, DataInput& input,
                          const ModuleParameters& params) = 0;
 };
 

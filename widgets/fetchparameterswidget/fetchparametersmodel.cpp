@@ -7,13 +7,11 @@
 FetchParametersModel::FetchParametersModel(QObject *parent)
                      : QStandardItemModel(parent)
 {
-  // Задает параметры модели.
-  setRowCount(ROWS);
-  setColumnCount(COLUMNS);
+  // Берет информацию о модулях из глобальных данных.
+  QList<ModuleParameters> parameters = GlobalData::getInstance()->parameters;
 
-  // Создает item'ы модели.
-  for (int i = 0; i < ROWS; ++i) {
-    QStandardItem *item = new QStandardItem();
+  for (int i = 0; i <= FetchParametersModel::FilterItem; i++) {
+    QStandardItem *item = createItem(i, parameters);
     setItem(i, 0, item);
   }
 
@@ -21,21 +19,14 @@ FetchParametersModel::FetchParametersModel(QObject *parent)
   labels << "Источник" << "Начало" << "Конец" << "Жанр" << "Период" << "Фильтр";
   setVerticalHeaderLabels(labels);
   setHorizontalHeaderLabels(QStringList(""));
-
-  // Берет информацию о модулях из глобальных данных.
-  QList<ModuleParameters> parameters = GlobalData::getInstance()->parameters;
-  // Проходит по всем item'ам размещая в них данные.
-  for (int i = 0; i <= FetchParametersModel::FilterItem; i++)
-    setDataItem(i, parameters);
 }
 
 
-// Устанавливает данные для item'а модели.
-void FetchParametersModel::setDataItem(int type,
-                                       const QList<ModuleParameters>& params)
+// Создает item модели.
+QStandardItem* FetchParametersModel::createItem(int type,
+                                      const QList<ModuleParameters>& params)
 {
-  // Получает item модели по индексу.
-  QStandardItem* item = this->item(type);
+  QStandardItem *item = new QStandardItem();
 
   // В зависимости от типа item устанавливает соответствующие данные.
   switch (type) {
@@ -86,7 +77,7 @@ void FetchParametersModel::setDataItem(int type,
 
     case FetchParametersModel::PeriodItem:
     {
-      QHash <QString, QVariant> data;
+      QMap <QString, QVariant> data;
       foreach (ModuleParameters p, params) {
         data.insert(p.name(), p.periods());
       }
@@ -96,7 +87,7 @@ void FetchParametersModel::setDataItem(int type,
 
     case FetchParametersModel::FilterItem:
     {
-      QHash <QString, QVariant> data;
+      QMap <QString, QVariant> data;
       foreach (ModuleParameters p, params) {
         data.insert(p.name(), p.filters());
       }
@@ -104,5 +95,7 @@ void FetchParametersModel::setDataItem(int type,
     }
     break;
   }
+
+  return item;
 }
 

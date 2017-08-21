@@ -1,11 +1,13 @@
 --== Hear Demo Track Easy ==--
 
- - Разобраться с парентами у виджетов mainwindow.
-
  - Search Widget.
- 
+
  - SearchResult Widget.
  
+ - Диалоговые окна предупреждения перед каким либо действием.
+
+ - Разобраться с парентами у виджетов mainwindow.
+  
  - Loader доработать.
 
  - Сигналы в main распределить с помощью QSignallMapper.

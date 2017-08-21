@@ -59,28 +59,28 @@ void Worker::createDownloader()
 
 
 // Стартует выборку.
-void Worker::slot_fetch(const DataInput &data)
+void Worker::slot_fetch(DataInput &input)
 {
   qDebug() << "Worker::slot_fetch()";
 
   // Сохраняет поступившие данные на выборку.
-  m_data = data;
+  m_input = input;
 
-  Module* module = m_modules.value(m_data.source);
-  module->execute(Module::FetchMode, m_data);
+  Module* module = m_modules.value(input.data(DataInput::Source).toString());
+  module->execute(Module::FetchMode, m_input);
 
 }
 
 
 // Загружает треки.
-void Worker::slot_load(const DataInput &data)
+void Worker::slot_load(DataInput &input)
 {
   qDebug() << "Worker::slot_load()";
   // TODO Mode load.
 //  m_downloader->initialize(data.isSingleLoad);
 
-  if (data.isSingleLoad) {
-    TrackInfo track = m_model->getTrackInfo(data.row);
+  if (input.data(DataInput::SingleLoad).toBool()) {
+    TrackInfo track = m_model->getTrackInfo(input.data(DataInput::Row).toInt());
     qDebug() << track.toStringList();
     m_downloader->load(track);
   }
@@ -98,7 +98,7 @@ void Worker::slot_play(int row)
 }
 
 // Стартует поиск.
-void Worker::slot_search(const DataInput &data)
+void Worker::slot_search(DataInput &input)
 {
   qDebug() << "Worker::slot_search()";
 }
@@ -112,7 +112,7 @@ void Worker::slot_cancel()
   switch (m_state) {
     case MainWindow::FetchingState :
     {
-        Module* module = m_modules.value(m_data.source);
+        Module* module = m_modules.value(m_input.data(DataInput::Source).toString());
         module->stop();
     }
     break;

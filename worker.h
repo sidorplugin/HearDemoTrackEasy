@@ -34,13 +34,13 @@ public:
 
 public slots:
   // Стартует выборку.
-  void slot_fetch(const DataInput& data);
+  void slot_fetch(DataInput& input);
   // Загружает треки.
-  void slot_load(const DataInput& data);
+  void slot_load(DataInput& input);
   // Проигрывает трек.
   void slot_play(int row);
   // Стартует поиск.
-  void slot_search(const DataInput& data);
+  void slot_search(DataInput& input);
   // Отменяет действие.
   void slot_cancel();
   // Удаляет трек из базы.
@@ -63,7 +63,7 @@ signals:
   // Страница выбрана (текущая, всего).
   void signal_pageFetched(int, int);
   // Проиграть трек.
-  void signal_play(TrackInfo);
+  void signal_play(TrackInfo&);
 
 private slots:
   // Добавляет треки в модель.
@@ -75,7 +75,7 @@ private:
 
 
 private:
-  DataInput m_data;
+  DataInput m_input;
   QHash <QString, Module*> m_modules;    // Хранит модули приложения.
   Downloader* m_downloader;            // Загрузчик.
   DbViewModel* m_model;                // Модель.

@@ -5,9 +5,6 @@
 
 #include <QStandardItemModel>
 
-const int ROWS = 6;
-const int COLUMNS = 1;
-
 // Константы ролей.
 const int ROLE_LIST = Qt::UserRole;
 const int ROLE_SOURCE_DATA = Qt::UserRole + 1;
@@ -29,8 +26,8 @@ public:
   FetchParametersModel(QObject *parent);
 
 private:
-  // Устанавливает данные для item'а модели.
-  void setDataItem(int type, const QList<ModuleParameters>& params);
+  // Создает item модели.
+  QStandardItem* createItem(int type, const QList<ModuleParameters>& params);
 };
 
 #endif // FETCHPARAMETERSMODEL_H

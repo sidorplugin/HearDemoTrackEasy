@@ -1,14 +1,15 @@
 #include "deejaydelinkcreator.h"
 
 
-QString DeejayDeLinkCreator::create(Module::Mode mode, const DataInput& data,
+QString DeejayDeLinkCreator::create(Module::Mode mode, DataInput& input,
                                     const ModuleParameters& params)
 {
     switch (mode) {
         case Module::FetchMode :
         {
             QString address = params.address();
-            QStringList genreInfo = params.genreInfo(data.genre);
+            QStringList genreInfo = params.genreInfo(
+                                    input.data(DataInput::Genre).toString());
 
             // "http://www.deejay.de/content.php?param=/m_House/sm_News/
             // sort_voe/perpage_160/page_";
@@ -21,7 +22,7 @@ QString DeejayDeLinkCreator::create(Module::Mode mode, const DataInput& data,
             // https://www.deejay.de/lord+sausage
             // TODO.
             // Преобразует строку поиска в запросный вид.
-            return "https://www.deejay.de/" + data.search;
+//            return "https://www.deejay.de/" + input.data(DataInput::Search);
         }
         break;
     }

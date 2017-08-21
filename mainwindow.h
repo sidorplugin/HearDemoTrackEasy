@@ -43,6 +43,7 @@ public:
   enum Actions {
     FetchAction,
     LoadAction,
+    SearchAction,
     CancelAction,
     InfoAction,
     DeleteAction,
@@ -59,9 +60,11 @@ public:
 
 signals:
   // Сигнал на выборку данных.
-  void signal_fetch(const DataInput&);
+  void signal_fetch(DataInput&);
   // Сигнал на загрузку данных.
-  void signal_load(const DataInput&);
+  void signal_load(DataInput&);
+  // Сигнал на поиск данных.
+  void signal_search(DataInput&);
   // Сигнал на отмену действия.
   void signal_cancel();
   // Сигнал на удаление текущего трека.
@@ -79,7 +82,7 @@ signals:
 
 public slots:
   // Проигрывает трек.
-  void slot_play(TrackInfo track);
+  void slot_play(TrackInfo& track);
 
 
 private slots:

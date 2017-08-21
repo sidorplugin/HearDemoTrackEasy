@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'searchform.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.1
+** Created by: Qt User Interface Compiler version 5.5.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -33,8 +33,8 @@ public:
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
-    QComboBox *comboBox;
-    QComboBox *comboBox_2;
+    QComboBox *comboBox_Source;
+    QComboBox *comboBox_Group;
     QLineEdit *lineEdit;
     QPushButton *pushButton;
 
@@ -42,40 +42,35 @@ public:
     {
         if (SearchWidgetForm->objectName().isEmpty())
             SearchWidgetForm->setObjectName(QStringLiteral("SearchWidgetForm"));
-        SearchWidgetForm->resize(286, 79);
-        SearchWidgetForm->setMinimumSize(QSize(286, 0));
-        SearchWidgetForm->setMaximumSize(QSize(286, 16777215));
-        SearchWidgetForm->setStyleSheet(QLatin1String("background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
-"                                      stop: 0 #E0E0E0, stop: 1 #FFFFFF);\n"
-"    border: 2px solid gray;\n"
-"    border-radius: 4px;\n"
-""));
+        SearchWidgetForm->resize(280, 79);
+        SearchWidgetForm->setMinimumSize(QSize(280, 0));
+        SearchWidgetForm->setMaximumSize(QSize(280, 16777215));
+        SearchWidgetForm->setStyleSheet(QStringLiteral(""));
         gridLayout_2 = new QGridLayout(SearchWidgetForm);
         gridLayout_2->setSpacing(0);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
         groupBox = new QGroupBox(SearchWidgetForm);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setStyleSheet(QStringLiteral(""));
         gridLayout = new QGridLayout(groupBox);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(0);
+        verticalLayout->setSpacing(2);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(0);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        comboBox = new QComboBox(groupBox);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-        comboBox->setMinimumSize(QSize(0, 22));
+        comboBox_Source = new QComboBox(groupBox);
+        comboBox_Source->setObjectName(QStringLiteral("comboBox_Source"));
+        comboBox_Source->setMinimumSize(QSize(0, 22));
 
-        horizontalLayout->addWidget(comboBox);
+        horizontalLayout->addWidget(comboBox_Source);
 
-        comboBox_2 = new QComboBox(groupBox);
-        comboBox_2->setObjectName(QStringLiteral("comboBox_2"));
-        comboBox_2->setMinimumSize(QSize(0, 22));
+        comboBox_Group = new QComboBox(groupBox);
+        comboBox_Group->setObjectName(QStringLiteral("comboBox_Group"));
+        comboBox_Group->setMinimumSize(QSize(0, 22));
 
-        horizontalLayout->addWidget(comboBox_2);
+        horizontalLayout->addWidget(comboBox_Group);
 
 
         verticalLayout->addLayout(horizontalLayout);
@@ -83,6 +78,10 @@ public:
         lineEdit = new QLineEdit(groupBox);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
         lineEdit->setMinimumSize(QSize(0, 31));
+        QFont font;
+        font.setPointSize(10);
+        lineEdit->setFont(font);
+        lineEdit->setStyleSheet(QStringLiteral("border: 1px solid gray"));
 
         verticalLayout->addWidget(lineEdit);
 
@@ -93,7 +92,6 @@ public:
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setMinimumSize(QSize(55, 55));
         pushButton->setMaximumSize(QSize(55, 55));
-        pushButton->setStyleSheet(QStringLiteral(""));
         QIcon icon;
         icon.addFile(QStringLiteral(":/images_ui/images/search.png"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton->setIcon(icon);

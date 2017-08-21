@@ -75,12 +75,12 @@ int main(int argc, char *argv[])
 
     // Signals To Worker ---------------------------------------------------
     // Запрос на выборку данных.
-    QObject::connect(&mainWindow, SIGNAL(signal_fetch(DataInput)),
-                     worker, SLOT(slot_fetch(DataInput)));
+    QObject::connect(&mainWindow, SIGNAL(signal_fetch(DataInput&)),
+                     worker, SLOT(slot_fetch(DataInput&)));
 
     // Запрос на загрузку данных.
-    QObject::connect(&mainWindow, SIGNAL(signal_load(DataInput)),
-                     worker, SLOT(slot_load(DataInput)));
+    QObject::connect(&mainWindow, SIGNAL(signal_load(DataInput&)),
+                     worker, SLOT(slot_load(DataInput&)));
 
     // Запрос на получение информации о проигрываемом треке.
     QObject::connect(&mainWindow, SIGNAL(signal_play(int)),
@@ -112,8 +112,8 @@ int main(int argc, char *argv[])
 
     // Signals To Mainwindow -----------------------------------------------
     // Запрос на проигрывание трека.
-    QObject::connect(worker, SIGNAL(signal_play(TrackInfo)),
-                     &mainWindow, SLOT(slot_play(TrackInfo)));
+    QObject::connect(worker, SIGNAL(signal_play(TrackInfo&)),
+                     &mainWindow, SLOT(slot_play(TrackInfo&)));
 
     // При изменении состояния программы со стороны worker'а вносит изменения
     // в графический интерфейс.

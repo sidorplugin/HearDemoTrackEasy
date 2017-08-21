@@ -7,7 +7,7 @@
 //**************************  Module  *********************************//
 
 // Запускает модуль.
-void Module::execute(Module::Mode mode, const DataInput &data)
+void Module::execute(Module::Mode mode, DataInput &input)
 {
   qDebug() << "Module::execute";
 
@@ -18,20 +18,20 @@ void Module::execute(Module::Mode mode, const DataInput &data)
     case Module::FetchMode:
     {
       // Инициализация компонентов и подготовка данных.
-      m_fetcher->setGenre(data.genre);
+      m_fetcher->setGenre(input.data(DataInput::Genre).toString());
 
       // Проверяет есть ли в модуле элемент albumFetcher.
       if (m_albumFetcher) {
-          m_albumFetcher->setGenre(data.genre);
+          m_albumFetcher->setGenre(input.data(DataInput::Genre).toString());
         }
 
       // Возвращает ссылку для выборки.
-      QString link = m_linkCreator->create(mode, data, parameters());
+      QString link = m_linkCreator->create(mode, input, parameters());
 
       QVariantList searchParameters;
       searchParameters.push_back(link);
-      searchParameters.push_back(data.dateStart);
-      searchParameters.push_back(data.dateEnd);
+      searchParameters.push_back(input.data(DataInput::DateStart).toDate());
+      searchParameters.push_back(input.data(DataInput::DateEnd).toDate());
 
       QList<int> pagesInfo = m_pageSearcher->getPagesInfo(searchParameters);
       if (pagesInfo.isEmpty())

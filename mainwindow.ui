@@ -58,13 +58,13 @@
        </size>
       </property>
       <property name="features">
-       <set>QDockWidget::DockWidgetClosable</set>
+       <set>QDockWidget::NoDockWidgetFeatures</set>
       </property>
       <property name="allowedAreas">
        <set>Qt::LeftDockWidgetArea</set>
       </property>
       <property name="windowTitle">
-       <string>Параметры</string>
+       <string>Параметры выборки</string>
       </property>
       <widget class="QWidget" name="dockWidgetContents"/>
      </widget>
@@ -110,7 +110,7 @@
        </size>
       </property>
       <property name="features">
-       <set>QDockWidget::DockWidgetClosable</set>
+       <set>QDockWidget::NoDockWidgetFeatures</set>
       </property>
       <property name="allowedAreas">
        <set>Qt::LeftDockWidgetArea</set>
@@ -136,7 +136,7 @@
        </size>
       </property>
       <property name="features">
-       <set>QDockWidget::DockWidgetClosable</set>
+       <set>QDockWidget::NoDockWidgetFeatures</set>
       </property>
       <property name="allowedAreas">
        <set>Qt::LeftDockWidgetArea</set>

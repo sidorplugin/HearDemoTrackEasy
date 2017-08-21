@@ -2,6 +2,7 @@
 #define SEARCHWIDGET_H
 
 #include "ui_searchform.h"
+#include "dataclasses/moduleparameters.h"
 
 #include <QObject>
 #include <QWidget>
@@ -12,12 +13,13 @@ class SearchWidget : public QWidget
 public:
     explicit SearchWidget(QWidget *parent = 0);
 
-signals:
+    QVariant getData() const;
 
-public slots:
+private slots:
+    void setSearchGroupItem(int index);
 
 private:
-    Ui::SearchWidgetForm* m_searchUi;
+    Ui::SearchWidgetForm* ui;
 
 };
 

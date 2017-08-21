@@ -99,7 +99,6 @@ void FetchParametersItemDelegate::setEditorData(QWidget *editor,
         // В зависимости от значения в поле "Источник" устанавливает
         // определенный список.
         QStringList list;
-//        QMap <QString, QVariant> m = index.data(ROLE_LIST).toMap();
         list = index.data(ROLE_LIST).toMap().value(source).toStringList();
         // Добавляет список в ComboBox и устанавливает текущее значение.
         comboBox->addItems(list);

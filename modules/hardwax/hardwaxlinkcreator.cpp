@@ -1,13 +1,13 @@
 #include "hardwaxlinkcreator.h"
 
 
-QString HardwaxLinkCreator::create(Module::Mode mode, const DataInput &data,
+QString HardwaxLinkCreator::create(Module::Mode mode, DataInput &input,
                                    const ModuleParameters &params)
 {
   QString address = params.address();
-  QStringList genreInfo = params.genreInfo(data.genre);
-  QStringList periodInfo = params.periodInfo(data.period);
-  QStringList filterInfo = params.filterInfo(data.filter);
+  QStringList genreInfo = params.genreInfo(input.data(DataInput::Genre).toString());
+  QStringList periodInfo = params.periodInfo(input.data(DataInput::Period).toString());
+  QStringList filterInfo = params.filterInfo(input.data(DataInput::Filter).toString());
   QString link = genreInfo.at(LINK);
 
 

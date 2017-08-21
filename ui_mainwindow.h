@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.1
+** Created by: Qt User Interface Compiler version 5.5.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -139,7 +139,7 @@ public:
         dockWidgetParameters->setSizePolicy(sizePolicy);
         dockWidgetParameters->setMinimumSize(QSize(280, 180));
         dockWidgetParameters->setMaximumSize(QSize(280, 180));
-        dockWidgetParameters->setFeatures(QDockWidget::DockWidgetClosable);
+        dockWidgetParameters->setFeatures(QDockWidget::NoDockWidgetFeatures);
         dockWidgetParameters->setAllowedAreas(Qt::LeftDockWidgetArea);
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName(QStringLiteral("dockWidgetContents"));
@@ -167,7 +167,7 @@ public:
         dockWidgetSearch->setObjectName(QStringLiteral("dockWidgetSearch"));
         dockWidgetSearch->setMinimumSize(QSize(280, 110));
         dockWidgetSearch->setMaximumSize(QSize(280, 110));
-        dockWidgetSearch->setFeatures(QDockWidget::DockWidgetClosable);
+        dockWidgetSearch->setFeatures(QDockWidget::NoDockWidgetFeatures);
         dockWidgetSearch->setAllowedAreas(Qt::LeftDockWidgetArea);
         dockWidgetContents_7 = new QWidget();
         dockWidgetContents_7->setObjectName(QStringLiteral("dockWidgetContents_7"));
@@ -179,7 +179,7 @@ public:
         dockWidgetPlay->setObjectName(QStringLiteral("dockWidgetPlay"));
         dockWidgetPlay->setMinimumSize(QSize(280, 130));
         dockWidgetPlay->setMaximumSize(QSize(280, 130));
-        dockWidgetPlay->setFeatures(QDockWidget::DockWidgetClosable);
+        dockWidgetPlay->setFeatures(QDockWidget::NoDockWidgetFeatures);
         dockWidgetPlay->setAllowedAreas(Qt::LeftDockWidgetArea);
         dockWidgetContents_3 = new QWidget();
         dockWidgetContents_3->setObjectName(QStringLiteral("dockWidgetContents_3"));
@@ -276,7 +276,7 @@ public:
         action_Exit->setText(QApplication::translate("MainWindow", "\320\222\321\213\321\205\320\276\320\264", 0));
         action_Info->setText(QApplication::translate("MainWindow", "\320\241\320\277\321\200\320\260\320\262\320\272\320\260", 0));
         action_ShowControl->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\272\320\260\320\267\320\260\321\202\321\214 \320\277\320\260\320\275\320\265\320\273\321\214 \321\203\320\277\321\200\320\260\320\262\320\273\320\265\320\275\320\270\321\217", 0));
-        dockWidgetParameters->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213", 0));
+        dockWidgetParameters->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \320\262\321\213\320\261\320\276\321\200\320\272\320\270", 0));
         dockWidgetDbView->setWindowTitle(QApplication::translate("MainWindow", "\320\221\320\260\320\267\320\260 \321\202\321\200\320\265\320\272\320\276\320\262", 0));
         dockWidgetSearch->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\276\320\270\321\201\320\272", 0));
         dockWidgetPlay->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\273\320\265\320\265\321\200", 0));

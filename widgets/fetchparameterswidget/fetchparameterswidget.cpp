@@ -104,18 +104,26 @@ void FetchParametersWidget::on_itemChanged(QStandardItem *item)
             setRowHidden(FetchParametersModel::EndDateItem, false);
             setRowHidden(FetchParametersModel::PeriodItem, true);
             setRowHidden(FetchParametersModel::FilterItem, true);
+            model()->setData(model()->index(FetchParametersModel::StartDateItem, 0),
+                             QDate::currentDate().toString("dd.MM.yyyy"));
+            model()->setData(model()->index(FetchParametersModel::EndDateItem, 0),
+                             QDate::currentDate().toString("dd.MM.yyyy"));
           break;
           case 1:
             setRowHidden(FetchParametersModel::StartDateItem, true);
             setRowHidden(FetchParametersModel::EndDateItem, true);
             setRowHidden(FetchParametersModel::PeriodItem, false);
             setRowHidden(FetchParametersModel::FilterItem, false);
+            model()->setData(model()->index(FetchParametersModel::StartDateItem, 0), "");
+            model()->setData(model()->index(FetchParametersModel::EndDateItem, 0), "");
           break;
           case 2:
             setRowHidden(FetchParametersModel::StartDateItem, true);
             setRowHidden(FetchParametersModel::EndDateItem, true);
             setRowHidden(FetchParametersModel::PeriodItem, false);
             setRowHidden(FetchParametersModel::FilterItem, true);
+            model()->setData(model()->index(FetchParametersModel::StartDateItem, 0), "");
+            model()->setData(model()->index(FetchParametersModel::EndDateItem, 0), "");
           break;
         }
       }
@@ -128,43 +136,48 @@ void FetchParametersWidget::on_itemChanged(QStandardItem *item)
 // Действия при выборе поля в таблице параметров.
 void FetchParametersWidget::on_pressed(const QModelIndex &index)
 {
-//  // Запоминает номер строки на которой находится отредактированный элемент модели.
-//  int row = index.row();
-//  // Запоминает значение индекса в поле "Источник".
-//  int indexSource = index.sibling(SOURCE, 0).data(ROLE_INDEX).toInt();
+  int row = index.row();
+  // Запоминает значение индекса в поле "Источник".
+  int indexSource = index.sibling(FetchParametersModel::SourceItem, 0).
+                    data(ROLE_CURRENT_INDEX).toInt();
 
-//  // В зависимости от номера строки производит скрытие или редактирование
-//  // других ячеек.
-//  switch (row) {
-//    case GENRE:   // Поле "Жанр".
-//    {
-//      // Если "Источник" HARDWAX, тогда очищает поля "Период" и "Фильтр".
-//      if (indexSource == SOURCE_HARDWAX) {
-//          model()->setData(model()->index(PERIOD, 0), "");
-//          model()->setData(model()->index(FILTER, 0), "");
-//      }
-//    }
-//    break;
+  // В зависимости от номера строки производит скрытие или редактирование
+  // других ячеек.
+  switch (row) {
+    case FetchParametersModel::GenreItem:   // Поле "Жанр".
+    {
+      // Если "Источник" HARDWAX, тогда очищает поля "Период" и "Фильтр".
+      if (indexSource == 1) {
+          model()->setData(model()->index(FetchParametersModel::PeriodItem, 0), "");
+          model()->setData(model()->index(FetchParametersModel::FilterItem, 0), "");
+      }
+      // Если "Источник" JUNO, тогда очищает поле "Период".
+      if (indexSource == 2) {
+          model()->setData(model()->index(FetchParametersModel::PeriodItem, 0), "");
+      }
 
-//    case PERIOD:   // Поле "Период".
-//    {
-//      // Если "Источник" HARDWAX, тогда очищает поля "Жанр" и "Фильтр".
-//      if (indexSource == SOURCE_HARDWAX) {
-//          model()->setData(model()->index(GENRE, 0), "");
-//          model()->setData(model()->index(FILTER, 0), "");
-//      }
-//    }
-//    break;
+    }
+    break;
 
-//    case FILTER:   // Поле "Фильтр".
-//    {
-//      // Если "Источник" HARDWAX, тогда очищает поля "Жанр" и "Период".
-//      if (indexSource == SOURCE_HARDWAX) {
-//          model()->setData(model()->index(GENRE, 0), "");
-//          model()->setData(model()->index(PERIOD, 0), "");
-//      }
-//    }
-//    break;
-//  }
-//  model()->submit();
+    case FetchParametersModel::PeriodItem:   // Поле "Период".
+    {
+      // Если "Источник" HARDWAX, тогда очищает поля "Жанр" и "Фильтр".
+      if (indexSource == 1) {
+          model()->setData(model()->index(FetchParametersModel::GenreItem, 0), "");
+          model()->setData(model()->index(FetchParametersModel::FilterItem, 0), "");
+      }
+    }
+    break;
+
+    case FetchParametersModel::FilterItem:   // Поле "Фильтр".
+    {
+      // Если "Источник" HARDWAX, тогда очищает поля "Жанр" и "Период".
+      if (indexSource == 1) {
+          model()->setData(model()->index(FetchParametersModel::GenreItem, 0), "");
+          model()->setData(model()->index(FetchParametersModel::PeriodItem, 0), "");
+      }
+    }
+    break;
+  }
+  model()->submit();
 }
