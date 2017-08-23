@@ -13,8 +13,6 @@ void Saver::save(const QByteArray &bytes, TrackInfo &track, const QString &root)
 {
   qDebug() << "Saver::save()";
 
-  // TODO Блокировка на все время выполнения метода.
-
   QByteArray result;
   QFile file;
   QString path = getPath(track, root);
@@ -47,7 +45,7 @@ QString Saver::getPath(TrackInfo &track, const QString& root)
 {
   QString nameResource;
   QString href = track.data(TrackInfo::Link).toString();
-  QString genre = track.data(TrackInfo::Genre).toString();
+  QString genre = track.data(TrackInfo::Style).toString();
   QString date = track.data(TrackInfo::Date).toString();
   QString year = QDate::fromString(date, "dd.MM.yyyy").toString("yyyy");
   QString month = QDate::fromString(date, "dd.MM.yyyy").toString("MMMM");
@@ -97,7 +95,7 @@ QByteArray Saver::getTag(TrackInfo &track)
                    track.data(TrackInfo::Publisher).toString() + "," +
                    track.data(TrackInfo::Date).toDate().toString("dd.MM.yyyy"));
 
-    int genre = codeGenre(track.data(TrackInfo::Genre).toString());
+    int genre = codeGenre(track.data(TrackInfo::Style).toString());
 
     m_tagCreator.setGenre(genre);
 

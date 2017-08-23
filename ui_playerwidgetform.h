@@ -69,7 +69,7 @@ public:
         groupBox->setObjectName(QStringLiteral("groupBox"));
         groupBox->setStyleSheet(QLatin1String("background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
 "                                      stop: 0 #E0E0E0, stop: 1 #FFFFFF);\n"
-"    border: 2px solid gray;\n"
+"    border: 1px solid gray;\n"
 "    border-radius: 4px;\n"
 ""));
         gridLayout = new QGridLayout(groupBox);

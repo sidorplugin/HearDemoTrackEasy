@@ -35,7 +35,7 @@ void Worker::createModule(ModuleFactory *factory)
 
   // Создает связи.
   connect(module, SIGNAL(ready(QList<TrackInfo>)),
-          this, SLOT(addTracksToModel(QList<TrackInfo>)));
+          this, SLOT(handleTracksFromModule(QList<TrackInfo>)));
 
   connect(module, SIGNAL(finished()),
           this, SLOT(slot_onModulesFinished()));
@@ -97,10 +97,27 @@ void Worker::slot_play(int row)
   emit signal_play(track);
 }
 
+
 // Стартует поиск.
 void Worker::slot_search(DataInput &input)
 {
   qDebug() << "Worker::slot_search()";
+  // Сохраняет поступившие данные на выборку.
+  m_input = input;
+
+  // Проверяет в каком модуле необходимо выполнять поиск.
+  QStringList searchInfo = input.data(DataInput::Search).toStringList();
+  QString source = searchInfo.at(0);
+  if (source == "All") {
+    QList <Module*> modules = m_modules.values();
+    foreach (Module* module, modules) {
+      module->execute(Module::SearchMode, m_input);
+    }
+  }
+  else {
+    Module* module = m_modules.value(source);
+    module->execute(Module::SearchMode, m_input);
+  }
 }
 
 
@@ -110,6 +127,7 @@ void Worker::slot_cancel()
   qDebug() << "Worker::slot_cancel()";
 
   switch (m_state) {
+    case MainWindow::SearchingState :
     case MainWindow::FetchingState :
     {
         Module* module = m_modules.value(m_input.data(DataInput::Source).toString());
@@ -172,17 +190,41 @@ void Worker::slot_setState(int state)
 void Worker::slot_onModulesFinished()
 {
   Downloader* downloader = qobject_cast<Downloader*>(QObject::sender());
+  Module* module = qobject_cast<Module*>(QObject::sender());
 
   if (downloader)
     emit signal_stateChanged(MainWindow::LoadedState);
-  else
-    emit signal_stateChanged(MainWindow::FetchedState);
+  else {
+    if (module->mode() == Module::FetchMode)
+      emit signal_stateChanged(MainWindow::FetchedState);
+    else
+      emit signal_stateChanged(MainWindow::SearchedState);
+    }
+}
+
+// Добавляет треки в модель.
+void Worker::addTracksToModel(const QList<TrackInfo> &tracks)
+{
+  m_model->add(tracks);
 }
 
 
-// Добавляет треки в модель.
-void Worker::addTracksToModel(const QList<TrackInfo>& tracks)
+// Добавляет треки.
+void Worker::handleTracksFromModule(const QList<TrackInfo>& tracks)
 {
-  qDebug() << "Worker::addTracksToModel";
-  m_model->add(tracks);
+  qDebug() << "Worker::handleTracksFromModule";
+
+  // Проверяет в каком режиме находиться Worker.
+  switch (m_state) {
+    // В случае режима выборки добавляет треки в модель.
+    case MainWindow::FetchingState :
+        addTracksToModel(tracks);
+    break;
+
+    // В случае режима поиска добавляет треки в таблицу результатов поиска.
+    case MainWindow::SearchingState :
+      emit signal_ready(tracks);
+    break;
+  }
+
 }

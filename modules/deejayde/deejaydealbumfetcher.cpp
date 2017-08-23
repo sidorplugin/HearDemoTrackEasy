@@ -15,7 +15,8 @@ public:
   // Возвращает true если ссылка правильная.
   bool validatePicLinkRelease(const QString& link);
   // Возвращает ссылку на трек.
-  QString getLinkTrack(const QWebElement &element, const QString& params = QString());
+  QString getLinkTrack(const QWebElement &element,
+                       const QString& params = QString());
   // Возвращает название трека.
   QString getTitleTrack(const QWebElement &element);
   // Возвращает артиста.
@@ -28,6 +29,8 @@ public:
   QString getCatNumber(const QWebElement &element);
   // Возвращает дату релиза.
   QDate getDateRelease(const QWebElement &element);
+  // Возвращает стиль релиза.
+  QString getStyle(const QWebElement &element);
 };
 
 // Возвращает ссылку на изображение релиза.
@@ -128,6 +131,14 @@ QDate DeejayDeAlbumFetcherPrivate::getDateRelease(const QWebElement &element)
 }
 
 
+// Возвращает стиль релиза.
+QString DeejayDeAlbumFetcherPrivate::getStyle(const QWebElement &element)
+{
+  QWebElement styleElement = element.findFirst("div.styles a.main em");
+  return styleElement.toPlainText();
+}
+
+
 //**************************  DeejayDeAlbumFetcher  *********************************//
 
 DeejayDeAlbumFetcher::DeejayDeAlbumFetcher(QObject *parent)
@@ -168,6 +179,7 @@ void DeejayDeAlbumFetcher::result(bool ok)
   QString album = p_d->getTitle(contentElement);
   QString label = p_d->getLabel(contentElement);
   QString catNumber = p_d->getCatNumber(contentElement);
+  QString style = p_d->getStyle(contentElement);
 
   // Определяет треклист релиза.
   QStringList trackList = getTrackList(QWebElement(), picLink);
@@ -180,7 +192,7 @@ void DeejayDeAlbumFetcher::result(bool ok)
       TrackInfo track;
       track.setData(TrackInfo::Link, trackList.at(i));
       track.setData(TrackInfo::Title, trackList.at(i + 1));
-      track.setData(TrackInfo::Genre, m_genre);
+      track.setData(TrackInfo::Style, style);
       track.setData(TrackInfo::AlbumArtist, artist);
       track.setData(TrackInfo::AlbumTitle, album);
       track.setData(TrackInfo::CatNumber, catNumber);

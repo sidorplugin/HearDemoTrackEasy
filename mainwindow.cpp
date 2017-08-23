@@ -1,3 +1,4 @@
+#include "validator.h"
 #include "mainwindow.h"
 #include "preferences.h"
 #include "ui_mainwindow.h"
@@ -59,7 +60,7 @@ void MainWindow::createWidgets()
   ui->dockWidgetPlay->setWidget(m_playerWidget);
 
   // Создает виджет параметров выборки.
-  m_fetchParametersWidget = new FetchParametersWidget;
+  m_fetchParametersWidget = new FetchWidget;
   ui->dockWidgetParameters->setWidget(m_fetchParametersWidget);
 
   // Создает виджет показа ожидания.
@@ -103,12 +104,14 @@ void MainWindow::setActions()
 
   m_actions.insert(MainWindow::FetchAction, ui->action_Fetch);
   m_actions.insert(MainWindow::LoadAction, ui->action_Load);
+  m_actions.insert(MainWindow::SearchAction, ui->action_Search);
   m_actions.insert(MainWindow::CancelAction, ui->action_Cancel);
   m_actions.insert(MainWindow::InfoAction, ui->action_Info);
   m_actions.insert(MainWindow::DeleteAction, ui->action_Delete);
   m_actions.insert(MainWindow::ClearAction, ui->action_Clear);
   m_actions.insert(MainWindow::PreferencesAction, ui->action_Preferences);
   m_actions.insert(MainWindow::ExitAction, ui->action_Exit);
+
 
   m_mapper = new QSignalMapper(this);
   connect(m_mapper, SIGNAL(mapped(int)),
@@ -164,20 +167,28 @@ void MainWindow::executeAction(int action)
     case MainWindow::FetchAction:
     {
       qDebug() << "MainWindow::FetchAction";
-      // TODO Валидатор входящих данных.
-      // Если данные правильные запускает выборку.
 
       DataInput dataInput = getDataFromWidgets();
 
-      QString msgString = "Параметры : \n\n" +
-              dataInput.toStringList().join("\n") +
-              "\n\nВы уверены что хотите произвести выборку с этими параметрами?";
-      // Выдает запрос на подтверждение выборки.
-      int result = QMessageBox::question(this, "Выборка", msgString);
+      // Если данные правильные допускает произвести выборку.
+      Validator validator;
+      if (!validator.verify(action, dataInput)) {
+        QMessageBox::warning(this, "Предупреждение",
+                             "Недостаточно параметров для выборки.\n"
+                             "Возможно вы забыли указать значение Жанра, "
+                             "Периода или Фильтра.");
+      }
+      else {
+          QString msgString = "Параметры : \n\n" +
+            dataInput.toStringList().join("\n") +
+            "\n\nВы уверены что хотите произвести выборку с этими параметрами?";
+          // Выдает запрос на подтверждение выборки.
+          int result = QMessageBox::question(this, "Выборка", msgString);
 
-      if (result == QMessageBox::Yes) {
-          setState(MainWindow::FetchingState);
-          emit signal_fetch(dataInput);
+          if (result == QMessageBox::Yes) {
+              setState(MainWindow::FetchingState);
+              emit signal_fetch(dataInput);
+          }
       }
     }
     break;
@@ -195,9 +206,23 @@ void MainWindow::executeAction(int action)
     case MainWindow::SearchAction:
     {
         qDebug() << "MainWindow::SearchAction";
-        setState(MainWindow::SearchingState);
+
         DataInput dataInput = getDataFromWidgets();
-        emit signal_search(dataInput);
+
+        // Если данные правильные допускает произвести поиск.
+        Validator validator;
+        if (!validator.verify(action, dataInput)) {
+          QMessageBox::warning(this, "Предупреждение",
+                               "Недостаточно параметров для поиска.\n"
+                               "Укажите значение в строке поиска.");
+        }
+        else {
+          setState(MainWindow::SearchingState);
+          m_searchResultWidget = new SearchResultWidget(this);
+          connect(m_searchResultWidget, SIGNAL(ready(QList<TrackInfo>)),
+                  this, SIGNAL(ready(QList<TrackInfo>)));
+          emit signal_search(dataInput);
+        }
     }
     break;
 
@@ -375,6 +400,13 @@ void MainWindow::slot_updateUI(int state)
 }
 
 
+// Добавляет треки в виджет результатов поиска.
+void MainWindow::slot_addTracks(const QList<TrackInfo> &tracks)
+{
+  m_searchResultWidget->addTracks(tracks);
+}
+
+
 // Enable or disable interface elements.
 void MainWindow::enableToolBarButtons(bool ok)
 {
@@ -383,6 +415,7 @@ void MainWindow::enableToolBarButtons(bool ok)
   // Enable or disable buttons.
   ui->action_Fetch->setEnabled(ok);
   ui->action_Load->setEnabled(ok);
+  ui->action_Search->setEnabled(ok);
   ui->action_Preferences->setEnabled(ok);
 }
 

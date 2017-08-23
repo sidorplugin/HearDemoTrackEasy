@@ -28,10 +28,6 @@ public:
   void stop();
   // Возвращает url запроса.
   QString url() const;
-  // Устанавливает жанр. Необходим для заполнения выбранных данных значением genre.
-  // Для дальнейшего скачивания на диск необходим фиксированный параметр жанра,
-  // участвует в пути сохранения.
-  void setGenre(const QString& genre);
 
 signals:
   // Выборка окончена.
@@ -55,7 +51,6 @@ protected:
 protected:
   QWebPage m_page;                // Web страница.
   QString m_url;                  // Текущий url запрос.
-  QString m_genre;
   bool m_isStop;                  // Остановлена выборка.
   QTimer m_timer;
   int m_delay;                    // Величина задержки между запросами.

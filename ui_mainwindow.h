@@ -38,6 +38,7 @@ public:
     QAction *action_Exit;
     QAction *action_Info;
     QAction *action_ShowControl;
+    QAction *action_Search;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QDockWidget *dockWidgetParameters;
@@ -124,6 +125,11 @@ public:
         QIcon icon10;
         icon10.addFile(QStringLiteral(":/images_ui/images/controller.png"), QSize(), QIcon::Normal, QIcon::Off);
         action_ShowControl->setIcon(icon10);
+        action_Search = new QAction(MainWindow);
+        action_Search->setObjectName(QStringLiteral("action_Search"));
+        QIcon icon11;
+        icon11.addFile(QStringLiteral(":/images_ui/images/search.png"), QSize(), QIcon::Normal, QIcon::Off);
+        action_Search->setIcon(icon11);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -247,6 +253,7 @@ public:
         menu_5->addAction(action_ShowControl);
         toolBar->addAction(action_Fetch);
         toolBar->addAction(action_Load);
+        toolBar->addAction(action_Search);
         toolBar->addAction(action_Cancel);
         toolBar->addSeparator();
         toolBar->addAction(action_Preferences);
@@ -276,6 +283,7 @@ public:
         action_Exit->setText(QApplication::translate("MainWindow", "\320\222\321\213\321\205\320\276\320\264", 0));
         action_Info->setText(QApplication::translate("MainWindow", "\320\241\320\277\321\200\320\260\320\262\320\272\320\260", 0));
         action_ShowControl->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\272\320\260\320\267\320\260\321\202\321\214 \320\277\320\260\320\275\320\265\320\273\321\214 \321\203\320\277\321\200\320\260\320\262\320\273\320\265\320\275\320\270\321\217", 0));
+        action_Search->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\270\321\201\320\272", 0));
         dockWidgetParameters->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \320\262\321\213\320\261\320\276\321\200\320\272\320\270", 0));
         dockWidgetDbView->setWindowTitle(QApplication::translate("MainWindow", "\320\221\320\260\320\267\320\260 \321\202\321\200\320\265\320\272\320\276\320\262", 0));
         dockWidgetSearch->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\276\320\270\321\201\320\272", 0));

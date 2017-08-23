@@ -33,7 +33,7 @@ QString TrackInfo::keyToString(TrackInfo::Key key) const
     switch (key) {
         case TrackInfo::Link :        name = "Link";         break;
         case TrackInfo::Title :       name = "Title";        break;
-        case TrackInfo::Genre :       name = "Genre";        break;
+        case TrackInfo::Style :       name = "Genre";        break;
         case TrackInfo::AlbumArtist : name = "Artist";       break;
         case TrackInfo::AlbumTitle :  name = "Title";        break;
         case TrackInfo::CatNumber :   name = "Cat";          break;

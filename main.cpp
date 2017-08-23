@@ -82,6 +82,10 @@ int main(int argc, char *argv[])
     QObject::connect(&mainWindow, SIGNAL(signal_load(DataInput&)),
                      worker, SLOT(slot_load(DataInput&)));
 
+    // Запрос на поиск данных.
+    QObject::connect(&mainWindow, SIGNAL(signal_search(DataInput&)),
+                     worker, SLOT(slot_search(DataInput&)));
+
     // Запрос на получение информации о проигрываемом треке.
     QObject::connect(&mainWindow, SIGNAL(signal_play(int)),
                      worker, SLOT(slot_play(int)));
@@ -110,6 +114,10 @@ int main(int argc, char *argv[])
     QObject::connect(&mainWindow, SIGNAL(signal_stateChanged(int)),
                      worker, SLOT(slot_setState(int)));
 
+
+    QObject::connect(&mainWindow, SIGNAL(signal_ready(QList<TrackInfo>)),
+                     worker, SLOT(slot_addTracks(QList<TrackInfo>)));
+
     // Signals To Mainwindow -----------------------------------------------
     // Запрос на проигрывание трека.
     QObject::connect(worker, SIGNAL(signal_play(TrackInfo&)),
@@ -123,6 +131,10 @@ int main(int argc, char *argv[])
     // По окончании выборки страницы отображает изменения в графическом интерфейсе.
     QObject::connect(worker, SIGNAL(signal_pageFetched(int, int)),
                      &mainWindow, SLOT(slot_pageFetched(int, int)));
+
+
+    QObject::connect(worker, SIGNAL(signal_ready(QList<TrackInfo>)),
+                     &mainWindow, SLOT(slot_addTracks(QList<TrackInfo>)));
 
 
 //    workerThread.start();

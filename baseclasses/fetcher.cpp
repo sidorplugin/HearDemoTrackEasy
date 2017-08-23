@@ -57,12 +57,6 @@ QString Fetcher::url() const
   return m_url;
 }
 
-// Устанавливает жанр.
-void Fetcher::setGenre(const QString &genre)
-{
-  m_genre = genre;
-}
-
 
 void Fetcher::progress(int progress)
 {

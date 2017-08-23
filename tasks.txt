@@ -1,6 +1,9 @@
 --== Hear Demo Track Easy ==--
 
+
  - Search Widget.
+
+ - Завершать работу модуля в зависимости кто находится в работе.
 
  - SearchResult Widget.
  
@@ -18,9 +21,7 @@
  
  - Dll модулей.
   
- - Как обойти указание в Fetcher'е значение genre?
-  
- - Searcher по лэйблу и имени.
+  - Searcher по лэйблу и имени.
  
  - DeejayDePageSearcher оптимизировать. Запутан и не понятен.
  

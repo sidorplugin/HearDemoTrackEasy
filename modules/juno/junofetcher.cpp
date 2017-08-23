@@ -168,18 +168,20 @@ void JunoFetcher::handleElement(const QWebElement &element)
   QString label;
   QStringList trackList;
 
-  QWebElementCollection infoCollection = element.findAll("div.pl-info.jq_highlight div.vi-text");
+  QWebElementCollection infoCollection =
+      element.findAll("div.pl-info.jq_highlight div.vi-text");
   qDebug() << infoCollection.count();
   if (infoCollection.count() < 3) return;
   else {
-    artist = p_d->getArtist(infoCollection.at(0));               // Определяет исполнителя.
-    album = p_d->getTitle(infoCollection.at(1));                 // Определяет название пластки.
-    label = p_d->getLabel(infoCollection.at(2));                 // Определяет лэйбл.
-    catNumber = p_d->getCatNumber(infoCollection.at(3));         // Определяет номер по каталогу.
-    date = p_d->getDateRelease(infoCollection.at(3));            // Определяет дату релиза.
+    artist = p_d->getArtist(infoCollection.at(0));
+    album = p_d->getTitle(infoCollection.at(1));
+    label = p_d->getLabel(infoCollection.at(2));
+    catNumber = p_d->getCatNumber(infoCollection.at(3));
+    date = p_d->getDateRelease(infoCollection.at(3));
   }
-  QWebElement tracklistElement = element.findFirst("ol.vi-tracklist.jq_highlight");
-  trackList = p_d->getTrackList(tracklistElement);                    // Определяет треклист.
+  QWebElement tracklistElement =
+      element.findFirst("ol.vi-tracklist.jq_highlight");
+  trackList = p_d->getTrackList(tracklistElement);
 
   for(int i = 0; i < trackList.size(); i = i + 2) {
       TrackInfo track;

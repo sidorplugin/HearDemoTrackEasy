@@ -1,17 +1,17 @@
-#ifndef FETCHPARAMETERSITEMDELEGATE_H
-#define FETCHPARAMETERSITEMDELEGATE_H
+#ifndef FETCHITEMDELEGATE_H
+#define FETCHITEMDELEGATE_H
 
 #include <QObject>
 #include <QStyledItemDelegate>
 
-// Класс FetchParametersItemDelegate представляет универсальный элемент делегата.
+// Класс FetchItemDelegate представляет универсальный элемент делегата.
 // Для редактирования ячейки предоставляются виджеты QComboBox и QDateEdit.
 
-class FetchParametersItemDelegate : public QStyledItemDelegate
+class FetchItemDelegate : public QStyledItemDelegate
 {
   Q_OBJECT
 public:
-  FetchParametersItemDelegate(QObject *parent);
+  FetchItemDelegate(QObject *parent);
 
   // Создает виджет для редактирования ячейки.
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
@@ -33,4 +33,4 @@ private slots:
 
 };
 
-#endif // FETCHPARAMETERSITEMDELEGATE_H
+#endif // FETCHITEMDELEGATE_H

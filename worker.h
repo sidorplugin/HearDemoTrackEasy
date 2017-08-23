@@ -56,6 +56,8 @@ public slots:
   // По получению сигналов от модулей о завершении работы отправляет сигнал Ui
   // об изменении статуса.
   void slot_onModulesFinished();
+  // Добавляет треки в модель.
+  void addTracksToModel(const QList<TrackInfo>& tracks);
 
 signals:
   // Изменено состояние программы.
@@ -64,10 +66,12 @@ signals:
   void signal_pageFetched(int, int);
   // Проиграть трек.
   void signal_play(TrackInfo&);
+  // Готовы треки для передачи.
+  void signal_ready(const QList<TrackInfo>&);
 
 private slots:
-  // Добавляет треки в модель.
-  void addTracksToModel(const QList<TrackInfo>& tracks);
+  // Добавляет треки.
+  void handleTracksFromModule(const QList<TrackInfo>& tracks);
 
 private:
   // Создает загрузчик.
@@ -76,7 +80,7 @@ private:
 
 private:
   DataInput m_input;
-  QHash <QString, Module*> m_modules;    // Хранит модули приложения.
+  QHash <QString, Module*> m_modules;  // Хранит модули приложения.
   Downloader* m_downloader;            // Загрузчик.
   DbViewModel* m_model;                // Модель.
   int m_state;                         // Состояние программы.

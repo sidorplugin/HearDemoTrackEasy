@@ -72,9 +72,5 @@ QSqlError Database::createTable()
                                   " date VARCHAR)")))
     return query.lastError();
 
-  if (!query.exec(QLatin1String(
-                   "CREATE TABLE emptyReleases(href VARCHAR PRIMARY KEY)")))
-    return query.lastError();
-
   return QSqlError();
 }

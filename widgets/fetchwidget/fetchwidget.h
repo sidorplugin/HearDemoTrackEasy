@@ -1,8 +1,8 @@
-#ifndef FETCHPARAMETERSWIDGET_H
-#define FETCHPARAMETERSWIDGET_H
+#ifndef FETCHWIDGET_H
+#define FETCHWIDGET_H
 
-#include "fetchparametersitemdelegate.h"
-#include "fetchparametersmodel.h"
+#include "fetchitemdelegate.h"
+#include "fetchmodel.h"
 
 #include <QObject>
 #include <QTableView>
@@ -10,16 +10,16 @@
 #include <QHeaderView>
 
 
-// FetchParametersWidget - класс виджет реализующий таблицу параметров задаваемых при
+// FetchWidget - класс виджет реализующий таблицу параметров задаваемых при
 // выборке, является оберткой QTableView с реализованной моделью и делегатом,
 // также предоставляет доступ к полям таблицы.
-class FetchParametersWidget : public QTableView
+class FetchWidget : public QTableView
 {
   Q_OBJECT
 public:
 
-  FetchParametersWidget();
-  ~FetchParametersWidget();
+  FetchWidget();
+  ~FetchWidget();
 
   // Возвращает значение поля "Источник".
   QString getSource() const;
@@ -41,9 +41,9 @@ private slots:
   void on_pressed(const QModelIndex& index);
 
 private:
-  FetchParametersModel* m_model;              // Модель.
-  FetchParametersItemDelegate* m_delegate;    // Делегат.
+  FetchModel* m_model;              // Модель.
+  FetchItemDelegate* m_delegate;    // Делегат.
 
 };
 
-#endif // FETCHPARAMETERSWIDGET_H
+#endif // FETCHWIDGET_H

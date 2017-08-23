@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>280</width>
-    <height>79</height>
+    <height>86</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -46,6 +46,13 @@
    </property>
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #E0E0E0, stop: 1 #FFFFFF);
+    border: 1px solid gray;
+    border-radius: 4px;
+</string>
+     </property>
      <property name="title">
       <string/>
      </property>
@@ -58,7 +65,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <property name="spacing">
-           <number>0</number>
+           <number>1</number>
           </property>
           <item>
            <widget class="QComboBox" name="comboBox_Source">
@@ -96,48 +103,17 @@
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">border: 1px solid gray</string>
+           <string notr="true"/>
           </property>
          </widget>
         </item>
        </layout>
-      </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="pushButton">
-        <property name="minimumSize">
-         <size>
-          <width>55</width>
-          <height>55</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>55</width>
-          <height>55</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="resources/resources.qrc">
-          <normaloff>:/images_ui/images/search.png</normaloff>:/images_ui/images/search.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>36</width>
-          <height>36</height>
-         </size>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

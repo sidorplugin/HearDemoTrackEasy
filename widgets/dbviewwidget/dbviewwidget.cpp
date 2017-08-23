@@ -54,6 +54,7 @@ DbViewWidget::DbViewWidget(QWidget* parent)
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setCornerButtonEnabled(false);
 
+
     // Устанавливаем Контекстное Меню.
     setContextMenuPolicy(Qt::CustomContextMenu);
 

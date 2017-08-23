@@ -5,9 +5,10 @@
 #include "widgets/waitingwidget/waitingwidget.h"
 #include "widgets/dbviewwidget/dbviewitemdelegate.h"
 #include "widgets/dbviewwidget/dbviewwidget.h"
-#include "widgets/fetchparameterswidget/fetchparameterswidget.h"
+#include "widgets/fetchwidget/fetchwidget.h"
 #include "widgets/playerwidget/playerwidget.h"
 #include "widgets/searchwidget/searchwidget.h"
+#include "widgets/searchresultwidget/searchresultwidget.h"
 
 #include <QMainWindow>
 #include <QNetworkRequest>
@@ -79,6 +80,8 @@ signals:
   void signal_copyTitle(int row);
   // Сигнал на изменение состояния программы.
   void signal_stateChanged(int);
+  // Сигнал с результирующим списком выделенных треков.
+  void ready(const QList<TrackInfo>&);
 
 public slots:
   // Проигрывает трек.
@@ -98,6 +101,8 @@ private slots:
   void setState(int state);
   // Обновляет элементы интерфейса.
   void slot_updateUI(int state);
+  // Добавляет треки в виджет результатов поиска.
+  void slot_addTracks(const QList<TrackInfo>& tracks);
 
 
 private:
@@ -118,10 +123,12 @@ private:
   bool m_isSingleLoad;                 // Одиночная загрузка или нет.
 
   WaitingWidget* m_waitingWidget;      // Виджет ожидания.
-  FetchParametersWidget* m_fetchParametersWidget; // Виджет параметров выборки.
+  FetchWidget* m_fetchParametersWidget; // Виджет параметров выборки.
   DbViewWidget* m_dbViewWidget;        // Виджет "Просмотрщик БД".
   PlayerWidget* m_playerWidget;        // Виджет "Плеер".
   SearchWidget* m_searchWidget;
+  SearchResultWidget* m_searchResultWidget;
+
   QSignalMapper* m_mapper;
   QMap <int, QAction*> m_actions;
 

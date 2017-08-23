@@ -13,12 +13,12 @@ class TrackInfo
 public:
   enum Key { Link,         // Href трека.
              Title,        // Название трека.
-             Genre,        // Жанр.
+             Style,        // Стиль.
              AlbumArtist,  // Артист.
              AlbumTitle,   // Название альбома.
              CatNumber,    // Номер по каталогу.
              Publisher,    // Лэйбл выпустивший альбом.
-             Date          // Дата выпуска альбома.
+             Date         // Дата выпуска альбома.
            };
 
 //  TrackInfo(){}

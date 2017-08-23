@@ -17,15 +17,14 @@ public:
   // Возвращает список с выбранной информацией о треках.
   QList <TrackInfo> getFetchedTrackInfoList() const;
 
-  void setGenre(const QString& genre) { m_genre = genre; }
-
 protected slots:
   // Производит выборку.
   void result(bool ok);
 
 private:
   // Возвращает треклист.
-  QStringList getTrackList(const QWebElement& element, const QString& params = QString());
+  QStringList getTrackList(const QWebElement& element,
+                           const QString& params = QString());
 
 private:
   DeejayDeAlbumFetcherPrivate* p_d;  

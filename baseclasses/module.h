@@ -12,6 +12,8 @@
 // результата испускает сигнал ready. Для остановки работы модуля существует
 // метод stop().
 
+const int MAX = 22222;
+
 class LinkCreator;
 
 class Module : public QObject
@@ -31,6 +33,8 @@ public:
   void setParameters(const ModuleParameters& params);
   // Возвращает таблицу параметров модуля.
   ModuleParameters parameters();
+  // Возвращает режим работы модуля.
+  int mode();
 
 
 signals:
@@ -40,8 +44,6 @@ signals:
   void finished();
   // Ответ с данными.
   void ready(const QList <TrackInfo>&);
-  // Остановлен.
-  void stoped();
 
 private slots:
   // Обработка сигнала парсера pageFetched.
@@ -63,6 +65,7 @@ protected:
   QString m_href;             // Строка запроса.
   int m_count;                // Текущая страница выборки.
   int m_total;                // Общее число страниц для выборки.
+  int m_mode;
   bool m_isStoped;            // Остановлен?
 
 private:

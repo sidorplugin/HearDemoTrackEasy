@@ -1,16 +1,16 @@
 #include "globaldata.h"
-#include "fetchparametersmodel.h"
+#include "fetchmodel.h"
 
 #include <QDate>
 #include <QDebug>
 
-FetchParametersModel::FetchParametersModel(QObject *parent)
+FetchModel::FetchModel(QObject *parent)
                      : QStandardItemModel(parent)
 {
   // Берет информацию о модулях из глобальных данных.
   QList<ModuleParameters> parameters = GlobalData::getInstance()->parameters;
 
-  for (int i = 0; i <= FetchParametersModel::FilterItem; i++) {
+  for (int i = 0; i <= FetchModel::FilterItem; i++) {
     QStandardItem *item = createItem(i, parameters);
     setItem(i, 0, item);
   }
@@ -23,14 +23,14 @@ FetchParametersModel::FetchParametersModel(QObject *parent)
 
 
 // Создает item модели.
-QStandardItem* FetchParametersModel::createItem(int type,
+QStandardItem* FetchModel::createItem(int type,
                                       const QList<ModuleParameters>& params)
 {
   QStandardItem *item = new QStandardItem();
 
   // В зависимости от типа item устанавливает соответствующие данные.
   switch (type) {
-    case FetchParametersModel::SourceItem:
+    case FetchModel::SourceItem:
     {
       QMap <QString, QVariant> data;
       // Проходит по всем модулям, собирает данные, устанавливает в item.
@@ -52,20 +52,20 @@ QStandardItem* FetchParametersModel::createItem(int type,
     }
     break;
 
-    case FetchParametersModel::StartDateItem:
+    case FetchModel::StartDateItem:
     {
       QDate date(2017, 01, 01);
       item->setData(date.toString("dd.MM.yyyy"), Qt::DisplayRole);
     }
     break;
 
-    case FetchParametersModel::EndDateItem:
+    case FetchModel::EndDateItem:
     {
       item->setData(QDate::currentDate().toString("dd.MM.yyyy"), Qt::DisplayRole);
     }
     break;
 
-    case FetchParametersModel::GenreItem:
+    case FetchModel::GenreItem:
     {
       QMap <QString, QVariant> data;
       foreach (ModuleParameters p, params) {
@@ -75,7 +75,7 @@ QStandardItem* FetchParametersModel::createItem(int type,
     }
     break;
 
-    case FetchParametersModel::PeriodItem:
+    case FetchModel::PeriodItem:
     {
       QMap <QString, QVariant> data;
       foreach (ModuleParameters p, params) {
@@ -85,7 +85,7 @@ QStandardItem* FetchParametersModel::createItem(int type,
     }
     break;
 
-    case FetchParametersModel::FilterItem:
+    case FetchModel::FilterItem:
     {
       QMap <QString, QVariant> data;
       foreach (ModuleParameters p, params) {

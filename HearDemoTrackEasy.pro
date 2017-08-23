@@ -30,8 +30,7 @@ SOURCES += main.cpp\
     baseclasses/module.cpp \
     baseclasses/fetcher.cpp \
     widgets/waitingwidget/waitingwidget.cpp \
-    widgets/fetchparameterswidget/fetchparametersitemdelegate.cpp \
-    widgets/fetchparameterswidget/fetchparameterswidget.cpp \
+    widgets/fetchwidget/fetchwidget.cpp \
     widgets/dbviewwidget/dbviewwidget.cpp \
     widgets/dbviewwidget/dbviewitemdelegate.cpp \
     widgets/dbviewwidget/dbviewmodel.cpp \
@@ -45,10 +44,13 @@ SOURCES += main.cpp\
     dataclasses/moduleparameters.cpp \
     modules/hardwax/hardwaxlinkcreator.cpp \
     modules/juno/junolinkcreator.cpp \
-    widgets/fetchparameterswidget/fetchparametersmodel.cpp \
     preferences.cpp \
     widgets/searchwidget/searchwidget.cpp \
-    dataclasses/datainput.cpp
+    dataclasses/datainput.cpp \
+    validator.cpp \
+    widgets/fetchwidget/fetchitemdelegate.cpp \
+    widgets/fetchwidget/fetchmodel.cpp \
+    widgets/searchresultwidget/searchresultwidget.cpp
 
 HEADERS  += mainwindow.h \
     modules/deejayde/deejaydefetcher.h \
@@ -72,8 +74,7 @@ HEADERS  += mainwindow.h \
     baseclasses/modulefactory.h \
     baseclasses/linkcreator.h \
     widgets/waitingwidget/waitingwidget.h \
-    widgets/fetchparameterswidget/fetchparametersitemdelegate.h \
-    widgets/fetchparameterswidget/fetchparameterswidget.h \
+    widgets/fetchwidget/fetchwidget.h \
     widgets/dbviewwidget/dbviewwidget.h \
     widgets/dbviewwidget/dbviewitemdelegate.h \
     widgets/dbviewwidget/dbviewmodel.h \
@@ -88,14 +89,18 @@ HEADERS  += mainwindow.h \
     dataclasses/moduleparameters.h \
     modules/hardwax/hardwaxlinkcreator.h \
     modules/juno/junolinkcreator.h \
-    widgets/fetchparameterswidget/fetchparametersmodel.h \
     preferences.h \
-    widgets/searchwidget/searchwidget.h
+    widgets/searchwidget/searchwidget.h \
+    validator.h \
+    widgets/fetchwidget/fetchitemdelegate.h \
+    widgets/fetchwidget/fetchmodel.h \
+    widgets/searchresultwidget/searchresultwidget.h
 
 FORMS    += mainwindow.ui \
             playerwidgetform.ui \
             preferencesform.ui \
-    searchform.ui
+    searchform.ui \
+    searchresultform.ui
 
 RESOURCES += \
     resources/resources.qrc

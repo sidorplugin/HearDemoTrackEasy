@@ -60,7 +60,7 @@
      <property name="styleSheet">
       <string notr="true">background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                       stop: 0 #E0E0E0, stop: 1 #FFFFFF);
-    border: 2px solid gray;
+    border: 1px solid gray;
     border-radius: 4px;
 </string>
      </property>
@@ -177,7 +177,7 @@ border-left: 3px transparent;</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="resources/resources.qrc">
                 <normaloff>:/images_ui/images/player_start.png</normaloff>:/images_ui/images/player_start.png</iconset>
               </property>
               <property name="iconSize">
@@ -215,7 +215,7 @@ border-left: 3px transparent;</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="resources/resources.qrc">
                 <normaloff>:/images_ui/images/player_play.png</normaloff>:/images_ui/images/player_play.png</iconset>
               </property>
               <property name="iconSize">
@@ -254,7 +254,7 @@ border-left: 3px transparent;
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="resources/resources.qrc">
                 <normaloff>:/images_ui/images/player_pause.png</normaloff>:/images_ui/images/player_pause.png</iconset>
               </property>
               <property name="iconSize">
@@ -293,7 +293,7 @@ border-left: transparent;
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="resources/resources.qrc">
                 <normaloff>:/images_ui/images/player_stop.png</normaloff>:/images_ui/images/player_stop.png</iconset>
               </property>
               <property name="iconSize">
@@ -332,7 +332,7 @@ hovered: true;</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="resources/resources.qrc">
                 <normaloff>:/images_ui/images/player_end.png</normaloff>:/images_ui/images/player_end.png</iconset>
               </property>
               <property name="iconSize">
@@ -428,7 +428,7 @@ QSlider::sub-page:vertical {
   </layout>
  </widget>
  <resources>
-  <include location="../../resources/resources.qrc"/>
+  <include location="resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

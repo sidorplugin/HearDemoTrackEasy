@@ -20,9 +20,9 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent)
         ui->comboBox_Source->addItem(QIcon(icon), name, searchGroups);
     }
 
-
     connect(ui->comboBox_Source, SIGNAL(currentIndexChanged(int)),
             this, SLOT(setSearchGroupItem(int)));
+
 }
 
 

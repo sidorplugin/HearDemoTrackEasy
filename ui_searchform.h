@@ -19,7 +19,6 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -36,13 +35,12 @@ public:
     QComboBox *comboBox_Source;
     QComboBox *comboBox_Group;
     QLineEdit *lineEdit;
-    QPushButton *pushButton;
 
     void setupUi(QWidget *SearchWidgetForm)
     {
         if (SearchWidgetForm->objectName().isEmpty())
             SearchWidgetForm->setObjectName(QStringLiteral("SearchWidgetForm"));
-        SearchWidgetForm->resize(280, 79);
+        SearchWidgetForm->resize(280, 86);
         SearchWidgetForm->setMinimumSize(QSize(280, 0));
         SearchWidgetForm->setMaximumSize(QSize(280, 16777215));
         SearchWidgetForm->setStyleSheet(QStringLiteral(""));
@@ -52,13 +50,18 @@ public:
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
         groupBox = new QGroupBox(SearchWidgetForm);
         groupBox->setObjectName(QStringLiteral("groupBox"));
+        groupBox->setStyleSheet(QLatin1String("background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                      stop: 0 #E0E0E0, stop: 1 #FFFFFF);\n"
+"    border: 1px solid gray;\n"
+"    border-radius: 4px;\n"
+""));
         gridLayout = new QGridLayout(groupBox);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(2);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(0);
+        horizontalLayout->setSpacing(1);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         comboBox_Source = new QComboBox(groupBox);
         comboBox_Source->setObjectName(QStringLiteral("comboBox_Source"));
@@ -81,23 +84,12 @@ public:
         QFont font;
         font.setPointSize(10);
         lineEdit->setFont(font);
-        lineEdit->setStyleSheet(QStringLiteral("border: 1px solid gray"));
+        lineEdit->setStyleSheet(QStringLiteral(""));
 
         verticalLayout->addWidget(lineEdit);
 
 
         gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
-
-        pushButton = new QPushButton(groupBox);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setMinimumSize(QSize(55, 55));
-        pushButton->setMaximumSize(QSize(55, 55));
-        QIcon icon;
-        icon.addFile(QStringLiteral(":/images_ui/images/search.png"), QSize(), QIcon::Normal, QIcon::Off);
-        pushButton->setIcon(icon);
-        pushButton->setIconSize(QSize(36, 36));
-
-        gridLayout->addWidget(pushButton, 0, 1, 1, 1);
 
 
         gridLayout_2->addWidget(groupBox, 0, 0, 1, 1);
@@ -112,7 +104,6 @@ public:
     {
         SearchWidgetForm->setWindowTitle(QApplication::translate("SearchWidgetForm", "Form", 0));
         groupBox->setTitle(QString());
-        pushButton->setText(QString());
     } // retranslateUi
 
 };

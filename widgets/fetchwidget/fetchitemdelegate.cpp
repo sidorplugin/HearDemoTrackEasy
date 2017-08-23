@@ -1,18 +1,18 @@
-#include "fetchparametersitemdelegate.h"
-#include "fetchparametersmodel.h"
+#include "fetchitemdelegate.h"
+#include "fetchmodel.h"
 #include "mainwindow.h"
 
 #include <QComboBox>
 #include <QDateEdit>
 
-FetchParametersItemDelegate::FetchParametersItemDelegate(QObject *parent)
+FetchItemDelegate::FetchItemDelegate(QObject *parent)
                       : QStyledItemDelegate(parent)
 {
 }
 
 
 // Создает виджет для редактирования ячейки.
-QWidget *FetchParametersItemDelegate::createEditor(QWidget *parent,
+QWidget *FetchItemDelegate::createEditor(QWidget *parent,
                                              const QStyleOptionViewItem &option,
                                              const QModelIndex &index) const
 {
@@ -22,10 +22,10 @@ QWidget *FetchParametersItemDelegate::createEditor(QWidget *parent,
   // В данном классе делегате используются 2 вида виджетов. QComboBox и QDateEdit.
   // В зависимости от выделенного поля создает определенный делегат-виджет.
   switch (row) {
-    case FetchParametersModel::SourceItem:
-    case FetchParametersModel::GenreItem:
-    case FetchParametersModel::PeriodItem:
-    case FetchParametersModel::FilterItem:
+    case FetchModel::SourceItem:
+    case FetchModel::GenreItem:
+    case FetchModel::PeriodItem:
+    case FetchModel::FilterItem:
     {
       // Создает виджет QComboBox.
       QComboBox *comboBox = new QComboBox(parent);
@@ -34,8 +34,8 @@ QWidget *FetchParametersItemDelegate::createEditor(QWidget *parent,
     }
     break;
 
-    case FetchParametersModel::StartDateItem:
-    case FetchParametersModel::EndDateItem:
+    case FetchModel::StartDateItem:
+    case FetchModel::EndDateItem:
     {
       // Создает виджет QDateEdit. Устанавливает меню при редактировании
       // в виде календаря.
@@ -51,18 +51,18 @@ QWidget *FetchParametersItemDelegate::createEditor(QWidget *parent,
 
 
 // Устанавливает данные в виджет из модели по индексу.
-void FetchParametersItemDelegate::setEditorData(QWidget *editor,
+void FetchItemDelegate::setEditorData(QWidget *editor,
                                           const QModelIndex &index) const
 {
   // Определяет индекс значения поля "Источник" и номер строки выделенного поля.
-  QString source = index.sibling(FetchParametersModel::SourceItem, 0).
+  QString source = index.sibling(FetchModel::SourceItem, 0).
                    data(Qt::DisplayRole).toString();
   int row = index.row();
 
   // В зависимости от выделенного поля устанавливает данные из модели которые
   // соответствуют определенным критериям.
   switch (row) {
-    case FetchParametersModel::SourceItem: // Поле "Источник".
+    case FetchModel::SourceItem: // Поле "Источник".
       {
         // Получает виджет QComboBox из editor.
         QComboBox *comboBox = static_cast<QComboBox*>(editor);
@@ -89,9 +89,9 @@ void FetchParametersItemDelegate::setEditorData(QWidget *editor,
 
       }
     break;
-    case FetchParametersModel::GenreItem:  // Поле "Жанр".
-    case FetchParametersModel::PeriodItem: // Поле "Период".
-    case FetchParametersModel::FilterItem: // Поле "Фильтр".
+    case FetchModel::GenreItem:  // Поле "Жанр".
+    case FetchModel::PeriodItem: // Поле "Период".
+    case FetchModel::FilterItem: // Поле "Фильтр".
     {
         // Получает виджет QComboBox из editor.
         QComboBox *comboBox = static_cast<QComboBox*>(editor);
@@ -111,8 +111,8 @@ void FetchParametersItemDelegate::setEditorData(QWidget *editor,
     }
     break;
 
-    case FetchParametersModel::EndDateItem:    // Поле "Конец".
-    case FetchParametersModel::StartDateItem:  // Поле "Начало".
+    case FetchModel::EndDateItem:    // Поле "Конец".
+    case FetchModel::StartDateItem:  // Поле "Начало".
     {
         // Получает виджет QDateEdit из editor.
         QDateEdit *dateEdit = static_cast<QDateEdit*>(editor);
@@ -133,7 +133,7 @@ void FetchParametersItemDelegate::setEditorData(QWidget *editor,
 
 
 // Устанавливает данные из editor в модель по данному индексу.
-void FetchParametersItemDelegate::setModelData(QWidget *editor,
+void FetchItemDelegate::setModelData(QWidget *editor,
                                          QAbstractItemModel *model,
                                          const QModelIndex &index) const
 {
@@ -141,7 +141,7 @@ void FetchParametersItemDelegate::setModelData(QWidget *editor,
   int row = index.row();
 
   switch (row) {
-    case FetchParametersModel::SourceItem:  // Поле "Источник".
+    case FetchModel::SourceItem:  // Поле "Источник".
     {
         // Получает виджет QComboBox из editor. Сохраняет его текущее значение.
         QComboBox *comboBox = static_cast<QComboBox*>(editor);
@@ -156,9 +156,9 @@ void FetchParametersItemDelegate::setModelData(QWidget *editor,
     }
     break;
 
-    case FetchParametersModel::GenreItem:     // Поле "Жанр".
-    case FetchParametersModel::PeriodItem:    // Поле "Период".
-    case FetchParametersModel::FilterItem:    // Поле "Фильтр".
+    case FetchModel::GenreItem:     // Поле "Жанр".
+    case FetchModel::PeriodItem:    // Поле "Период".
+    case FetchModel::FilterItem:    // Поле "Фильтр".
     {
       // Получает виджет QComboBox из editor. Сохраняет его текущее значение.
       QComboBox *comboBox = static_cast<QComboBox*>(editor);
@@ -166,8 +166,8 @@ void FetchParametersItemDelegate::setModelData(QWidget *editor,
     }
     break;
 
-    case FetchParametersModel::StartDateItem:  // Поле "Начало".
-    case FetchParametersModel::EndDateItem:    // Поле "Конец".
+    case FetchModel::StartDateItem:  // Поле "Начало".
+    case FetchModel::EndDateItem:    // Поле "Конец".
     {
       // Получает виджет QDateEdit из editor. Сохраняет отображаемую дату в value.
       QDateEdit *dateEdit = static_cast<QDateEdit*>(editor);
@@ -191,7 +191,7 @@ void FetchParametersItemDelegate::setModelData(QWidget *editor,
 
 
 // Обновляет позицию делегата.
-void FetchParametersItemDelegate::updateEditorGeometry(QWidget *editor,
+void FetchItemDelegate::updateEditorGeometry(QWidget *editor,
                                                  const QStyleOptionViewItem &option,
                                                  const QModelIndex &index) const
 {
@@ -201,7 +201,7 @@ void FetchParametersItemDelegate::updateEditorGeometry(QWidget *editor,
 
 
 // Обновляет модель и закрывает виджет-делегат.
-void FetchParametersItemDelegate::closeAndCommitEditor()
+void FetchItemDelegate::closeAndCommitEditor()
 {
   // Сохраняет виджет отправитель.
   QWidget* widget = qobject_cast<QWidget*>(sender());

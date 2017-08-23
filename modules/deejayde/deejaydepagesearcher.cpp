@@ -102,7 +102,7 @@ int DeejayDePageSearcher::page(const QString& address, const QDate& date)
         if (m_isStop)
           return -1;
 
-        start(address + QString::number(m_current));
+        start(address.arg(QString::number(m_current)));
         // Остается в цикле пока не произведется выборка.
         QEventLoop wait;
         connect(this, SIGNAL(fetched(Fetcher::State)),

@@ -13,13 +13,14 @@ void DbViewModel::add(const QList<TrackInfo> &tracks)
     add(track);
 }
 
+
 // Добавляет трек в модель.
 void DbViewModel::add(TrackInfo &track)
 {
   insertRow(0);
   setData(index(0, 0), track.data(TrackInfo::Link).toString());
   setData(index(0, 1), track.data(TrackInfo::Title).toString());
-  setData(index(0, 2), track.data(TrackInfo::Genre).toString());
+  setData(index(0, 2), track.data(TrackInfo::Style).toString());
   setData(index(0, 3), track.data(TrackInfo::AlbumArtist).toString());
   setData(index(0, 4), track.data(TrackInfo::AlbumTitle).toString());
   setData(index(0, 5), track.data(TrackInfo::CatNumber).toString());
@@ -28,6 +29,7 @@ void DbViewModel::add(TrackInfo &track)
 
   submitAll();
 }
+
 
 // Удаляет все треки из модели.
 void DbViewModel::remove()
@@ -76,7 +78,7 @@ TrackInfo DbViewModel::getTrackInfo(int index)
   TrackInfo track;
   track.setData(TrackInfo::Link, record.value(linkIndex).toString());
   track.setData(TrackInfo::Title, record.value(trackIndex).toString());
-  track.setData(TrackInfo::Genre, record.value(styleIndex).toString());
+  track.setData(TrackInfo::Style, record.value(styleIndex).toString());
   track.setData(TrackInfo::AlbumArtist, record.value(artistIndex).toString());
   track.setData(TrackInfo::AlbumTitle, record.value(albumIndex).toString());
   track.setData(TrackInfo::CatNumber, record.value(catalogIndex).toString());

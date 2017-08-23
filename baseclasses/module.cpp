@@ -11,23 +11,19 @@ void Module::execute(Module::Mode mode, DataInput &input)
 {
   qDebug() << "Module::execute";
 
+  m_mode = mode;
+
   connect(m_fetcher, SIGNAL(ready(QList<TrackInfo>)),
           this, SIGNAL(ready(QList<TrackInfo>)));
 
+  // Возвращает ссылку для выборки.
+  QString link = m_linkCreator->create(mode, input, parameters());
+  qDebug() << link;
+  int start;
+  int end;
   switch (mode) {
     case Module::FetchMode:
     {
-      // Инициализация компонентов и подготовка данных.
-      m_fetcher->setGenre(input.data(DataInput::Genre).toString());
-
-      // Проверяет есть ли в модуле элемент albumFetcher.
-      if (m_albumFetcher) {
-          m_albumFetcher->setGenre(input.data(DataInput::Genre).toString());
-        }
-
-      // Возвращает ссылку для выборки.
-      QString link = m_linkCreator->create(mode, input, parameters());
-
       QVariantList searchParameters;
       searchParameters.push_back(link);
       searchParameters.push_back(input.data(DataInput::DateStart).toDate());
@@ -40,21 +36,23 @@ void Module::execute(Module::Mode mode, DataInput &input)
       // Сохраняет значение общего числа страниц для выборки.
       m_total = pagesInfo.at(PageSearcher::TotalPages);
 
-      // Стартует выборку.
-      fetch(link, pagesInfo.at(PageSearcher::StartPage),
-            pagesInfo.at(PageSearcher::EndPage));
-
-      emit finished();
+      start = pagesInfo.at(PageSearcher::StartPage);
+      end = pagesInfo.at(PageSearcher::EndPage);
     }
     break;
 
     case Module::SearchMode:
     {
-
+        start = 1;
+        end = MAX;
     }
     break;
-  }
 
+  }
+  // Стартует выборку.
+  fetch(link, start, end);
+
+  emit finished();
 }
 
 
@@ -71,7 +69,6 @@ void Module::stop()
 void Module::setParameters(const ModuleParameters& params)
 {
   m_parameters = params;
-  qDebug() << m_parameters.toStringList();
 }
 
 
@@ -79,6 +76,13 @@ void Module::setParameters(const ModuleParameters& params)
 ModuleParameters Module::parameters()
 {
   return m_parameters;
+}
+
+
+// Возвращает режим работы модуля.
+int Module::mode()
+{
+  return m_mode;
 }
 
 
@@ -92,7 +96,7 @@ void Module::fetch(const QString& link, int start, int end)
   while (!m_isStoped) {
     if (page > end)
       break;
-    m_fetcher->start(link + QString::number(page));
+    m_fetcher->start(link.arg(QString::number(page)));
     // Остается в цикле пока не произведется выборка.
     QEventLoop wait;
     connect(m_fetcher, SIGNAL(fetched(Fetcher::State)),
@@ -119,7 +123,6 @@ void Module::on_fetched(Fetcher::State state)
     case Fetcher::NoElements :
     case Fetcher::Stoped :
       m_isStoped = true;
-      emit stoped();
     break;
   }
 

@@ -36,14 +36,18 @@ public:
   QString getCatNumber(const QWebElement &element);
   // Возвращает ссылку на релиз.
   QString getLinkRelease(const QWebElement &element);
+  // Возвращает стиль релиза.
+  QString getStyle(const QWebElement &element);
   // Возвращает количество треков в релизе.
   int getCountTracksRelease(const QWebElement &element);
   // Возвращает ссылку на трек.
-  QString getLinkTrack(const QWebElement &element, const QString& params = QString());
+  QString getLinkTrack(const QWebElement &element,
+                       const QString& params = QString());
   // Возвращает название трека.
   QString getTitleTrack(const QWebElement &element);
   // Возвращает треклист.
-  QStringList getTrackList(const QWebElement& element, const QString& params = QString());
+  QStringList getTrackList(const QWebElement& element,
+                           const QString& params = QString());
 
 };
 
@@ -154,6 +158,14 @@ QString DeejayDeFetcherPrivate::getLinkRelease(const QWebElement &element)
 }
 
 
+// Возвращает жанр релиза.
+QString DeejayDeFetcherPrivate::getStyle(const QWebElement &element)
+{
+  QWebElement styleElement = element.findFirst("div.style a.main");
+  return styleElement.toPlainText();
+}
+
+
 // Возвращает количество треков в релизе.
 int DeejayDeFetcherPrivate::getCountTracksRelease(const QWebElement &element)
 {
@@ -199,7 +211,8 @@ QString DeejayDeFetcherPrivate::getTitleTrack(const QWebElement &element)
 
 
 // Возвращает треклист.
-QStringList DeejayDeFetcherPrivate::getTrackList(const QWebElement &element, const QString& params)
+QStringList DeejayDeFetcherPrivate::getTrackList(const QWebElement &element,
+                                                 const QString& params)
 {
   QWebElementCollection linksCollection = element.findAll("a.track");
 
@@ -279,8 +292,6 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
   // Если в альбоме не определено количество треков.
   if (countTracks == -1) {
       p_d->linkRelease = p_d->getLinkRelease(element);
-      // TODO Оповещение о наличии пустого релиза.
-  //            m_database->addEmptyRelease("http://www.deejay.de/content.php?param=" + p_d->linkRelease);
       return;
   }
 
@@ -321,11 +332,10 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
       QString label = p_d->getLabel(element);
       QString catNumber = p_d->getCatNumber(element);
       QString picLink = p_d->getPicLinkRelease(element);
+      QString style = p_d->getStyle(element);
 
       if (picLink.isEmpty()) {
         p_d->linkRelease = p_d->getLinkRelease(element);
-        // TODO Оповещение о наличии пустого релиза.
-  //              m_database->addEmptyRelease("http://www.deejay.de/content.php?param=" + p_d->linkRelease);
         return;
       }
 
@@ -335,7 +345,7 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
           TrackInfo track;
           track.setData(TrackInfo::Link, trackList.at(i));
           track.setData(TrackInfo::Title, trackList.at(i + 1));
-          track.setData(TrackInfo::Genre, m_genre);
+          track.setData(TrackInfo::Style, style);
           track.setData(TrackInfo::AlbumArtist, artist);
           track.setData(TrackInfo::AlbumTitle, album);
           track.setData(TrackInfo::CatNumber, catNumber);

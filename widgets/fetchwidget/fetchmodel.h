@@ -1,5 +1,5 @@
-#ifndef FETCHPARAMETERSMODEL_H
-#define FETCHPARAMETERSMODEL_H
+#ifndef FETCHMODEL_H
+#define FETCHMODEL_H
 
 #include "dataclasses/moduleparameters.h"
 
@@ -11,7 +11,7 @@ const int ROLE_SOURCE_DATA = Qt::UserRole + 1;
 const int ROLE_CURRENT_INDEX = Qt::UserRole + 2;
 
 
-class FetchParametersModel : public QStandardItemModel
+class FetchModel : public QStandardItemModel
 {
 public:
   // Перечисление разновидностей item'ов в модели.
@@ -23,11 +23,11 @@ public:
                   FilterItem
                 };
 
-  FetchParametersModel(QObject *parent);
+  FetchModel(QObject *parent);
 
 private:
   // Создает item модели.
   QStandardItem* createItem(int type, const QList<ModuleParameters>& params);
 };
 
-#endif // FETCHPARAMETERSMODEL_H
+#endif // FETCHMODEL_H

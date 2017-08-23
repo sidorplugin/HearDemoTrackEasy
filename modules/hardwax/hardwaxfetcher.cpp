@@ -16,11 +16,13 @@ public:
   // Возвращает номер по каталогу.
   QString getCatNumber(const QWebElement &element);
   // Возвращает ссылку на трек.
-  QString getLinkTrack(const QWebElement &element, const QString& params = QString());
+  QString getLinkTrack(const QWebElement &element,
+                       const QString& params = QString());
   // Возвращает название трека.
   QString getTitleTrack(const QWebElement &element);
   // Возвращает треклист.
-  QStringList getTrackList(const QWebElement& element, const QString& params = QString());
+  QStringList getTrackList(const QWebElement& element,
+                           const QString& params = QString());
 
 };
 
@@ -57,7 +59,8 @@ QString HardwaxFetcherPrivate::getCatNumber(const QWebElement &element)
 
 
 // Возвращает ссылку на трек.
-QString HardwaxFetcherPrivate::getLinkTrack(const QWebElement &element, const QString& params)
+QString HardwaxFetcherPrivate::getLinkTrack(const QWebElement &element,
+                                            const QString& params)
 {
   return element.attribute("href");
 }
@@ -71,7 +74,8 @@ QString HardwaxFetcherPrivate::getTitleTrack(const QWebElement &element)
 
 
 // Возвращает треклист.
-QStringList HardwaxFetcherPrivate::getTrackList(const QWebElement &element, const QString& params)
+QStringList HardwaxFetcherPrivate::getTrackList(const QWebElement &element,
+                                                const QString& params)
 {
   QStringList result;
   QStringList list;
@@ -110,7 +114,8 @@ void HardwaxFetcher::result(bool ok)
   m_isStop = false;
   p_d->trackDataList.clear();
 
-  QWebElementCollection vinylCollection = m_page.mainFrame()->findAllElements("div.listing.block");
+  QWebElementCollection vinylCollection =
+      m_page.mainFrame()->findAllElements("div.listing.block");
   qDebug() << vinylCollection.count();
 
   // Если нет элементов на странице завершает выборку.
@@ -121,11 +126,11 @@ void HardwaxFetcher::result(bool ok)
 
   foreach (QWebElement vinylElement, vinylCollection) {
     if (!m_isStop) {
-      QString label = p_d->getLabel(vinylElement);                 // Определяет лэйбл.
-      QString catNumber = p_d->getCatNumber(vinylElement);         // Определяет номер по каталогу.
-      QString artist = p_d->getArtist(vinylElement);               // Определяет исполнителя.
-      QString album = p_d->getTitle(vinylElement);                 // Определяет название пластинки.
-      QStringList trackList = p_d->getTrackList(vinylElement);     // Определяет треклист.
+      QString label = p_d->getLabel(vinylElement);
+      QString catNumber = p_d->getCatNumber(vinylElement);
+      QString artist = p_d->getArtist(vinylElement);
+      QString album = p_d->getTitle(vinylElement);
+      QStringList trackList = p_d->getTrackList(vinylElement);
 
       QStringList list;
       for(int i = 0; i < trackList.size(); i = i + 2) {

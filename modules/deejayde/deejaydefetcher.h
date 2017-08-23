@@ -18,7 +18,6 @@ public:
   ~DeejayDeFetcher();
 
   void setAlbumFetcher(DeejayDeAlbumFetcher* fetcher);
-  void setGenre(const QString& genre) { m_genre = genre; }
 
 protected slots:
   void result(bool ok);
