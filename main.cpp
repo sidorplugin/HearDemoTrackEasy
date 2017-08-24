@@ -114,9 +114,9 @@ int main(int argc, char *argv[])
     QObject::connect(&mainWindow, SIGNAL(signal_stateChanged(int)),
                      worker, SLOT(slot_setState(int)));
 
-
+    // Сигнал от ui о готовности выбранных треков для добавления в просмотрщик треков.
     QObject::connect(&mainWindow, SIGNAL(signal_ready(QList<TrackInfo>)),
-                     worker, SLOT(slot_addTracks(QList<TrackInfo>)));
+                     worker, SLOT(addTracksToModel(QList<TrackInfo>)));
 
     // Signals To Mainwindow -----------------------------------------------
     // Запрос на проигрывание трека.
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
     QObject::connect(worker, SIGNAL(signal_pageFetched(int, int)),
                      &mainWindow, SLOT(slot_pageFetched(int, int)));
 
-
+    // При поиске по готовности списка треков передает в интерфейс список.
     QObject::connect(worker, SIGNAL(signal_ready(QList<TrackInfo>)),
                      &mainWindow, SLOT(slot_addTracks(QList<TrackInfo>)));
 

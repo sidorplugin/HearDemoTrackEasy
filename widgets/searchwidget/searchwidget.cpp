@@ -25,8 +25,16 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent)
 
 }
 
+void SearchWidget::setData(const QVariant &data)
+{
+  QStringList list = data.toStringList();
+  ui->comboBox_Source->setCurrentText(list.at(0));
+  ui->comboBox_Group->setCurrentText(list.at(1));
+  ui->lineEdit->setText(list.at(2));
+}
 
-QVariant SearchWidget::getData() const
+
+QVariant SearchWidget::data() const
 {
   QStringList data;
   data << ui->comboBox_Source->currentText() <<

@@ -258,6 +258,7 @@ void DeejayDeFetcher::result(bool ok)
 
   QWebElementCollection vinylCollection =
     m_page.mainFrame()->findAllElements("article.clearfix.product.notangemeldet");
+  qDebug() << vinylCollection.count();
 
   // Если нет элементов на странице завершает выборку.
   if (vinylCollection.count() == 0) {

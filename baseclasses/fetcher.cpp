@@ -66,10 +66,9 @@ void Fetcher::progress(int progress)
 
 void Fetcher::on_started()
 {
-  qDebug() << "Fetcher::on_started" << m_timer.timerId();
+  qDebug() << "Fetcher::on_started";
   qDebug() << "waiting = " << m_waiting;
   m_timer.start(m_waiting);
-  qDebug() << "Fetcher::on_started" << m_timer.timerId();
 }
 
 

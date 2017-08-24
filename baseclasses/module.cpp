@@ -16,6 +16,9 @@ void Module::execute(Module::Mode mode, DataInput &input)
   connect(m_fetcher, SIGNAL(ready(QList<TrackInfo>)),
           this, SIGNAL(ready(QList<TrackInfo>)));
 
+  connect(m_fetcher, SIGNAL(fetched(Fetcher::State)),
+          this, SLOT(on_fetched(Fetcher::State)));
+
   // Возвращает ссылку для выборки.
   QString link = m_linkCreator->create(mode, input, parameters());
   qDebug() << link;

@@ -4,18 +4,18 @@ PlayerWidget::PlayerWidget(QWidget *parent) : QWidget(parent)
 {
   m_player = new QMediaPlayer(this);
 
-  m_playerUi = new Ui::PlayerWidgetForm;
-  m_playerUi->setupUi(this);
+  ui = new Ui::PlayerWidgetForm;
+  ui->setupUi(this);
 
 //  m_runningString = new RunningString(this);
-//  m_playerUi->verticalLayout->addWidget(m_runningString);
+//  ui->verticalLayout->addWidget(m_runningString);
 
   // Устанавливает фильтр событий на слайдеры для реализации перемещения.
-  m_playerUi->slider_Rewind->installEventFilter(this);
-  m_playerUi->slider_Volume->installEventFilter(this);
+  ui->slider_Rewind->installEventFilter(this);
+  ui->slider_Volume->installEventFilter(this);
 
   // Устанавливает диапазон громкости.
-  m_playerUi->slider_Volume->setRange(0, 100);
+  ui->slider_Volume->setRange(0, 100);
 
   // Реализует систему обработки нескольких сигналов одним слотом.
   m_mapper = new QSignalMapper;
@@ -23,9 +23,9 @@ PlayerWidget::PlayerWidget(QWidget *parent) : QWidget(parent)
           this, SIGNAL(clicked(int)));
 
   // Хранит кнопки в списке для дальнейшего перебора в цикле.
-  m_buttons.insert(PlayerWidget::PlayButton, m_playerUi->toolButton_Play);
-  m_buttons.insert(PlayerWidget::PreviousButton, m_playerUi->toolButton_Previous);
-  m_buttons.insert(PlayerWidget::NextButton, m_playerUi->toolButton_Next);
+  m_buttons.insert(PlayerWidget::PlayButton, ui->toolButton_Play);
+  m_buttons.insert(PlayerWidget::PreviousButton, ui->toolButton_Previous);
+  m_buttons.insert(PlayerWidget::NextButton, ui->toolButton_Next);
 
   QMapIterator <int, QToolButton*> i(m_buttons);
   while (i.hasNext()) {
@@ -35,10 +35,10 @@ PlayerWidget::PlayerWidget(QWidget *parent) : QWidget(parent)
       m_mapper->setMapping(button, i.key());
   }
 
-  connect(m_playerUi->toolButton_Pause, SIGNAL(clicked(bool)),
+  connect(ui->toolButton_Pause, SIGNAL(clicked(bool)),
           m_player, SLOT(pause()));
 
-  connect(m_playerUi->toolButton_Stop, SIGNAL(clicked(bool)),
+  connect(ui->toolButton_Stop, SIGNAL(clicked(bool)),
           m_player, SLOT(stop()));
 
   connect(m_player, SIGNAL(durationChanged(qint64)),
@@ -47,7 +47,7 @@ PlayerWidget::PlayerWidget(QWidget *parent) : QWidget(parent)
   connect(m_player, SIGNAL(positionChanged(qint64)),
           this, SLOT(setPositionSliderRewind(qint64)));
 
-  connect(m_playerUi->slider_Rewind, SIGNAL(sliderMoved(int)),
+  connect(ui->slider_Rewind, SIGNAL(sliderMoved(int)),
           this, SLOT(rewindTrack(int)));
 
 }
@@ -55,7 +55,7 @@ PlayerWidget::PlayerWidget(QWidget *parent) : QWidget(parent)
 PlayerWidget::~PlayerWidget()
 {
   delete m_player;
-  delete m_playerUi;
+  delete ui;
   delete m_mapper;
 }
 
@@ -64,7 +64,7 @@ PlayerWidget::~PlayerWidget()
 void PlayerWidget::play(TrackInfo& track)
 {
   m_player->setMedia(QUrl(track.data(TrackInfo::Link).toString()));
-  m_player->setVolume(m_playerUi->slider_Volume->value());
+  m_player->setVolume(ui->slider_Volume->value());
   m_player->play();
 
 //  m_runningString->setText(
@@ -72,7 +72,7 @@ void PlayerWidget::play(TrackInfo& track)
 //          track.data(TrackInfo::Title).toString());
 
   // Отображает информацию о треке в виджете.
-  m_playerUi->label_TrackInfo->setText(
+  ui->label_TrackInfo->setText(
                        track.data(TrackInfo::AlbumArtist).toString() + " - " +
                        track.data(TrackInfo::Title).toString());
 }
@@ -82,14 +82,14 @@ void PlayerWidget::play(TrackInfo& track)
 void PlayerWidget::setDurationTrack(qint64 duration)
 {
   m_duration = duration;
-  m_playerUi->slider_Rewind->setMaximum(duration);
+  ui->slider_Rewind->setMaximum(duration);
 }
 
 
 // Устанавливает позицию слайдера перемотки.
 void PlayerWidget::setPositionSliderRewind(qint64 position)
 {
-  m_playerUi->slider_Rewind->setValue(position);
+  ui->slider_Rewind->setValue(position);
 
   // Если конец трека проигрывает следующий.
   if ((position == m_duration) && (m_duration != 0))
@@ -107,26 +107,26 @@ void PlayerWidget::rewindTrack(int position)
 // Фильтрует событие нажатие мышью по слайдеру перемотки и слайдеру громкости.
 bool PlayerWidget::eventFilter(QObject* watched, QEvent* event)
 {
-  if (watched == m_playerUi->slider_Rewind &&
+  if (watched == ui->slider_Rewind &&
       event->type() == QEvent::MouseButtonRelease ) {
       QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
       rewindTrack(QStyle::sliderValueFromPosition(
-                    m_playerUi->slider_Rewind->minimum(),
-                    m_playerUi->slider_Rewind->maximum(),
+                    ui->slider_Rewind->minimum(),
+                    ui->slider_Rewind->maximum(),
                     mouseEvent->x(),
-                    m_playerUi->slider_Rewind->width())
+                    ui->slider_Rewind->width())
                   );
      return true;
   }
 
-  if (watched == m_playerUi->slider_Volume &&
+  if (watched == ui->slider_Volume &&
       event->type() == QEvent::MouseButtonRelease ) {
       QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
       m_player->setVolume(QStyle::sliderValueFromPosition(
-                              m_playerUi->slider_Volume->minimum(),
-                              m_playerUi->slider_Volume->maximum(),
+                              ui->slider_Volume->minimum(),
+                              ui->slider_Volume->maximum(),
                               mouseEvent->y(),
-                              m_playerUi->slider_Volume->height(),
+                              ui->slider_Volume->height(),
                               true)
                           );
       return true;

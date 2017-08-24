@@ -219,8 +219,11 @@ void MainWindow::executeAction(int action)
         else {
           setState(MainWindow::SearchingState);
           m_searchResultWidget = new SearchResultWidget(this);
+          m_searchResultWidget->setWindowTitle(QString("Результаты поиска ""\"%1""\"")
+               .arg(dataInput.data(DataInput::Search).toStringList().at(2)));
+
           connect(m_searchResultWidget, SIGNAL(ready(QList<TrackInfo>)),
-                  this, SIGNAL(ready(QList<TrackInfo>)));
+                  this, SIGNAL(signal_ready(QList<TrackInfo>)));
           emit signal_search(dataInput);
         }
     }
@@ -241,8 +244,9 @@ void MainWindow::executeAction(int action)
       msgBox.setWindowIcon(QIcon(":/images_ui/images/deejayDeFavicon.ico"));
       msgBox.setWindowTitle("Сведения о Hear Demo Track Easy");
       msgBox.setIconPixmap(QPixmap("://images/information.png"));
-      msgBox.setText("Программа 'Hear Demo Track Easy' помогает любителям музыки и \n"
-                     "диджеям следить за новинками www.deejay.de, www.juno.co.uk и \n"
+      msgBox.setText("Программа 'Hear Demo Track Easy' помогает искателям "
+                     "музыкальных записей и диджеям следить за новинками таких"
+                     "интернет ресурсов как www.deejay.de, www.juno.co.uk, "
                      "www.hardwax.com. \n");
       msgBox.exec();
     }
@@ -317,8 +321,24 @@ void MainWindow::slot_executeActionContextMenu(DbViewWidget::Action action)
         break;
 
         case DbViewWidget::SearchLabel :
+        {
+          // TODO.
+            // Запрос у просмотрщика данных о лэйбле.
+//            QString label = m_dbViewWidget->currentData(TrackInfo::Publisher).toString();
+//            // Передать данные в виджет поиска.
+//            m_searchWidget->setData(enum SearchString, label);
+//            executeAction(MainWindow::SearchAction);
+        }
+        break;
         case DbViewWidget::SearchArtist :
-            executeAction(MainWindow::SearchAction);
+        {
+          // TODO.
+            // Запрос у просмотрщика данных об артисте.
+//            QString artist = m_dbViewWidget->currentData(TrackInfo::AlbumArtist).toString();
+//            // Передать данные в виджет поиска.
+//            m_searchWidget->setData(enum SearchString, artist);
+//            executeAction(MainWindow::SearchAction);
+        }
         break;
 
         case DbViewWidget::CopyLink :
@@ -385,13 +405,19 @@ void MainWindow::slot_updateUI(int state)
     break;
 
     case MainWindow::SearchingState :
+      m_waitingWidget->start();
       ui->statusBar->showMessage("Идет поиск");
+      m_dbViewWidget->setEnabled(false);
       m_playerWidget->setEnabled(false);
       enableToolBarButtons(false);
     break;
 
     case MainWindow::SearchedState :
+      m_waitingWidget->stop();
+      // Показывает виджет просмотра результата.
+      m_searchResultWidget->show();
       ui->statusBar->showMessage("Поиск завершен");
+      m_dbViewWidget->setEnabled(true);
       m_playerWidget->setEnabled(true);
       enableToolBarButtons(true);
     break;
@@ -403,6 +429,8 @@ void MainWindow::slot_updateUI(int state)
 // Добавляет треки в виджет результатов поиска.
 void MainWindow::slot_addTracks(const QList<TrackInfo> &tracks)
 {
+  qDebug() << "MainWindow::slot_addTracks";
+
   m_searchResultWidget->addTracks(tracks);
 }
 
@@ -434,7 +462,7 @@ DataInput MainWindow::getDataFromWidgets()
   dataInput.setData(DataInput::Filter, m_fetchParametersWidget->getFilter());
   dataInput.setData(DataInput::SingleLoad, m_isSingleLoad);
   dataInput.setData(DataInput::Row, m_dbViewWidget->currentIndex().row());
-  dataInput.setData(DataInput::Search, m_searchWidget->getData());
+  dataInput.setData(DataInput::Search, m_searchWidget->data());
 
   return dataInput;
 }

@@ -81,7 +81,7 @@ signals:
   // Сигнал на изменение состояния программы.
   void signal_stateChanged(int);
   // Сигнал с результирующим списком выделенных треков.
-  void ready(const QList<TrackInfo>&);
+  void signal_ready(const QList<TrackInfo>&);
 
 public slots:
   // Проигрывает трек.

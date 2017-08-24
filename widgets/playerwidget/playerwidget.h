@@ -55,7 +55,7 @@ private:
   QMediaPlayer* m_player;
   QSignalMapper* m_mapper;
 //  RunningString* m_runningString;
-  Ui::PlayerWidgetForm* m_playerUi;
+  Ui::PlayerWidgetForm* ui;
   qint64 m_duration;
   QMap <int, QToolButton*> m_buttons;
 };

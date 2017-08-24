@@ -199,7 +199,7 @@ void Worker::slot_onModulesFinished()
       emit signal_stateChanged(MainWindow::FetchedState);
     else
       emit signal_stateChanged(MainWindow::SearchedState);
-    }
+  }
 }
 
 // Добавляет треки в модель.
@@ -221,7 +221,7 @@ void Worker::handleTracksFromModule(const QList<TrackInfo>& tracks)
         addTracksToModel(tracks);
     break;
 
-    // В случае режима поиска добавляет треки в таблицу результатов поиска.
+    // В случае режима поиска испускает сигнал о готовности треков.
     case MainWindow::SearchingState :
       emit signal_ready(tracks);
     break;

@@ -13,7 +13,8 @@ class SearchWidget : public QWidget
 public:
     explicit SearchWidget(QWidget *parent = 0);
 
-    QVariant getData() const;
+    void setData(const QVariant& data);
+    QVariant data() const;
 
 private slots:
     void setSearchGroupItem(int index);

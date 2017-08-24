@@ -27,7 +27,8 @@ void DbViewModel::add(TrackInfo &track)
   setData(index(0, 6), track.data(TrackInfo::Publisher).toString());
   setData(index(0, 7), track.data(TrackInfo::Date).toString());
 
-  submitAll();
+  if (!submitAll())
+    qDebug() << lastError();
 }
 
 

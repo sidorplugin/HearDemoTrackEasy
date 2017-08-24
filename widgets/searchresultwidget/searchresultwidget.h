@@ -3,15 +3,18 @@
 
 #include "ui_searchresultform.h"
 #include "dataclasses/trackinfo.h"
+#include "searchresultmodel.h"
 
+#include <QCloseEvent>
 #include <QObject>
-#include <QWidget>
+#include <QMainWindow>
 
-class SearchResultWidget : public QWidget
+class SearchResultWidget : public QMainWindow
 {
   Q_OBJECT
 public:
   explicit SearchResultWidget(QWidget *parent = 0);
+  ~SearchResultWidget();
 
 signals:
   // Сигнал с результирующим списком выделенных треков.
@@ -22,12 +25,14 @@ public slots:
   void addTracks(const QList<TrackInfo>& tracks);
 
 private slots:
-  // Обрабатывает выделенные треки в таблице.
-  void handleCheckedTracks();
+  // Проверяет треки модели, формирует список выделенных и отправляет их.
+  void checkTracks();
+  // Отмечает или снимает все флажки у треков.
+  void checkUncheckAllTracks(bool ok);
 
 private:
     Ui::SearchResultForm* ui;
-    QList<TrackInfo> m_tracks;
+    SearchResultModel* m_model;
 
 };
 

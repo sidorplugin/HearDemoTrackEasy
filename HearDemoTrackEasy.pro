@@ -50,7 +50,8 @@ SOURCES += main.cpp\
     validator.cpp \
     widgets/fetchwidget/fetchitemdelegate.cpp \
     widgets/fetchwidget/fetchmodel.cpp \
-    widgets/searchresultwidget/searchresultwidget.cpp
+    widgets/searchresultwidget/searchresultwidget.cpp \
+    widgets/searchresultwidget/searchresultmodel.cpp
 
 HEADERS  += mainwindow.h \
     modules/deejayde/deejaydefetcher.h \
@@ -94,7 +95,8 @@ HEADERS  += mainwindow.h \
     validator.h \
     widgets/fetchwidget/fetchitemdelegate.h \
     widgets/fetchwidget/fetchmodel.h \
-    widgets/searchresultwidget/searchresultwidget.h
+    widgets/searchresultwidget/searchresultwidget.h \
+    widgets/searchresultwidget/searchresultmodel.h
 
 FORMS    += mainwindow.ui \
             playerwidgetform.ui \
