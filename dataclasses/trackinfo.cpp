@@ -31,14 +31,15 @@ QString TrackInfo::keyToString(TrackInfo::Key key) const
 {
     QString name;
     switch (key) {
-        case TrackInfo::Link :        name = "Link";         break;
-        case TrackInfo::Title :       name = "Title";        break;
-        case TrackInfo::Style :       name = "Genre";        break;
-        case TrackInfo::AlbumArtist : name = "Artist";       break;
-        case TrackInfo::AlbumTitle :  name = "Title";        break;
-        case TrackInfo::CatNumber :   name = "Cat";          break;
-        case TrackInfo::Publisher :   name = "Publisher";    break;
-        case TrackInfo::Date :        name = "Date";         break;
+        case TrackInfo::Artist :           name = "Artist";       break;
+        case TrackInfo::Title :            name = "Title";        break;
+        case TrackInfo::Album :            name = "Album";        break;
+        case TrackInfo::Style :            name = "Style";        break;
+        case TrackInfo::Catalog :          name = "Catalog";      break;
+        case TrackInfo::Label :            name = "Label";        break;
+        case TrackInfo::Date :             name = "Date";         break;
+        case TrackInfo::LinkTrack :        name = "LinkTrack";    break;
+        case TrackInfo::LinkImage :        name = "LinkImage";    break;
     }
     return name;
 }

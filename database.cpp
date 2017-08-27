@@ -12,14 +12,15 @@ Database::Database()
   m_model->setTable(TABLE_NAME);
   m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
   m_model->select();
-  m_model->setHeaderData(0, Qt::Horizontal, RU_HEADER_HREF);
-  m_model->setHeaderData(1, Qt::Horizontal, RU_HEADER_TRACK);
-  m_model->setHeaderData(2, Qt::Horizontal, RU_HEADER_GENRE);
-  m_model->setHeaderData(3, Qt::Horizontal, RU_HEADER_ARTIST);
-  m_model->setHeaderData(4, Qt::Horizontal, RU_HEADER_ALBUM);
-  m_model->setHeaderData(5, Qt::Horizontal, RU_HEADER_CATALOG);
-  m_model->setHeaderData(6, Qt::Horizontal, RU_HEADER_LABEL);
-  m_model->setHeaderData(7, Qt::Horizontal, RU_HEADER_DATE);
+  m_model->setHeaderData(0, Qt::Horizontal, RU_HEADER_ARTIST);
+  m_model->setHeaderData(1, Qt::Horizontal, RU_HEADER_TITLE);
+  m_model->setHeaderData(2, Qt::Horizontal, RU_HEADER_ALBUM);
+  m_model->setHeaderData(3, Qt::Horizontal, RU_HEADER_STYLE);
+  m_model->setHeaderData(4, Qt::Horizontal, RU_HEADER_CATALOG);
+  m_model->setHeaderData(5, Qt::Horizontal, RU_HEADER_LABEL);
+  m_model->setHeaderData(6, Qt::Horizontal, RU_HEADER_DATE);
+  m_model->setHeaderData(7, Qt::Horizontal, RU_HEADER_LINK_TRACK);
+  m_model->setHeaderData(8, Qt::Horizontal, RU_HEADER_LINK_IMAGE);
 }
 
 
@@ -62,14 +63,15 @@ QSqlError Database::createTable()
   qDebug() << "Database::createTable";
 
   QSqlQuery query(m_database);
-  if (!query.exec(QLatin1String("CREATE TABLE tracks(href VARCHAR PRIMARY KEY,"
-                                  " track VARCHAR,"
-                                  " style VARCHAR,"
-                                  " artist VARCHAR,"
+  if (!query.exec(QLatin1String("CREATE TABLE tracks(artist VARCHAR,"
+                                  " title VARCHAR,"
                                   " album VARCHAR,"
+                                  " style VARCHAR,"
                                   " catalog VARCHAR,"
                                   " label VARCHAR,"
-                                  " date VARCHAR)")))
+                                  " date VARCHAR,"
+                                  " link_track VARCHAR,"
+                                  " link_image VARCHAR)")))
     return query.lastError();
 
   return QSqlError();

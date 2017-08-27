@@ -13,14 +13,15 @@
 
 const QString TABLE_NAME = "tracks";
 
-const QString RU_HEADER_HREF =    "Ссылка";
-const QString RU_HEADER_TRACK =   "Трек";
-const QString RU_HEADER_GENRE =   "Стиль";
-const QString RU_HEADER_ARTIST =  "Артист";
-const QString RU_HEADER_ALBUM =   "Альбом";
-const QString RU_HEADER_CATALOG = "Каталог";
-const QString RU_HEADER_LABEL =   "Лэйбл";
-const QString RU_HEADER_DATE =    "Дата";
+const QString RU_HEADER_ARTIST =     "Артист";
+const QString RU_HEADER_TITLE =      "Название";
+const QString RU_HEADER_ALBUM =      "Альбом";
+const QString RU_HEADER_STYLE =      "Стиль";
+const QString RU_HEADER_CATALOG =    "Каталог";
+const QString RU_HEADER_LABEL =      "Лэйбл";
+const QString RU_HEADER_DATE =       "Дата";
+const QString RU_HEADER_LINK_TRACK = "Ссылка трек";
+const QString RU_HEADER_LINK_IMAGE = "Ссылка картинка";
 
 class Database
 {
