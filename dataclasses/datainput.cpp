@@ -41,7 +41,9 @@ QString DataInput::keyToString(DataInput::Key key) const
       case DataInput::Genre :         name = "Genre";          break;
       case DataInput::Period :        name = "Period";         break;
       case DataInput::Filter :        name = "Filter";         break;
-      case DataInput::Search :        name = "Search";         break;
+      case DataInput::SearchSource :  name = "SearchSource";   break;
+      case DataInput::SearchGroup :   name = "SearchGroup";    break;
+      case DataInput::SearchText :    name = "SearchText";     break;
       case DataInput::Row :           name = "Row";            break;
       case DataInput::DateStart :     name = "DateStart";      break;
       case DataInput::DateEnd :       name = "DateEnd";        break;
@@ -60,7 +62,9 @@ QString DataInput::keyToRusString(DataInput::Key key) const
       case DataInput::Genre :         name = "Жанр";                   break;
       case DataInput::Period :        name = "Период";                 break;
       case DataInput::Filter :        name = "Фильтр";                 break;
-      case DataInput::Search :        name = "Поиск";                  break;
+      case DataInput::SearchSource :  name = "Поиск-Источник";         break;
+      case DataInput::SearchGroup :   name = "Поиск-Группа";           break;
+      case DataInput::SearchText :    name = "Поиск-Текст";            break;
       case DataInput::Row :           name = "Строка";                 break;
       case DataInput::DateStart :     name = "Выбрать с";              break;
       case DataInput::DateEnd :       name = "Выбрать до";             break;

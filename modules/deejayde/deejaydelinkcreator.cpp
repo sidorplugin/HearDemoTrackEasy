@@ -22,7 +22,7 @@ QString DeejayDeLinkCreator::create(Module::Mode mode, DataInput& input,
         {
             // https://www.deejay.de/moon+harbour/page_1/perpage_160
             // Преобразует строку поиска в запросный вид.
-            QString searchString = input.data(DataInput::Search).toStringList().at(2);
+            QString searchString = input.data(DataInput::SearchText).toStringList().at(2);
             searchString.replace(QString(" "), QString("+"));
             result = address + searchString + "/page_%1/perpage_160";
         }

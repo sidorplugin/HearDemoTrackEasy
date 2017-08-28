@@ -1,15 +1,19 @@
+#include "database.h"
 #include "validator.h"
 #include "mainwindow.h"
 #include "preferences.h"
 #include "ui_mainwindow.h"
 
 #include <QMessageBox>
+#include <QClipboard>
 
 MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent),
                                            ui(new Ui::MainWindow),
                                            m_isSingleLoad(false)
 {
   ui->setupUi(this);
+
+  m_model = Database::getInstance()->model();
 
   createWidgets();
   setConnections();
@@ -88,11 +92,11 @@ void MainWindow::setConnections()
 
   // Реакция на нажатие кнопок Плеера.
   connect(m_playerWidget, SIGNAL(clicked(int)),
-          this, SLOT(slot_onClickedPlayerButtons(int)));
+          this, SLOT(slot_playTrack(int)));
 
   // Обрабатывает сигналы контекстного меню DbViewer'а.
-  connect(m_dbViewWidget, SIGNAL(executeAction(DbViewWidget::Action)),
-          this, SLOT(slot_executeActionContextMenu(DbViewWidget::Action)));
+  connect(m_dbViewWidget, SIGNAL(actionTriggered(int)),
+          this, SLOT(slot_executeActionContextMenu(int)));
 
 }
 
@@ -107,7 +111,7 @@ void MainWindow::setActions()
   m_actions.insert(MainWindow::SearchAction, ui->action_Search);
   m_actions.insert(MainWindow::CancelAction, ui->action_Cancel);
   m_actions.insert(MainWindow::InfoAction, ui->action_Info);
-  m_actions.insert(MainWindow::DeleteAction, ui->action_Delete);
+  m_actions.insert(MainWindow::RemoveAction, ui->action_Remove);
   m_actions.insert(MainWindow::ClearAction, ui->action_Clear);
   m_actions.insert(MainWindow::PreferencesAction, ui->action_Preferences);
   m_actions.insert(MainWindow::ExitAction, ui->action_Exit);
@@ -115,7 +119,7 @@ void MainWindow::setActions()
 
   m_mapper = new QSignalMapper(this);
   connect(m_mapper, SIGNAL(mapped(int)),
-          this, SLOT(executeAction(int)));
+          this, SLOT(slot_executeAction(int)));
 
   QMapIterator <int, QAction*> i(m_actions);
   while (i.hasNext()) {
@@ -128,15 +132,14 @@ void MainWindow::setActions()
 }
 
 
-// Слот реакция на нажатие кнопки Плеера.
-// В зависимости от нажатой кнопки плеера отправляет сигнал с номером
-// строки трека в базе.
-void MainWindow::slot_onClickedPlayerButtons(int button)
+// Проигрывает трек по нажатой кнопке Плеера.
+void MainWindow::slot_playTrack(int button)
 {
-  qDebug() << "MainWindow::slot_onClickedPlayerButtons";
+  qDebug() << "MainWindow::slot_playTrack";
 
   // Получает текущую строку виджета "Просмотрщик треков".
   int row = m_dbViewWidget->currentIndex().row();
+
 
   // Увеличивает значение index при нажатой кнопке "Next".
   if (button == PlayerWidget::NextButton)
@@ -150,18 +153,13 @@ void MainWindow::slot_onClickedPlayerButtons(int button)
   // Устанавливает index текущей строкой в виджете "Просмотрщик треков".
   m_dbViewWidget->selectRow(row);
 
-  emit signal_play(row);
-}
-
-
-// Проигрывает трек.
-void MainWindow::slot_play(TrackInfo& track)
-{
+  TrackInfo track = m_model->getTrackInfo(row);
   m_playerWidget->play(track);
 }
 
 
-void MainWindow::executeAction(int action)
+// Обрабатывает действие главного окна.
+void MainWindow::slot_executeAction(int action)
 {
   switch (action) {
     case MainWindow::FetchAction:
@@ -220,7 +218,7 @@ void MainWindow::executeAction(int action)
           setState(MainWindow::SearchingState);
           m_searchResultWidget = new SearchResultWidget(this);
           m_searchResultWidget->setWindowTitle(QString("Результаты поиска ""\"%1""\"")
-               .arg(dataInput.data(DataInput::Search).toStringList().at(2)));
+               .arg(dataInput.data(DataInput::SearchText).toStringList().at(2)));
 
           connect(m_searchResultWidget, SIGNAL(ready(QList<TrackInfo>)),
                   this, SIGNAL(signal_ready(QList<TrackInfo>)));
@@ -252,9 +250,9 @@ void MainWindow::executeAction(int action)
     }
     break;
 
-    case MainWindow::DeleteAction:
+    case MainWindow::RemoveAction:
     {
-      qDebug() << "MainWindow::DeleteAction";
+      qDebug() << "MainWindow::RemoveAction";
 
       // Выдает запрос на подтверждение удаления выделенной записи из БД.
       int result = QMessageBox::question(this, "Удаление выделенной записи БД.",
@@ -262,7 +260,8 @@ void MainWindow::executeAction(int action)
 
       if (result == QMessageBox::Yes) {
           int row = m_dbViewWidget->currentIndex().row();
-          emit signal_removeTrack(row);
+          TrackInfo track = m_model->getTrackInfo(row);
+          m_model->remove(track);
       }
     }
     break;
@@ -274,7 +273,7 @@ void MainWindow::executeAction(int action)
                               "Вы уверены что хотите удалить все записи из БД?");
 
         if (result == QMessageBox::Yes) {
-            emit signal_clearDatabase();
+            m_model->remove();
         }
     }
     break;
@@ -304,53 +303,67 @@ void MainWindow::slot_pageFetched(int count, int total)
 }
 
 
-// Обрабатывает задачу action для строки row поступившую от виджета DbView.
-void MainWindow::slot_executeActionContextMenu(DbViewWidget::Action action)
+// Обрабатывает действие action контекстного меню.
+void MainWindow::slot_executeActionContextMenu(int action)
 {
    // Получает текущую строку виджета "Просмотрщик треков".
    int row = m_dbViewWidget->currentIndex().row();
    // В зависимости от action обрабатывает задачу.
     switch (action) {
         case DbViewWidget::Play :
-            slot_onClickedPlayerButtons(PlayerWidget::PlayButton);
+            slot_playTrack(PlayerWidget::PlayButton);
         break;
 
         case DbViewWidget::Load :
             m_isSingleLoad = true;
-            executeAction(MainWindow::LoadAction);
+            slot_executeAction(MainWindow::LoadAction);
         break;
 
         case DbViewWidget::SearchLabel :
         {
-          // TODO.
             // Запрос у просмотрщика данных о лэйбле.
-//            QString label = m_dbViewWidget->currentData(TrackInfo::Publisher).toString();
-//            // Передать данные в виджет поиска.
-//            m_searchWidget->setData(enum SearchString, label);
-//            executeAction(MainWindow::SearchAction);
+            TrackInfo track = m_model->getTrackInfo(row);
+            QString label = track.data(TrackInfo::Label).toString();
+            // Передать данные в виджет поиска.
+//            m_searchWidget->setData(SearchWidget::Source, source);
+//            m_searchWidget->setData(SearchWidget::Group, group);
+//            m_searchWidget->setData(SearchWidget::Text, label);
+//            slot_executeAction(MainWindow::SearchAction);
         }
         break;
         case DbViewWidget::SearchArtist :
         {
-          // TODO.
             // Запрос у просмотрщика данных об артисте.
-//            QString artist = m_dbViewWidget->currentData(TrackInfo::AlbumArtist).toString();
-//            // Передать данные в виджет поиска.
-//            m_searchWidget->setData(enum SearchString, artist);
-//            executeAction(MainWindow::SearchAction);
+            TrackInfo track = m_model->getTrackInfo(row);
+            QString artist = track.data(TrackInfo::Artist).toString();
+            // Передать данные в виджет поиска.
+//            m_searchWidget->setData(SearchWidget::Source, source);
+//            m_searchWidget->setData(SearchWidget::Group, group);
+//            m_searchWidget->setData(SearchWidget::Text, label);
+//            slot_executeAction(MainWindow::SearchAction);
         }
         break;
 
         case DbViewWidget::CopyLink :
-            emit signal_copyLink(row);
+        {
+            TrackInfo track = m_model->getTrackInfo(row);
+            QString bufferText = track.data(TrackInfo::LinkTrack).toString();
+            QApplication::clipboard()->setText(bufferText);
+        }
         break;
 
         case DbViewWidget::CopyTitle :
-          emit signal_copyTitle(row);
+        {
+          TrackInfo track = m_model->getTrackInfo(row);
+          QString artist = track.data(TrackInfo::Artist).toString();
+          QString title = track.data(TrackInfo::Title).toString();
+          QString bufferText = artist + " - " + title;
+          QApplication::clipboard()->setText(bufferText);
+        }
         break;
 
         case DbViewWidget::Remove :
-            executeAction(MainWindow::DeleteAction);
+            slot_executeAction(MainWindow::RemoveAction);
         break;
 
     }
@@ -462,7 +475,11 @@ DataInput MainWindow::getDataFromWidgets()
   dataInput.setData(DataInput::Filter, m_fetchParametersWidget->getFilter());
   dataInput.setData(DataInput::SingleLoad, m_isSingleLoad);
   dataInput.setData(DataInput::Row, m_dbViewWidget->currentIndex().row());
-  dataInput.setData(DataInput::Search, m_searchWidget->data());
-
+  dataInput.setData(DataInput::SearchSource,
+                    m_searchWidget->data(SearchWidget::Source).toString());
+  dataInput.setData(DataInput::SearchGroup,
+                    m_searchWidget->data(SearchWidget::Group).toString());
+  dataInput.setData(DataInput::SearchText,
+                    m_searchWidget->data(SearchWidget::Text).toString());
   return dataInput;
 }

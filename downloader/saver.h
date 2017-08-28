@@ -24,12 +24,10 @@ signals:
     void saved(TrackInfo&);
 
 private:
-    // Возвращает путь к файлу.
-    QString getPath(TrackInfo& track, const QString& root);
-    // Возвращает тэг.
-    QByteArray getTag(TrackInfo& track);
-    // Возвращает код жанра.
-    int codeGenre(const QString& genre);
+    // Строит путь сохранения файла.
+    QString buildSavePath(TrackInfo& track, const QString& root);
+    // Создает тэг.
+    QByteArray createTag(TrackInfo& track);
     // Возвращает валидное имя файла.
     QString getValidFileName(const QString& name);
 

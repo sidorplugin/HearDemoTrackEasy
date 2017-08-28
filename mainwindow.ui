@@ -167,7 +167,7 @@
     <addaction name="action_Cancel"/>
     <addaction name="separator"/>
     <addaction name="action_Clear"/>
-    <addaction name="action_Delete"/>
+    <addaction name="action_Remove"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -283,7 +283,7 @@
     <string>Очистить БД</string>
    </property>
   </action>
-  <action name="action_Delete">
+  <action name="action_Remove">
    <property name="icon">
     <iconset resource="resources/resources.qrc">
      <normaloff>:/images_ui/images/delete.png</normaloff>:/images_ui/images/delete.png</iconset>
@@ -293,15 +293,6 @@
    </property>
    <property name="toolTip">
     <string>Удалить строку</string>
-   </property>
-  </action>
-  <action name="action_FailedLoads">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/images_ui/images/failFace.png</normaloff>:/images_ui/images/failFace.png</iconset>
-   </property>
-   <property name="text">
-    <string>Неудачная загрузка...</string>
    </property>
   </action>
   <action name="action_Fetch">

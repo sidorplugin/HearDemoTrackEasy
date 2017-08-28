@@ -5,9 +5,10 @@
 SearchResultModel::SearchResultModel()
 {
   // Создает заголовки модели.
-  for (int i = SearchResultModel::CheckItem; i <= SearchResultModel::DateItem; ++i) {
+  for (int i = TrackInfo::Artist; i <= TrackInfo::LinkImage; ++i) {
     setHorizontalHeaderItem(i, new QStandardItem(name(i)));
   }
+  setHeaderData(0, Qt::Horizontal, false,  Qt::CheckStateRole);
 }
 
 
@@ -15,37 +16,13 @@ SearchResultModel::SearchResultModel()
 void SearchResultModel::add(TrackInfo &track)
 {
   insertRow(0);
-  setData(index(0, SearchResultModel::CheckItem), false, Qt::CheckStateRole);
-  item(0, SearchResultModel::CheckItem)->setCheckable(true);
+  setData(index(0, TrackInfo::Artist), false, Qt::CheckStateRole);
+  item(0, TrackInfo::Artist)->setCheckable(true);
 
-  setData(index(0, SearchResultModel::ArtistItem),
-                   track.data(TrackInfo::AlbumArtist).toString());
-
-  setData(index(0, SearchResultModel::TitleItem),
-                   track.data(TrackInfo::Title).toString());
-
-  setData(index(0, SearchResultModel::AlbumItem),
-                   track.data(TrackInfo::AlbumTitle).toString());
-
-  setData(index(0, SearchResultModel::GenreItem),
-                   track.data(TrackInfo::Style).toString());
-
-  setData(index(0, SearchResultModel::LinkItem),
-                   track.data(TrackInfo::Link).toString());
-
-  setData(index(0, SearchResultModel::CatalogItem),
-                   track.data(TrackInfo::CatNumber).toString());
-
-  setData(index(0, SearchResultModel::PublisherItem),
-                   track.data(TrackInfo::Publisher).toString());
-
-  setData(index(0, SearchResultModel::DateItem),
-                   track.data(TrackInfo::Date).toString());
-
-  for (int i = SearchResultModel::CheckItem; i <= SearchResultModel::DateItem; ++i) {
-    item(0, i)->setEditable(false);
+  for (int i = TrackInfo::Artist; i <= TrackInfo::LinkImage; ++i) {
+      setData(index(0, i), track.data(i).toString());
+      item(0, i)->setEditable(false);
   }
-
 }
 
 
@@ -53,26 +30,28 @@ void SearchResultModel::add(TrackInfo &track)
 TrackInfo SearchResultModel::getTrackInfo(int row)
 {
   // Считывает запись из модели по index.
-  QString artist = data(index(row, SearchResultModel::ArtistItem))   .toString();
-  QString title =  data(index(row, SearchResultModel::TitleItem))    .toString();
-  QString album =  data(index(row, SearchResultModel::AlbumItem))    .toString();
-  QString link =   data(index(row, SearchResultModel::LinkItem))     .toString();
-  QString genre =  data(index(row, SearchResultModel::GenreItem))    .toString();
-  QString cat =    data(index(row, SearchResultModel::CatalogItem))  .toString();
-  QString pub =    data(index(row, SearchResultModel::PublisherItem)).toString();
-  QString date =   data(index(row, SearchResultModel::DateItem))     .toString();
+  QString artist =    data(index(row, TrackInfo::Artist))   .toString();
+  QString title =     data(index(row, TrackInfo::Title))    .toString();
+  QString album =     data(index(row, TrackInfo::Album))    .toString();
+  QString style =     data(index(row, TrackInfo::Style))    .toString();
+  QString catalog =   data(index(row, TrackInfo::Catalog))  .toString();
+  QString label =     data(index(row, TrackInfo::Label))    .toString();
+  QString date =      data(index(row, TrackInfo::Date))     .toString();
+  QString linkTrack = data(index(row, TrackInfo::LinkTrack)).toString();
+  QString linkImage = data(index(row, TrackInfo::LinkImage)).toString();
 
   // С помощью определенного ранее индекса получает доступ к данным модели.
   // Заполняет ими структуру TrackInfo.
   TrackInfo track;
-  track.setData(TrackInfo::Link,        link);
-  track.setData(TrackInfo::Title,       title);
-  track.setData(TrackInfo::Style,       genre);
-  track.setData(TrackInfo::AlbumArtist, artist);
-  track.setData(TrackInfo::AlbumTitle,  album);
-  track.setData(TrackInfo::CatNumber,   cat);
-  track.setData(TrackInfo::Publisher,   pub);
-  track.setData(TrackInfo::Date,        date);
+  track.setData(TrackInfo::Artist,    artist);
+  track.setData(TrackInfo::Title,     title);
+  track.setData(TrackInfo::Album,     album);
+  track.setData(TrackInfo::Style,     style);
+  track.setData(TrackInfo::Catalog,   catalog);
+  track.setData(TrackInfo::Label,     label);
+  track.setData(TrackInfo::Date,      date);
+  track.setData(TrackInfo::LinkTrack, linkTrack);
+  track.setData(TrackInfo::LinkImage, linkImage);
 
   return track;
 }
@@ -81,8 +60,7 @@ TrackInfo SearchResultModel::getTrackInfo(int row)
 // Возвращает true если элемент в строке row выделен.
 bool SearchResultModel::isCheckedState(int row)
 {
-  return data(index(row, SearchResultModel::CheckItem),
-                                        Qt::CheckStateRole).toBool();
+  return data(index(row, TrackInfo::Artist), Qt::CheckStateRole).toBool();
 }
 
 
@@ -92,15 +70,15 @@ QString SearchResultModel::name(int key)
   QString name;
 
   switch (key) {
-    case SearchResultModel::CheckItem :     name = "";               break;
-    case SearchResultModel::LinkItem :      name = "Ссылка";         break;
-    case SearchResultModel::TitleItem :     name = "Название";       break;
-    case SearchResultModel::GenreItem :     name = "Жанр";           break;
-    case SearchResultModel::ArtistItem :    name = "Артист";         break;
-    case SearchResultModel::AlbumItem :     name = "Альбом";         break;
-    case SearchResultModel::CatalogItem :   name = "Каталог";        break;
-    case SearchResultModel::PublisherItem : name = "Лэйбл";          break;
-    case SearchResultModel::DateItem :      name = "Дата";           break;
+    case TrackInfo::Artist :      name = "Артист";             break;
+    case TrackInfo::Title :       name = "Название";           break;
+    case TrackInfo::Album :       name = "Альбом";             break;
+    case TrackInfo::Style :       name = "Стиль";              break;
+    case TrackInfo::Catalog :     name = "Каталог";            break;
+    case TrackInfo::Label :       name = "Лэйбл";              break;
+    case TrackInfo::Date :        name = "Дата";               break;
+    case TrackInfo::LinkTrack :   name = "Ссылка Трек";        break;
+    case TrackInfo::LinkImage :   name = "Ссылка Изображение"; break;
   }
 
   return name;

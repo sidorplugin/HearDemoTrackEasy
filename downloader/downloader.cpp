@@ -82,9 +82,9 @@ void Downloader::load(TrackInfo &track)
            << track.data(TrackInfo::Title).toString();
 
   // Сохраняет инфо о треке в таблице.
-  m_tracksData.insert(track.data(TrackInfo::Link).toString(), track);
+  m_tracksData.insert(track.data(TrackInfo::LinkTrack).toString(), track);
   // Отправляет задание "Обработчику".
-  m_handler->load(track.data(TrackInfo::Link).toString());
+  m_handler->load(track.data(TrackInfo::LinkTrack).toString());
   // Увеличивает индекс на 1, указывающий на следующую запись для загрузки.
   m_indexNextTrack++;
 
@@ -144,7 +144,7 @@ void Downloader::on_readyReply(const QString &href, QNetworkReply* reply)
 // Слот-реакция на сигнал от "Сохранителя" об успешности сохранения.
 void Downloader::on_saved(TrackInfo &track)
 {
-  qDebug() << "Downloader::on_saved()" << track.data(TrackInfo::Link).toString();
+  qDebug() << "Downloader::on_saved()" << track.data(TrackInfo::LinkTrack).toString();
 
   // Удаляет из БД запись.
   m_model->remove(track);

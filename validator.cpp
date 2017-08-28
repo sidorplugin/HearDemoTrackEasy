@@ -23,7 +23,7 @@ bool Validator::verify(int action, DataInput &input)
 
     case MainWindow::SearchAction :
     {
-      QString searchString = input.data(DataInput::Search).toStringList().at(2);
+      QString searchString = input.data(DataInput::SearchText).toString();
       if (!searchString.isEmpty())
         result = true;
     }

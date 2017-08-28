@@ -7,9 +7,6 @@ PlayerWidget::PlayerWidget(QWidget *parent) : QWidget(parent)
   ui = new Ui::PlayerWidgetForm;
   ui->setupUi(this);
 
-//  m_runningString = new RunningString(this);
-//  ui->verticalLayout->addWidget(m_runningString);
-
   // Устанавливает фильтр событий на слайдеры для реализации перемещения.
   ui->slider_Rewind->installEventFilter(this);
   ui->slider_Volume->installEventFilter(this);
@@ -63,17 +60,13 @@ PlayerWidget::~PlayerWidget()
 // Воспроизводит трек.
 void PlayerWidget::play(TrackInfo& track)
 {
-  m_player->setMedia(QUrl(track.data(TrackInfo::Link).toString()));
+  m_player->setMedia(QUrl(track.data(TrackInfo::LinkTrack).toString()));
   m_player->setVolume(ui->slider_Volume->value());
   m_player->play();
 
-//  m_runningString->setText(
-//          track.data(TrackInfo::AlbumArtist).toString() + " - " +
-//          track.data(TrackInfo::Title).toString());
-
   // Отображает информацию о треке в виджете.
   ui->label_TrackInfo->setText(
-                       track.data(TrackInfo::AlbumArtist).toString() + " - " +
+                       track.data(TrackInfo::Artist).toString() + " - " +
                        track.data(TrackInfo::Title).toString());
 }
 

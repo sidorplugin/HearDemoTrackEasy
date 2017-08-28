@@ -4,6 +4,7 @@
 #include "dataclasses/datainput.h"
 #include "widgets/waitingwidget/waitingwidget.h"
 #include "widgets/dbviewwidget/dbviewitemdelegate.h"
+#include "widgets/dbviewwidget/dbviewmodel.h"
 #include "widgets/dbviewwidget/dbviewwidget.h"
 #include "widgets/fetchwidget/fetchwidget.h"
 #include "widgets/playerwidget/playerwidget.h"
@@ -27,7 +28,7 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  // Состояние программы.
+  // Состояние интерфейса.
   enum State {
     ReadyState,              // Готов.
     WaitingState,            // Ожидание.
@@ -47,7 +48,7 @@ public:
     SearchAction,
     CancelAction,
     InfoAction,
-    DeleteAction,
+    RemoveAction,
     ClearAction,
     PreferencesAction,
     ExitAction
@@ -68,33 +69,18 @@ signals:
   void signal_search(DataInput&);
   // Сигнал на отмену действия.
   void signal_cancel();
-  // Сигнал на удаление текущего трека.
-  void signal_removeTrack(int);
-  // Сигнал на очищение БД.
-  void signal_clearDatabase();
-  // Сигнал запрос на получение инфо о треке по номеру строки.
-  void signal_play(int row);
-  // Сигнал на копирование ссылки трека.
-  void signal_copyLink(int row);
-  // Сигнал на копирование названия трека.
-  void signal_copyTitle(int row);
   // Сигнал на изменение состояния программы.
   void signal_stateChanged(int);
   // Сигнал с результирующим списком выделенных треков.
   void signal_ready(const QList<TrackInfo>&);
 
-public slots:
-  // Проигрывает трек.
-  void slot_play(TrackInfo& track);
-
-
 private slots:
-  //
-  void executeAction(int action);
-  // Обрабатывает задачу action для строки row поступившую от виджета DbView.
-  void slot_executeActionContextMenu(DbViewWidget::Action action);
-  // Слот реакция на нажатие кнопки Плеера.
-  void slot_onClickedPlayerButtons(int button);
+  // Обрабатывает действие главного окна.
+  void slot_executeAction(int action);
+  // Обрабатывает действие контекстного меню.
+  void slot_executeActionContextMenu(int action);
+  // Проигрывает трек по нажатой кнопке Плеера.
+  void slot_playTrack(int button);
   // Показывает количество выбранных страниц (текущее, всего).
   void slot_pageFetched(int count, int total);
   // Устанавливает состояние программы.
@@ -122,6 +108,8 @@ private:
   int m_state;                         // Состояние программы.
   bool m_isSingleLoad;                 // Одиночная загрузка или нет.
 
+
+  DbViewModel* m_model;
   WaitingWidget* m_waitingWidget;      // Виджет ожидания.
   FetchWidget* m_fetchParametersWidget; // Виджет параметров выборки.
   DbViewWidget* m_dbViewWidget;        // Виджет "Просмотрщик БД".

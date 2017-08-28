@@ -37,7 +37,7 @@ DbViewWidget::DbViewWidget(QWidget* parent)
     // По получению сигнала от QSignalMapper с id действия, запускает слот
     // отправления сигнала на выполнение действия.
     connect(m_signalMapper, SIGNAL(mapped(int)),
-            this, SLOT(sendAction(int)));
+            this, SIGNAL(actionTriggered(int)));
 
     // Создает и настраивает прогрессбар делегат для первой ячейки таблицы.
     m_delegate = new DbViewItemDelegate;
@@ -60,7 +60,7 @@ DbViewWidget::DbViewWidget(QWidget* parent)
 
     // Подключает СЛОТ вызова контекстного меню.
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(on_customContextMenuRequested(QPoint)));
+            this, SLOT(createContextMenu(QPoint)));
 
 }
 
@@ -78,8 +78,8 @@ void DbViewWidget::setState(int state)
 }
 
 
-// Вызов контекстного меню.
-void DbViewWidget::on_customContextMenuRequested(QPoint position)
+// Создает контекстное меню.
+void DbViewWidget::createContextMenu(QPoint position)
 {
   // Создаем объект контекстного меню.
   QMenu* menu = new QMenu(this);
@@ -101,13 +101,6 @@ void DbViewWidget::on_customContextMenuRequested(QPoint position)
 
   // Вызываем контекстное меню.
   menu->popup(viewport()->mapToGlobal(position));
-}
-
-
-// Отправляет сигнал на выполнение действия.
-void DbViewWidget::sendAction(int id)
-{
-  emit executeAction(m_actionIdList.at(id));
 }
 
 

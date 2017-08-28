@@ -185,13 +185,14 @@ void JunoFetcher::handleElement(const QWebElement &element)
 
   for(int i = 0; i < trackList.size(); i = i + 2) {
       TrackInfo track;
-      track.setData(TrackInfo::Link, trackList.at(i));
+      track.setData(TrackInfo::LinkTrack, trackList.at(i));
       track.setData(TrackInfo::Title, trackList.at(i + 1));
-      track.setData(TrackInfo::AlbumArtist, artist);
-      track.setData(TrackInfo::AlbumTitle, album);
-      track.setData(TrackInfo::CatNumber, catNumber);
-      track.setData(TrackInfo::Publisher, label);
+      track.setData(TrackInfo::Artist, artist);
+      track.setData(TrackInfo::Album, album);
+      track.setData(TrackInfo::Catalog, catNumber);
+      track.setData(TrackInfo::Label, label);
       track.setData(TrackInfo::Date, date);
+//      track.setData(TrackInfo::LinkImage, );
 
       p_d->trackDataList.push_back(track);
   }

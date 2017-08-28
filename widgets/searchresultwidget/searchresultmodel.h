@@ -9,18 +9,6 @@
 class SearchResultModel : public QStandardItemModel
 {
 public:
-  enum Items {
-    CheckItem,
-    ArtistItem,
-    TitleItem,
-    AlbumItem,
-    GenreItem,
-    LinkItem,
-    CatalogItem,
-    PublisherItem,
-    DateItem
-  };
-
   SearchResultModel();
 
   // Добавляет трек в модель.

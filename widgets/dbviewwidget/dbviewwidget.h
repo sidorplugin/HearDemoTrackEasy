@@ -30,14 +30,12 @@ public slots:
   void setState(int state);
 
 signals:
-  // Сигнал на выполнение действия action.
-  void executeAction(DbViewWidget::Action action);
+  // Активировано действие.
+  void actionTriggered(int action);
 
 private slots:
-  // Вызов контекстного меню.
-  void on_customContextMenuRequested(QPoint position);
-  // Отправляет сигнал на выполнение действия.
-  void sendAction(int id);
+  // Создает контекстное меню.
+  void createContextMenu(QPoint position);
 
 private:
   // Создает действие для контекстного меню.

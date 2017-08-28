@@ -17,23 +17,23 @@ public:
   // Получает число треков в альбоме.
   int getCountTracks(const QString& str);
   // Возвращает заголовок группы релизов "Выпуски от dd.MM.yyyy".
-  QDate getDateReleaseGroup(const QWebElement &element);
+  QDate getDateGroup(const QWebElement &element);
   // Возвращает ссылку на изображение релиза.
-  QString getPicLinkRelease(const QWebElement &element);
+  QString getLinkImage(const QWebElement &element);
   // Возвращает true если ссылка правильная.
-  bool validatePicLinkRelease(const QString& link);
+  bool validateLinkImage(const QString& link);
 
 
   // Возвращает дату релиза.
-  QDate getDateRelease(const QWebElement &element);
+  QDate getDate(const QWebElement &element);
   // Возвращает артиста.
   QString getArtist(const QWebElement &element);
   // Возвращает название релиза.
-  QString getTitle(const QWebElement &element);
+  QString getTitleRelease(const QWebElement &element);
   // Возвращает лэйбл.
   QString getLabel(const QWebElement &element);
   // Возвращает номер по каталогу.
-  QString getCatNumber(const QWebElement &element);
+  QString getCatalog(const QWebElement &element);
   // Возвращает ссылку на релиз.
   QString getLinkRelease(const QWebElement &element);
   // Возвращает стиль релиза.
@@ -44,7 +44,7 @@ public:
   QString getLinkTrack(const QWebElement &element,
                        const QString& params = QString());
   // Возвращает название трека.
-  QString getTitleTrack(const QWebElement &element);
+  QString getTitle(const QWebElement &element);
   // Возвращает треклист.
   QStringList getTrackList(const QWebElement& element,
                            const QString& params = QString());
@@ -69,7 +69,7 @@ int DeejayDeFetcherPrivate::getCountTracks(const QString& str)
 
 
 // Возвращает заголовок группы релизов "Выпуски от dd.MM.yyyy".
-QDate DeejayDeFetcherPrivate::getDateReleaseGroup(const QWebElement &element)
+QDate DeejayDeFetcherPrivate::getDateGroup(const QWebElement &element)
 {
   if (element.hasClass("news")) {
     QString date = element.findFirst("b").toInnerXml();
@@ -81,14 +81,14 @@ QDate DeejayDeFetcherPrivate::getDateReleaseGroup(const QWebElement &element)
 
 
 // Возвращает ссылку на изображение релиза.
-QString DeejayDeFetcherPrivate::getPicLinkRelease(const QWebElement &element)
+QString DeejayDeFetcherPrivate::getLinkImage(const QWebElement &element)
 {
   QWebElement linkElement = element.findFirst("div.img.img1 a.zoom.noMod");
   if (linkElement.isNull())
     linkElement = element.findFirst("div.img.img1 a.noMod");
 
   QString href = linkElement.attribute("href");
-  if (validatePicLinkRelease(href))
+  if (validateLinkImage(href))
     return href;
   else
     return QString();
@@ -96,7 +96,7 @@ QString DeejayDeFetcherPrivate::getPicLinkRelease(const QWebElement &element)
 
 
 // Возвращает true если ссылка правильная.
-bool DeejayDeFetcherPrivate::validatePicLinkRelease(const QString &link)
+bool DeejayDeFetcherPrivate::validateLinkImage(const QString &link)
 {
   // Если путь к изображению не подходящий.
   if (link.section("/", -3).isEmpty()) {
@@ -109,7 +109,7 @@ bool DeejayDeFetcherPrivate::validatePicLinkRelease(const QString &link)
 
 
 // Возвращает дату релиза.
-QDate DeejayDeFetcherPrivate::getDateRelease(const QWebElement &element)
+QDate DeejayDeFetcherPrivate::getDate(const QWebElement &element)
 {
   QWebElement dateElement = element.findFirst("div.date");
    QString dateString = dateElement.toPlainText();
@@ -126,7 +126,7 @@ QString DeejayDeFetcherPrivate::getArtist(const QWebElement &element)
 
 
 // Возвращает название релиза.
-QString DeejayDeFetcherPrivate::getTitle(const QWebElement &element)
+QString DeejayDeFetcherPrivate::getTitleRelease(const QWebElement &element)
 {
   QWebElement titleElement = element.findFirst("h3.title a");
   return titleElement.toInnerXml().replace("&amp;", "&").replace("\"", "");
@@ -143,7 +143,7 @@ QString DeejayDeFetcherPrivate::getLabel(const QWebElement &element)
 
 
 // Возвращает номер по каталогу.
-QString DeejayDeFetcherPrivate::getCatNumber(const QWebElement &element)
+QString DeejayDeFetcherPrivate::getCatalog(const QWebElement &element)
 {
   QWebElement labelElement = element.findFirst("div.label");
   return labelElement.firstChild().toInnerXml();
@@ -193,7 +193,7 @@ QString DeejayDeFetcherPrivate::getLinkTrack(const QWebElement &element,
 
 
 // Возвращает название трека.
-QString DeejayDeFetcherPrivate::getTitleTrack(const QWebElement &element)
+QString DeejayDeFetcherPrivate::getTitle(const QWebElement &element)
 {
   QString innerXml = element.toInnerXml();
   // Очищает строку от ненужных символов.
@@ -220,7 +220,7 @@ QStringList DeejayDeFetcherPrivate::getTrackList(const QWebElement &element,
   QStringList list;
   foreach (QWebElement linkElement, linksCollection) {
     QString hrefMp3 = getLinkTrack(linkElement, params);
-    QString titleTrack = getTitleTrack(linkElement);
+    QString titleTrack = getTitle(linkElement);
     list << hrefMp3 << titleTrack;
     result << list;
     list.clear();
@@ -318,9 +318,9 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
   // Если в альбоме не больше 4 треков.
   else {
       // Проверяет заголовок группы текущей даты релиза "Выпуски от dd.MM.yyyy".
-      p_d->releaseDate = p_d->getDateReleaseGroup(element.previousSibling());
+      p_d->releaseDate = p_d->getDateGroup(element.previousSibling());
       // Определяет дату релиза.
-      QDate date = p_d->getDateRelease(element);
+      QDate date = p_d->getDate(element);
 
       // Если дата в релизе не указана, присваивает дату заголовка.
       if (!date.isValid()) {
@@ -329,29 +329,30 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
       }
 
       QString artist = p_d->getArtist(element);
-      QString album = p_d->getTitle(element);
+      QString album = p_d->getTitleRelease(element);
       QString label = p_d->getLabel(element);
-      QString catNumber = p_d->getCatNumber(element);
-      QString picLink = p_d->getPicLinkRelease(element);
+      QString catNumber = p_d->getCatalog(element);
+      QString linkImage = p_d->getLinkImage(element);
       QString style = p_d->getStyle(element);
 
-      if (picLink.isEmpty()) {
+      if (linkImage.isEmpty()) {
         p_d->linkRelease = p_d->getLinkRelease(element);
         return;
       }
 
-      QStringList trackList = p_d->getTrackList(element, picLink);
+      QStringList trackList = p_d->getTrackList(element, linkImage);
 
       for (int i = 0; i < trackList.size(); i = i + 2) {
           TrackInfo track;
-          track.setData(TrackInfo::Link, trackList.at(i));
+          track.setData(TrackInfo::LinkTrack, trackList.at(i));
           track.setData(TrackInfo::Title, trackList.at(i + 1));
           track.setData(TrackInfo::Style, style);
-          track.setData(TrackInfo::AlbumArtist, artist);
-          track.setData(TrackInfo::AlbumTitle, album);
-          track.setData(TrackInfo::CatNumber, catNumber);
-          track.setData(TrackInfo::Publisher, label);
+          track.setData(TrackInfo::Artist, artist);
+          track.setData(TrackInfo::Album, album);
+          track.setData(TrackInfo::Catalog, catNumber);
+          track.setData(TrackInfo::Label, label);
           track.setData(TrackInfo::Date, date);
+          track.setData(TrackInfo::LinkImage, linkImage);
 
           p_d->trackDataList.push_back(track);
       }

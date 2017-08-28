@@ -13,7 +13,7 @@ SearchResultWidget::SearchResultWidget(QWidget *parent) : QMainWindow(parent)
   ui->tableView->setModel(m_model);
   ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
   ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-  ui->tableView->setColumnHidden(5, true);
+//  ui->tableView->setColumnHidden(5, true);
   ui->tableView->verticalHeader()->setDefaultSectionSize(21);
   ui->tableView->setCornerButtonEnabled(false);
 

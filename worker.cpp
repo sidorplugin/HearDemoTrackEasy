@@ -1,5 +1,3 @@
-#include <QClipboard>
-
 #include "worker.h"
 #include "database.h"
 
@@ -89,15 +87,6 @@ void Worker::slot_load(DataInput &input)
 }
 
 
-// Проигрывает трек.
-void Worker::slot_play(int row)
-{
-  qDebug() << "Worker::slot_play()";
-  TrackInfo track = m_model->getTrackInfo(row);
-  emit signal_play(track);
-}
-
-
 // Стартует поиск.
 void Worker::slot_search(DataInput &input)
 {
@@ -106,8 +95,7 @@ void Worker::slot_search(DataInput &input)
   m_input = input;
 
   // Проверяет в каком модуле необходимо выполнять поиск.
-  QStringList searchInfo = input.data(DataInput::Search).toStringList();
-  QString source = searchInfo.at(0);
+  QString source = input.data(DataInput::SearchSource).toString();
   if (source == "All") {
     QList <Module*> modules = m_modules.values();
     foreach (Module* module, modules) {
@@ -139,41 +127,6 @@ void Worker::slot_cancel()
         m_downloader->stop();
     break;
     }
-}
-
-
-// Удаляет трек из базы.
-void Worker::slot_removeTrack(int row)
-{
-  TrackInfo track = m_model->getTrackInfo(row);
-  m_model->remove(track);
-}
-
-
-// Очищает базу треков.
-void Worker::slot_clearDatabase()
-{
-    m_model->remove();
-}
-
-
-// Копирует ссылку трека в буфер.
-void Worker::slot_copyLink(int row)
-{
-    TrackInfo track = m_model->getTrackInfo(row);
-    QString bufferText = track.data(TrackInfo::Link).toString();
-    QApplication::clipboard()->setText(bufferText);
-}
-
-
-// Копирует название трека в буфер.
-void Worker::slot_copyTitle(int row)
-{
-  TrackInfo track = m_model->getTrackInfo(row);
-  QString artist = track.data(TrackInfo::AlbumArtist).toString();
-  QString title = track.data(TrackInfo::Title).toString();
-  QString bufferText = artist + " - " + title;
-  QApplication::clipboard()->setText(bufferText);
 }
 
 

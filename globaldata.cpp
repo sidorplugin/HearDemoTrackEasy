@@ -125,3 +125,5 @@ ModuleParameters GlobalData::readFromXmlFile(const QString &fileName)
   parameters.push_back(result);
   return result;
 }
+
+

@@ -25,25 +25,15 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent)
 
 }
 
-void SearchWidget::setData(const QVariant &data)
+void SearchWidget::setData(int key, const QVariant &value)
 {
-  QStringList list = data.toStringList();
-  ui->comboBox_Source->setCurrentText(list.at(0));
-  ui->comboBox_Group->setCurrentText(list.at(1));
-  ui->lineEdit->setText(list.at(2));
+  m_data.insert(key, value);
 }
 
-
-QVariant SearchWidget::data() const
+QVariant SearchWidget::data(int key) const
 {
-  QStringList data;
-  data << ui->comboBox_Source->currentText() <<
-          ui->comboBox_Group->currentText() <<
-          ui->lineEdit->text();
-
-  return data;
+  return m_data.value(key);
 }
-
 
 void SearchWidget::setSearchGroupItem(int index)
 {

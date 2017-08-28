@@ -37,20 +37,10 @@ public slots:
   void slot_fetch(DataInput& input);
   // Загружает треки.
   void slot_load(DataInput& input);
-  // Проигрывает трек.
-  void slot_play(int row);
   // Стартует поиск.
   void slot_search(DataInput& input);
   // Отменяет действие.
   void slot_cancel();
-  // Удаляет трек из базы.
-  void slot_removeTrack(int row);
-  // Очищает базу треков.
-  void slot_clearDatabase();
-  // Копирует ссылку трека в буфер.
-  void slot_copyLink(int row);
-  // Копирует название трека в буфер.
-  void slot_copyTitle(int row);
   // Устанавливает состояние программы.
   void slot_setState(int state);
   // По получению сигналов от модулей о завершении работы отправляет сигнал Ui
@@ -64,8 +54,6 @@ signals:
   void signal_stateChanged(int);
   // Страница выбрана (текущая, всего).
   void signal_pageFetched(int, int);
-  // Проиграть трек.
-  void signal_play(TrackInfo&);
   // Готовы треки для передачи.
   void signal_ready(const QList<TrackInfo>&);
 

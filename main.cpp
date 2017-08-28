@@ -86,29 +86,9 @@ int main(int argc, char *argv[])
     QObject::connect(&mainWindow, SIGNAL(signal_search(DataInput&)),
                      worker, SLOT(slot_search(DataInput&)));
 
-    // Запрос на получение информации о проигрываемом треке.
-    QObject::connect(&mainWindow, SIGNAL(signal_play(int)),
-                     worker, SLOT(slot_play(int)));
-
-    // Запрос на удаление трека.
-    QObject::connect(&mainWindow, SIGNAL(signal_removeTrack(int)),
-                     worker, SLOT(slot_removeTrack(int)));
-
-    // Запрос на очищение базы треков.
-    QObject::connect(&mainWindow, SIGNAL(signal_clearDatabase()),
-                     worker, SLOT(slot_clearDatabase()));
-
     // Запрос на отмену операции.
     QObject::connect(&mainWindow, SIGNAL(signal_cancel()),
                      worker, SLOT(slot_cancel()));
-
-    // Запрос на копирование ссылки.
-    QObject::connect(&mainWindow, SIGNAL(signal_copyLink(int)),
-                     worker, SLOT(slot_copyLink(int)));
-
-    // Запрос на копирование названия трека.
-    QObject::connect(&mainWindow, SIGNAL(signal_copyTitle(int)),
-                     worker, SLOT(slot_copyTitle(int)));
 
     // Сигнал об изменении состояния программы.
     QObject::connect(&mainWindow, SIGNAL(signal_stateChanged(int)),
@@ -119,9 +99,6 @@ int main(int argc, char *argv[])
                      worker, SLOT(addTracksToModel(QList<TrackInfo>)));
 
     // Signals To Mainwindow -----------------------------------------------
-    // Запрос на проигрывание трека.
-    QObject::connect(worker, SIGNAL(signal_play(TrackInfo&)),
-                     &mainWindow, SLOT(slot_play(TrackInfo&)));
 
     // При изменении состояния программы со стороны worker'а вносит изменения
     // в графический интерфейс.

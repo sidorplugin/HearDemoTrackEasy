@@ -2,22 +2,22 @@
 
 
 // Устанавливает значение value по ключу key.
-void TrackInfo::setData(TrackInfo::Key key, const QVariant &value)
+void TrackInfo::setData(int key, const QVariant &value)
 {
-    m_attributes.insert(key, value);
+    m_data.insert(key, value);
 }
 
 // Возвращает значение по ключу key.
-QVariant TrackInfo::data(TrackInfo::Key key)
+QVariant TrackInfo::data(int key)
 {
-    return m_attributes.value(key);
+    return m_data.value(key);
 }
 
 // Возвращает строковое значение информации о треке в виде списка.
 QStringList TrackInfo::toStringList() const
 {
    QStringList result;
-   QHashIterator <TrackInfo::Key, QVariant> i(m_attributes);
+   QHashIterator <int, QVariant> i(m_data);
    while (i.hasNext()) {
        i.next();
        QString nameKey = keyToString(i.key());
@@ -27,7 +27,7 @@ QStringList TrackInfo::toStringList() const
 }
 
 // Возвращает строковое значение ключа.
-QString TrackInfo::keyToString(TrackInfo::Key key) const
+QString TrackInfo::keyToString(int key) const
 {
     QString name;
     switch (key) {

@@ -35,7 +35,6 @@ SOURCES += main.cpp\
     widgets/dbviewwidget/dbviewitemdelegate.cpp \
     widgets/dbviewwidget/dbviewmodel.cpp \
     widgets/playerwidget/playerwidget.cpp \
-    widgets/playerwidget/runningstring.cpp \
     dataclasses/trackinfo.cpp \
     database.cpp \
     worker.cpp \
@@ -80,7 +79,6 @@ HEADERS  += mainwindow.h \
     widgets/dbviewwidget/dbviewitemdelegate.h \
     widgets/dbviewwidget/dbviewmodel.h \
     widgets/playerwidget/playerwidget.h \
-    widgets/playerwidget/runningstring.h \
     dataclasses/datainput.h \
     dataclasses/trackinfo.h \
     database.h \

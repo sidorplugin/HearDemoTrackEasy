@@ -15,9 +15,9 @@ void Saver::save(const QByteArray &bytes, TrackInfo &track, const QString &root)
 
   QByteArray result;
   QFile file;
-  QString path = getPath(track, root);
+  QString path = buildSavePath(track, root);
   QString fileName = getValidFileName(
-                  track.data(TrackInfo::AlbumArtist).toString() + " - " +
+                  track.data(TrackInfo::Artist).toString() + " - " +
                   track.data(TrackInfo::Title).toString());
   qDebug() << "fileName = " << fileName;
 
@@ -28,7 +28,7 @@ void Saver::save(const QByteArray &bytes, TrackInfo &track, const QString &root)
   }
 
   // Добавляет тег.
-  QByteArray tag = getTag(track);
+  QByteArray tag = createTag(track);
   result.append(bytes);
   result.append(tag);
 
@@ -40,11 +40,11 @@ void Saver::save(const QByteArray &bytes, TrackInfo &track, const QString &root)
 }
 
 
-// Возвращает путь к файлу.
-QString Saver::getPath(TrackInfo &track, const QString& root)
+// Строит путь сохранения для файла.
+QString Saver::buildSavePath(TrackInfo &track, const QString& root)
 {
   QString nameResource;
-  QString href = track.data(TrackInfo::Link).toString();
+  QString href = track.data(TrackInfo::LinkTrack).toString();
   QString genre = track.data(TrackInfo::Style).toString();
   QString date = track.data(TrackInfo::Date).toString();
   QString year = QDate::fromString(date, "dd.MM.yyyy").toString("yyyy");
@@ -71,61 +71,42 @@ QString Saver::getPath(TrackInfo &track, const QString& root)
 }
 
 
-// Возвращает тэг.
-QByteArray Saver::getTag(TrackInfo &track)
+// Создает тэг.
+QByteArray Saver::createTag(TrackInfo &track)
 {
   QByteArray result;
-  QString href = track.data(TrackInfo::Link).toString();
+  QString href = track.data(TrackInfo::LinkTrack).toString();
 
   if (!href.contains("www.juno.co.uk")) {
     // Установка Tag.
     if (href.contains("media.hardwax.com")) {
-      m_tagCreator.setVersion(IdTagCreator::Hardwax);
+      m_tagCreator.setData(IdTagCreator::Ver, IdTagCreator::Hardwax);
     }
     if (href.contains("deejay.de")) {
-      m_tagCreator.setVersion(IdTagCreator::DeejayDe);
+      m_tagCreator.setData(IdTagCreator::Ver, IdTagCreator::DeejayDe);
     }
 
-    m_tagCreator.setHeader("TAG");
-    m_tagCreator.setTitle(track.data(TrackInfo::Title).toString());
-    m_tagCreator.setArtist(track.data(TrackInfo::AlbumArtist).toString());
-    m_tagCreator.setAlbum(track.data(TrackInfo::AlbumTitle).toString());
-    m_tagCreator.setYear(track.data(TrackInfo::Date).toDate().toString("yyyy"));
-    m_tagCreator.setComment(track.data(TrackInfo::CatNumber).toString() + "," +
-                   track.data(TrackInfo::Publisher).toString() + "," +
-                   track.data(TrackInfo::Date).toDate().toString("dd.MM.yyyy"));
-
-    int genre = codeGenre(track.data(TrackInfo::Style).toString());
-
-    m_tagCreator.setGenre(genre);
+    m_tagCreator.setData(IdTagCreator::Header, "TAG");
+    m_tagCreator.setData(IdTagCreator::Title,
+                         track.data(TrackInfo::Title).toString());
+    m_tagCreator.setData(IdTagCreator::Artist,
+                         track.data(TrackInfo::Artist).toString());
+    m_tagCreator.setData(IdTagCreator::Album,
+                         track.data(TrackInfo::Album).toString());
+    m_tagCreator.setData(IdTagCreator::Year,
+                         track.data(TrackInfo::Date).toDate().toString("yyyy"));
+    m_tagCreator.setData(IdTagCreator::Comment,
+                         track.data(TrackInfo::Catalog).toString() + "," +
+                         track.data(TrackInfo::Label).toString() + "," +
+                         track.data(TrackInfo::Date).
+                         toDate().toString("dd.MM.yyyy"));
+    int style = m_tagCreator.codeStyle(track.data(TrackInfo::Style).toString());
+    m_tagCreator.setData(IdTagCreator::Style, style);
 
     result = m_tagCreator.tag();
   }
 
   return result;
-}
-
-
-// Возвращает код жанра.
-int Saver::codeGenre(const QString &genre)
-{
-  int codeGenre;
-
-  if (genre == "House" || genre == "Chicago Oldschool" || genre == "Detroit" ||
-      genre == "Detroit House")
-    codeGenre = 35;
-  if (genre == "Techno" || genre == "Detroit" )
-    codeGenre = 18;
-  if (genre == "Exclusive" || genre == "D Labels" || genre == "Euro Labels" ||
-      genre == "Uk Labels" || genre == "Us Labels" || genre == "Reggae - Dub" ||
-      genre == "Merchandise" || genre == "Exclusives" || genre == "Digital")
-    codeGenre = 12;  // Other
-  if (genre == "Ambient")
-    codeGenre = 26;
-  if (genre == "Electronic" || genre == "Electro" || genre == "Early Electronic")
-    codeGenre = 52;
-
-  return codeGenre;
 }
 
 
@@ -138,4 +119,3 @@ QString Saver::getValidFileName(const QString &name)
   return result.remove("/").remove("\"").remove("*").remove("'").remove("|").
                 remove("?").remove("+").remove("\t");
 }
-

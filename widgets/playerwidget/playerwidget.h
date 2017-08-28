@@ -3,7 +3,6 @@
 
 #include "ui_playerwidgetform.h"
 #include "dataclasses/trackinfo.h"
-//#include "runningstring.h"
 
 #include <QObject>
 #include <QDebug>
@@ -54,7 +53,6 @@ private:
 private:
   QMediaPlayer* m_player;
   QSignalMapper* m_mapper;
-//  RunningString* m_runningString;
   Ui::PlayerWidgetForm* ui;
   qint64 m_duration;
   QMap <int, QToolButton*> m_buttons;
