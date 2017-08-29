@@ -12,11 +12,12 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent)
     ui->comboBox_Source->addItem(QIcon(":/images_ui/images/all.png"), "All",
                                  QStringList("All"));
     ui->comboBox_Group->addItem("All");
-    foreach (ModuleParameters parameter, parameters) {
-        int id = parameter.id();
-        QString name = parameter.name();
-        QString icon = parameter.icon();
-        QStringList searchGroups = parameter.searchGroups();
+    foreach (ModuleParameters p, parameters) {
+        int id = p.data(ModuleParameters::Id).toInt();
+        QString name = p.data(ModuleParameters::Name).toString();
+        QString icon = p.data(ModuleParameters::Icon).toString();
+        QStringList searchGroups =
+            p.data(ModuleParameters::SearchGroups).toStringList();
         ui->comboBox_Source->addItem(QIcon(icon), name, searchGroups);
     }
 

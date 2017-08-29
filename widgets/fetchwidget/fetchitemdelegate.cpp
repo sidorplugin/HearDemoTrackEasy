@@ -23,7 +23,7 @@ QWidget *FetchItemDelegate::createEditor(QWidget *parent,
   // В зависимости от выделенного поля создает определенный делегат-виджет.
   switch (row) {
     case FetchModel::SourceItem:
-    case FetchModel::GenreItem:
+    case FetchModel::StyleItem:
     case FetchModel::PeriodItem:
     case FetchModel::FilterItem:
     {
@@ -89,7 +89,7 @@ void FetchItemDelegate::setEditorData(QWidget *editor,
 
       }
     break;
-    case FetchModel::GenreItem:  // Поле "Жанр".
+    case FetchModel::StyleItem:  // Поле "Жанр".
     case FetchModel::PeriodItem: // Поле "Период".
     case FetchModel::FilterItem: // Поле "Фильтр".
     {
@@ -156,7 +156,7 @@ void FetchItemDelegate::setModelData(QWidget *editor,
     }
     break;
 
-    case FetchModel::GenreItem:     // Поле "Жанр".
+    case FetchModel::StyleItem:     // Поле "Жанр".
     case FetchModel::PeriodItem:    // Поле "Период".
     case FetchModel::FilterItem:    // Поле "Фильтр".
     {

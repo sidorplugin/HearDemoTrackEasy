@@ -13,7 +13,7 @@ public:
   LinkCreator() {}
 
   virtual QString create(Module::Mode mode, DataInput& input,
-                         const ModuleParameters& params) = 0;
+                         ModuleParameters& params) = 0;
 };
 
 #endif // LINKCREATOR_H

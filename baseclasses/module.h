@@ -32,7 +32,7 @@ public:
   // Устанавливает таблицу параметров модуля.
   void setParameters(const ModuleParameters& params);
   // Возвращает таблицу параметров модуля.
-  ModuleParameters parameters();
+  ModuleParameters& parameters();
   // Возвращает режим работы модуля.
   int mode();
 

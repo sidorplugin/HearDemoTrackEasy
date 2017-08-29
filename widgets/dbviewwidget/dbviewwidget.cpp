@@ -7,22 +7,40 @@
 DbViewWidget::DbViewWidget(QWidget* parent)
 {
     // Заполняет данные для контекстного меню.
-    m_actionIdList << DbViewWidget::Play << DbViewWidget::Load
-                   << DbViewWidget::SearchLabel << DbViewWidget::SearchArtist
-                   << DbViewWidget::CopyLink << DbViewWidget::CopyTitle
+    m_actionIdList << DbViewWidget::Play
+                   << DbViewWidget::Load
+                   << DbViewWidget::Search_Artist
+                   << DbViewWidget::Search_Title
+                   << DbViewWidget::Search_Label
+                   << DbViewWidget::Copy_Artist
+                   << DbViewWidget::Copy_Title
+                   << DbViewWidget::Copy_Label
+                   << DbViewWidget::Copy_Album
+                   << DbViewWidget::Copy_Link
                    << DbViewWidget::Remove;
 
-    m_actionNameList << "Воспроизвести" << "Загрузить"
-                     << "Искать лэйбл" << "Искать артиста"
-                     << "Копировать ссылку" << "Копировать название"
+    m_actionNameList << "Воспроизвести"
+                     << "Загрузить"
+                     << "Артист"
+                     << "Название"
+                     << "Лэйбл"
+                     << "Артист"
+                     << "Название"
+                     << "Лэйбл"
+                     << "Альбом"
+                     << "Ссылка"
                      << "Удалить";
 
     m_actionIconList << ":/images_ui/images/player_play.png"
                      << ":/images_ui/images/download.png"
-                     << ":/images_ui/images/search_label.png"
-                     << ":/images_ui/images/search_title.png"
-                     << ":/images_ui/images/link.png"
-                     << ":/images_ui/images/copy_title.png"
+                     << ""
+                     << ""
+                     << ""
+                     << ""
+                     << ""
+                     << ""
+                     << ""
+                     << ""
                      << ":/images_ui/images/delete.png";
 
     // Заполняет таблицу данными.
@@ -32,10 +50,7 @@ DbViewWidget::DbViewWidget(QWidget* parent)
       m_actionsTable.insert(m_actionIdList.at(i), listInfo);
     }
 
-    // Настраивает QSignalMapper для нахождения активированного действия меню.
     m_signalMapper = new QSignalMapper(this);
-    // По получению сигнала от QSignalMapper с id действия, запускает слот
-    // отправления сигнала на выполнение действия.
     connect(m_signalMapper, SIGNAL(mapped(int)),
             this, SIGNAL(actionTriggered(int)));
 
@@ -83,6 +98,11 @@ void DbViewWidget::createContextMenu(QPoint position)
 {
   // Создаем объект контекстного меню.
   QMenu* menu = new QMenu(this);
+  // Создаем подменю Копирования и Поиска.
+  QMenu* copyMenu = new QMenu("Копировать", this);
+  copyMenu->setIcon(QIcon(":/images_ui/images/copy.png"));
+  QMenu* searchMenu = new QMenu("Поиск", this);
+  searchMenu->setIcon(QIcon(":/images_ui/images/search.png"));
 
   // Создаём действия для контекстного меню.
   QMapIterator <int, QVariant> i(m_actionsTable);
@@ -96,8 +116,17 @@ void DbViewWidget::createContextMenu(QPoint position)
       connect(action, SIGNAL(triggered()), m_signalMapper, SLOT(map()));
       m_signalMapper->setMapping(action, id);
 
-      menu->addAction(action);
+      if (nameAction(id).contains("Search"))
+        searchMenu->addAction(action);
+      else if (nameAction(id).contains("Copy"))
+        copyMenu->addAction(action);
+      else
+        menu->addAction(action);
+
   }
+
+  menu->addMenu(copyMenu);
+  menu->addMenu(searchMenu);
 
   // Вызываем контекстное меню.
   menu->popup(viewport()->mapToGlobal(position));
@@ -126,4 +155,26 @@ QAction* DbViewWidget::createAction(int id, const QStringList& info, int state)
   }
 
   return action;
+}
+
+
+
+QString DbViewWidget::nameAction(int code)
+{
+  QString name;
+  switch (code) {
+    case DbViewWidget::Play :          name = "Play";             break;
+    case DbViewWidget::Load :          name = "Load";             break;
+    case DbViewWidget::Search_Artist : name = "Search_Artist";    break;
+    case DbViewWidget::Search_Title :  name = "Search_Title";     break;
+    case DbViewWidget::Search_Label :  name = "Search_Label";     break;
+    case DbViewWidget::Copy_Artist :   name = "Copy_Artist";      break;
+    case DbViewWidget::Copy_Title :    name = "Copy_Title";       break;
+    case DbViewWidget::Copy_Label :    name = "Copy_Label";       break;
+    case DbViewWidget::Copy_Album :    name = "Copy_Album";       break;
+    case DbViewWidget::Copy_Link :     name = "Copy_Link";        break;
+    case DbViewWidget::Remove :        name = "Remove";           break;
+
+  }
+  return name;
 }

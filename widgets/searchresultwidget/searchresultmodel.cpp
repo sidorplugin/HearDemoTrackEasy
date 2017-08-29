@@ -5,7 +5,7 @@
 SearchResultModel::SearchResultModel()
 {
   // Создает заголовки модели.
-  for (int i = TrackInfo::Artist; i <= TrackInfo::LinkImage; ++i) {
+  for (int i = TrackInfo::Artist; i <= TrackInfo::Source; ++i) {
     setHorizontalHeaderItem(i, new QStandardItem(name(i)));
   }
   setHeaderData(0, Qt::Horizontal, false,  Qt::CheckStateRole);
@@ -19,7 +19,7 @@ void SearchResultModel::add(TrackInfo &track)
   setData(index(0, TrackInfo::Artist), false, Qt::CheckStateRole);
   item(0, TrackInfo::Artist)->setCheckable(true);
 
-  for (int i = TrackInfo::Artist; i <= TrackInfo::LinkImage; ++i) {
+  for (int i = TrackInfo::Artist; i <= TrackInfo::Source; ++i) {
       setData(index(0, i), track.data(i).toString());
       item(0, i)->setEditable(false);
   }
@@ -39,6 +39,7 @@ TrackInfo SearchResultModel::getTrackInfo(int row)
   QString date =      data(index(row, TrackInfo::Date))     .toString();
   QString linkTrack = data(index(row, TrackInfo::LinkTrack)).toString();
   QString linkImage = data(index(row, TrackInfo::LinkImage)).toString();
+  QString source =    data(index(row, TrackInfo::Source))   .toString();
 
   // С помощью определенного ранее индекса получает доступ к данным модели.
   // Заполняет ими структуру TrackInfo.
@@ -52,6 +53,7 @@ TrackInfo SearchResultModel::getTrackInfo(int row)
   track.setData(TrackInfo::Date,      date);
   track.setData(TrackInfo::LinkTrack, linkTrack);
   track.setData(TrackInfo::LinkImage, linkImage);
+  track.setData(TrackInfo::Source,    source);
 
   return track;
 }
@@ -79,6 +81,7 @@ QString SearchResultModel::name(int key)
     case TrackInfo::Date :        name = "Дата";               break;
     case TrackInfo::LinkTrack :   name = "Ссылка Трек";        break;
     case TrackInfo::LinkImage :   name = "Ссылка Изображение"; break;
+    case TrackInfo::Source :      name = "Источник";           break;
   }
 
   return name;

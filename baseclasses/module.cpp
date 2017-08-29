@@ -76,7 +76,7 @@ void Module::setParameters(const ModuleParameters& params)
 
 
 // Возвращает таблицу параметров модуля.
-ModuleParameters Module::parameters()
+ModuleParameters& Module::parameters()
 {
   return m_parameters;
 }

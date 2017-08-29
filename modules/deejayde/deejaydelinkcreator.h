@@ -6,8 +6,7 @@
 class DeejayDeLinkCreator : public LinkCreator
 {
 public:
-  QString create(Module::Mode mode, DataInput& input,
-                 const ModuleParameters& params);
+  QString create(Module::Mode mode, DataInput& input, ModuleParameters& params);
 };
 
 #endif // DEEJAYDELINKCREATOR_H

@@ -24,7 +24,7 @@ QStringList DataInput::toStringList() const
       i.next();
       if (i.key() == DataInput::Row || i.key() == DataInput::SingleLoad)
         continue;
-      QString nameKey = keyToRusString(i.key());
+      QString nameKey = nameKeyRus(i.key());
       if (!i.value().toString().isEmpty())
         result.append(nameKey + " : " + i.value().toString());
   }
@@ -33,12 +33,12 @@ QStringList DataInput::toStringList() const
 
 
 // Возвращает строковое значение ключа.
-QString DataInput::keyToString(DataInput::Key key) const
+QString DataInput::nameKey(DataInput::Key key) const
 {
   QString name;
   switch (key) {
-      case DataInput::Source :        name = "Source";         break;
-      case DataInput::Genre :         name = "Genre";          break;
+      case DataInput::FetchSource :   name = "FetchSource";    break;
+      case DataInput::Style :         name = "Style";          break;
       case DataInput::Period :        name = "Period";         break;
       case DataInput::Filter :        name = "Filter";         break;
       case DataInput::SearchSource :  name = "SearchSource";   break;
@@ -54,12 +54,12 @@ QString DataInput::keyToString(DataInput::Key key) const
 
 
 // Возвращает строковое значение ключа.
-QString DataInput::keyToRusString(DataInput::Key key) const
+QString DataInput::nameKeyRus(DataInput::Key key) const
 {
   QString name;
   switch (key) {
-      case DataInput::Source :        name = "Источник";               break;
-      case DataInput::Genre :         name = "Жанр";                   break;
+      case DataInput::FetchSource :   name = "Выборка-Источник";       break;
+      case DataInput::Style :         name = "Стиль";                   break;
       case DataInput::Period :        name = "Период";                 break;
       case DataInput::Filter :        name = "Фильтр";                 break;
       case DataInput::SearchSource :  name = "Поиск-Источник";         break;

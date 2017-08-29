@@ -16,10 +16,14 @@ public:
   // Вид действия.
   enum Action { Play,
                 Load,
-                SearchLabel,
-                SearchArtist,
-                CopyLink,
-                CopyTitle,
+                Search_Artist,
+                Search_Title,
+                Search_Label,
+                Copy_Artist,
+                Copy_Title,
+                Copy_Label,
+                Copy_Album,
+                Copy_Link,
                 Remove };
 
   DbViewWidget(QWidget* parent = 0);
@@ -41,6 +45,8 @@ private:
   // Создает действие для контекстного меню.
   QAction* createAction(int id, const QStringList& info, int state);
 
+  QString nameAction(int code);
+
 private:
   // Делегат колонки "Ссылка".
   DbViewItemDelegate* m_delegate;
@@ -51,6 +57,8 @@ private:
   // Таблица действий контекстного меню.
   // (id = DbViewWidget::Action, List = name, icon).
   QMap <int, QVariant> m_actionsTable;
+
+
   int m_state;
 
 };

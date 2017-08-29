@@ -5,11 +5,7 @@
 class ModuleParametersPrivate
 {
 public:
-  QMap <QString, QVariant> parameters;
-  QMap <QString, QVariant> genres;
-  QMap <QString, QVariant> periods;
-  QMap <QString, QVariant> filters;
-  QStringList searchGroups;
+  QMap <int, QVariant> data;
 };
 
 
@@ -32,133 +28,24 @@ ModuleParameters::~ModuleParameters()
 }
 
 
+// Устанавливает значение value по ключу key.
+void ModuleParameters::setData(int key, const QVariant &value)
+{
+  m_d->data.insert(key, value);
+}
+
+
+// Возвращает значение по ключу key.
+QVariant ModuleParameters::data(int key)
+{
+  return m_d->data.value(key);
+}
+
+
 ModuleParameters& ModuleParameters::operator=(const ModuleParameters& other)
 {
   *m_d = *other.m_d;
    return *this;
-}
-
-
-void ModuleParameters::setId(int id)
-{
-  m_d->parameters.insert(ID, id);
-}
-
-
-int ModuleParameters::id() const
-{
-  return m_d->parameters.value(ID).toInt();
-}
-
-
-void ModuleParameters::setName(const QString &name)
-{
-  m_d->parameters.insert(NAME, name);
-}
-
-
-QString ModuleParameters::name() const
-{
-  return m_d->parameters.value(NAME).toString();
-}
-
-
-void ModuleParameters::setAddress(const QString &address)
-{
-  m_d->parameters.insert(ADDRESS, address);
-}
-
-
-QString ModuleParameters::address() const
-{
-  return m_d->parameters.value(ADDRESS).toString();
-}
-
-
-void ModuleParameters::setIcon(const QString &icon)
-{
-  m_d->parameters.insert(ICON, icon);
-}
-
-
-QString ModuleParameters::icon() const
-{
-  return m_d->parameters.value(ICON).toString();
-}
-
-
-void ModuleParameters::setSearchGroup(const QString &group)
-{
-  m_d->searchGroups.push_back(group);
-}
-
-
-QStringList ModuleParameters::searchGroups() const
-{
-  return m_d->searchGroups;
-}
-
-
-void ModuleParameters::setGenre(const QString& genre, const QString& value,
-                                const QString &link)
-{
-  QStringList info;
-  info << value << link;
-  m_d->genres.insert(genre, info);
-}
-
-
-QStringList ModuleParameters::genreInfo(const QString &genre) const
-{
-  return m_d->genres.value(genre).toStringList();
-}
-
-
-QStringList ModuleParameters::genres() const
-{
-  return m_d->genres.keys();
-}
-
-
-void ModuleParameters::setPeriod(const QString &period, const QString& value,
-                                 const QString &link)
-{
-  QStringList info;
-  info << value << link;
-  m_d->periods.insert(period, info);
-}
-
-
-QStringList ModuleParameters::periodInfo(const QString &period) const
-{
-  return m_d->periods.value(period).toStringList();
-}
-
-
-QStringList ModuleParameters::periods() const
-{
-   return m_d->periods.keys();
-}
-
-
-void ModuleParameters::setFilter(const QString &filter, const QString& value,
-                                 const QString &link)
-{
-  QStringList info;
-  info << value << link;
-  m_d->filters.insert(filter, info);
-}
-
-
-QStringList ModuleParameters::filterInfo(const QString &filter) const
-{
-  return m_d->filters.value(filter).toStringList();
-}
-
-
-QStringList ModuleParameters::filters() const
-{
-  return m_d->filters.keys();
 }
 
 
@@ -167,32 +54,38 @@ QStringList ModuleParameters::toStringList() const
 {
   QStringList result;
 
-  result.push_back(QString::number(id()));
-  result.push_back(name());
-  result.push_back(address());
-  result.push_back(icon());
-  result.append(searchGroups());
-
-  QMapIterator <QString, QVariant> g(m_d->genres);
-  while (g.hasNext()) {
-    g.next();
-    result.append(g.key());
-    result.append(g.value().toStringList());
-  }
-
-  QMapIterator <QString, QVariant> p(m_d->periods);
-  while (p.hasNext()) {
-    p.next();
-    result.append(p.key());
-    result.append(p.value().toStringList());
-  }
-
-  QMapIterator <QString, QVariant> f(m_d->filters);
-  while (f.hasNext()) {
-    f.next();
-    result.append(f.key());
-    result.append(f.value().toStringList());
+  QMapIterator<int, QVariant> i(m_d->data);
+  while (i.hasNext()) {
+      i.next();
+      QVariant variant = i.value();
+      if (variant.canConvert<QVariantHash>()) {
+          QMapIterator<QString, QVariant> j(variant.toMap());
+          while (j.hasNext()) {
+              j.next();
+              QStringList list = j.value().toStringList();
+              result.push_back(j.key() + " : " + list.at(0) + " : " + list.at(1));
+          }
+      }
+      else
+        result.push_back(nameKey(i.key()) + " : " + variant.toString());
   }
 
   return result;
+}
+
+
+QString ModuleParameters::nameKey(int key) const
+{
+  QString name;
+  switch (key) {
+      case ModuleParameters::Id :             name = "Id";               break;
+      case ModuleParameters::Name :           name = "Name";             break;
+      case ModuleParameters::Address :        name = "Address";          break;
+      case ModuleParameters::Icon :           name = "Icon";             break;
+      case ModuleParameters::SearchGroups :   name = "SearchGroups";     break;
+      case ModuleParameters::Styles :         name = "Styles";           break;
+      case ModuleParameters::Periods :        name = "Periods";          break;
+      case ModuleParameters::Filters :        name = "Filters";          break;
+  }
+  return name;
 }

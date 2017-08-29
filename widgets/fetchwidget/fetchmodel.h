@@ -18,7 +18,7 @@ public:
   enum ItemType { SourceItem,
                   StartDateItem,
                   EndDateItem,
-                  GenreItem,
+                  StyleItem,
                   PeriodItem,
                   FilterItem
                 };

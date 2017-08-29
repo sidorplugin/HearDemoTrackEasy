@@ -48,6 +48,10 @@ ModuleParameters GlobalData::readFromXmlFile(const QString &fileName)
   qDebug() << "GlobalData::readFromXmlFile";
 
   ModuleParameters result;
+  QStringList searchGroups;
+  QMap<QString, QVariant> styles;
+  QMap<QString, QVariant> periods;
+  QMap<QString, QVariant> filters;
 
   QFile file(fileName);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -71,36 +75,38 @@ ModuleParameters GlobalData::readFromXmlFile(const QString &fileName)
 
       QXmlStreamAttributes attributes = xmlReader.attributes();
       if (xmlReader.name() == "name") {
-        result.setId(attributes.value("id").toInt());
+        result.setData(ModuleParameters::Id, attributes.value("id").toInt());
         xmlReader.readNext();
-        result.setName(xmlReader.text().toString());
+        result.setData(ModuleParameters::Name, xmlReader.text().toString());
         continue;
       }
 
       if (xmlReader.name() == "address") {
-        result.setAddress(attributes.value("href").toString());
+        result.setData(ModuleParameters::Address, attributes.value("href").toString());
         continue;
       }
 
       if (xmlReader.name() == "icon") {
-        result.setIcon(attributes.value("path").toString());
+        result.setData(ModuleParameters::Icon, attributes.value("path").toString());
         continue;
       }
 
       if (xmlReader.name() == "group") {
         xmlReader.readNext();
         QString value = xmlReader.text().toString();
-        result.setSearchGroup(value);
+        searchGroups.append(value);
         continue;
       }
 
 
-      if (xmlReader.name() == "genre") {
+      if (xmlReader.name() == "style") {
         QString title = attributes.value("title").toString();
         QString link = attributes.value("link").toString();
         xmlReader.readNext();
         QString value = xmlReader.text().toString();
-        result.setGenre(title, value, link);
+        QStringList styleInfo;
+        styleInfo << value << link;
+        styles.insert(title, styleInfo);
         continue;
       }
 
@@ -109,7 +115,9 @@ ModuleParameters GlobalData::readFromXmlFile(const QString &fileName)
         QString link = attributes.value("link").toString();
         xmlReader.readNext();
         QString value = xmlReader.text().toString();
-        result.setPeriod(title, value, link);
+        QStringList periodInfo;
+        periodInfo << value << link;
+        periods.insert(title, periodInfo);
         continue;
       }
 
@@ -118,10 +126,17 @@ ModuleParameters GlobalData::readFromXmlFile(const QString &fileName)
         QString link = attributes.value("link").toString();
         xmlReader.readNext();
         QString value = xmlReader.text().toString();
-        result.setFilter(title, value, link);
+        QStringList filterInfo;
+        filterInfo << value << link;
+        filters.insert(title, filterInfo);
         continue;
       }
   }
+  result.setData(ModuleParameters::SearchGroups, searchGroups);
+  result.setData(ModuleParameters::Styles, styles);
+  result.setData(ModuleParameters::Periods, periods);
+  result.setData(ModuleParameters::Filters, filters);
+
   parameters.push_back(result);
   return result;
 }

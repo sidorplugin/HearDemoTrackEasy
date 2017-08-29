@@ -2,24 +2,36 @@
 
 
 QString HardwaxLinkCreator::create(Module::Mode mode, DataInput &input,
-                                   const ModuleParameters &params)
+                                   ModuleParameters &params)
 {
-  QString address = params.address();
-  QStringList genreInfo = params.genreInfo(input.data(DataInput::Genre).toString());
-  QStringList periodInfo = params.periodInfo(input.data(DataInput::Period).toString());
-  QStringList filterInfo = params.filterInfo(input.data(DataInput::Filter).toString());
-  QString link = genreInfo.at(LINK);
+  QHash<QString, QVariant> hash;
+
+  QString address = params.data(ModuleParameters::Address).toString();
+
+  hash = params.data(ModuleParameters::Styles).toHash();
+  QStringList genreInfo = hash.value(input.data(DataInput::Style).toString()).
+                                                                toStringList();
+
+  hash = params.data(ModuleParameters::Periods).toHash();
+  QStringList periodInfo = hash.value(input.data(DataInput::Period).toString()).
+                                                                toStringList();
+
+  hash = params.data(ModuleParameters::Filters).toHash();
+  QStringList filterInfo = hash.value(input.data(DataInput::Filter).toString()).
+                                                                 toStringList();
+
+  QString link = genreInfo.at(1);
 
 
   QString result;
-  if (!genreInfo.at(VALUE).isEmpty()) {
-    result = address + genreInfo.at(VALUE) + link;
+  if (!genreInfo.at(0).isEmpty()) {
+    result = address + genreInfo.at(0) + link;
   }
-  else if (!periodInfo.at(VALUE).isEmpty()) {
-    result = address + periodInfo.at(VALUE) + link;
+  else if (!periodInfo.at(0).isEmpty()) {
+    result = address + periodInfo.at(0) + link;
   }
-  else if (!filterInfo.at(VALUE).isEmpty()) {
-    result = address + filterInfo.at(VALUE) + link;
+  else if (!filterInfo.at(0).isEmpty()) {
+    result = address + filterInfo.at(0) + link;
   }
 
   return result;

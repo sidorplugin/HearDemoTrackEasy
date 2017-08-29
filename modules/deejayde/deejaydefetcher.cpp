@@ -353,6 +353,7 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
           track.setData(TrackInfo::Label, label);
           track.setData(TrackInfo::Date, date);
           track.setData(TrackInfo::LinkImage, linkImage);
+          track.setData(TrackInfo::Source, "DeejayDe");
 
           p_d->trackDataList.push_back(track);
       }

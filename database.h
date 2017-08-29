@@ -22,6 +22,7 @@ const QString RU_HEADER_LABEL =      "Лэйбл";
 const QString RU_HEADER_DATE =       "Дата";
 const QString RU_HEADER_LINK_TRACK = "Ссылка трек";
 const QString RU_HEADER_LINK_IMAGE = "Ссылка картинка";
+const QString RU_HEADER_SOURCE =     "Источник";
 
 class Database
 {

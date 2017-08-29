@@ -35,9 +35,9 @@ QStandardItem* FetchModel::createItem(int type,
       QMap <QString, QVariant> data;
       // Проходит по всем модулям, собирает данные, устанавливает в item.
       foreach (ModuleParameters p, params) {
-        int id = p.id();
-        QString name = p.name();
-        QString icon = p.icon();
+        int id = p.data(ModuleParameters::Id).toInt();
+        QString name = p.data(ModuleParameters::Name).toString();
+        QString icon = p.data(ModuleParameters::Icon).toString();
         QStringList info;
         info << name << icon;
         data.insert(QString::number(id), info);
@@ -65,11 +65,12 @@ QStandardItem* FetchModel::createItem(int type,
     }
     break;
 
-    case FetchModel::GenreItem:
+    case FetchModel::StyleItem:
     {
       QMap <QString, QVariant> data;
       foreach (ModuleParameters p, params) {
-        data.insert(p.name(), p.genres());
+        QStringList styles =  p.data(ModuleParameters::Styles).toMap().keys();
+        data.insert(p.data(ModuleParameters::Name).toString(), styles);
       }
       item->setData(data, ROLE_LIST);
     }
@@ -79,7 +80,8 @@ QStandardItem* FetchModel::createItem(int type,
     {
       QMap <QString, QVariant> data;
       foreach (ModuleParameters p, params) {
-        data.insert(p.name(), p.periods());
+        QStringList periods =  p.data(ModuleParameters::Periods).toMap().keys();
+        data.insert(p.data(ModuleParameters::Name).toString(), periods);
       }
       item->setData(data, ROLE_LIST);
     }
@@ -89,7 +91,8 @@ QStandardItem* FetchModel::createItem(int type,
     {
       QMap <QString, QVariant> data;
       foreach (ModuleParameters p, params) {
-        data.insert(p.name(), p.filters());
+        QStringList filters =  p.data(ModuleParameters::Filters).toMap().keys();
+        data.insert(p.data(ModuleParameters::Name).toString(), filters);
       }
       item->setData(data, ROLE_LIST);
     }

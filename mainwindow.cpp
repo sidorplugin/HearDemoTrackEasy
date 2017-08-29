@@ -308,6 +308,16 @@ void MainWindow::slot_executeActionContextMenu(int action)
 {
    // Получает текущую строку виджета "Просмотрщик треков".
    int row = m_dbViewWidget->currentIndex().row();
+
+   // Считывает информацию о треке.
+   TrackInfo track = m_model->getTrackInfo(row);
+   QString artist = track.data(TrackInfo::Artist).toString();
+   QString title = track.data(TrackInfo::Title).toString();
+   QString label = track.data(TrackInfo::Label).toString();
+   QString album = track.data(TrackInfo::Album).toString();
+   QString linkTrack = track.data(TrackInfo::LinkTrack).toString();
+   QString source = track.data(TrackInfo::Source).toString();
+
    // В зависимости от action обрабатывает задачу.
     switch (action) {
         case DbViewWidget::Play :
@@ -319,47 +329,54 @@ void MainWindow::slot_executeActionContextMenu(int action)
             slot_executeAction(MainWindow::LoadAction);
         break;
 
-        case DbViewWidget::SearchLabel :
+        case DbViewWidget::Search_Artist :
         {
-            // Запрос у просмотрщика данных о лэйбле.
-            TrackInfo track = m_model->getTrackInfo(row);
-            QString label = track.data(TrackInfo::Label).toString();
-            // Передать данные в виджет поиска.
-//            m_searchWidget->setData(SearchWidget::Source, source);
-//            m_searchWidget->setData(SearchWidget::Group, group);
-//            m_searchWidget->setData(SearchWidget::Text, label);
-//            slot_executeAction(MainWindow::SearchAction);
-        }
-        break;
-        case DbViewWidget::SearchArtist :
-        {
-            // Запрос у просмотрщика данных об артисте.
-            TrackInfo track = m_model->getTrackInfo(row);
-            QString artist = track.data(TrackInfo::Artist).toString();
-            // Передать данные в виджет поиска.
-//            m_searchWidget->setData(SearchWidget::Source, source);
-//            m_searchWidget->setData(SearchWidget::Group, group);
-//            m_searchWidget->setData(SearchWidget::Text, label);
-//            slot_executeAction(MainWindow::SearchAction);
+            // Устанавливает данные в виджете поиска.
+            m_searchWidget->setData(SearchWidget::Source, source);
+            m_searchWidget->setData(SearchWidget::Group, "Artists");
+            m_searchWidget->setData(SearchWidget::Text, artist);
+            slot_executeAction(MainWindow::SearchAction);
         }
         break;
 
-        case DbViewWidget::CopyLink :
+        case DbViewWidget::Search_Title :
         {
-            TrackInfo track = m_model->getTrackInfo(row);
-            QString bufferText = track.data(TrackInfo::LinkTrack).toString();
-            QApplication::clipboard()->setText(bufferText);
+            // Устанавливает данные в виджете поиска.
+            m_searchWidget->setData(SearchWidget::Source, source);
+            m_searchWidget->setData(SearchWidget::Group, "Titles");
+            m_searchWidget->setData(SearchWidget::Text, title);
+            slot_executeAction(MainWindow::SearchAction);
         }
         break;
 
-        case DbViewWidget::CopyTitle :
+        case DbViewWidget::Search_Label :
         {
-          TrackInfo track = m_model->getTrackInfo(row);
-          QString artist = track.data(TrackInfo::Artist).toString();
-          QString title = track.data(TrackInfo::Title).toString();
-          QString bufferText = artist + " - " + title;
-          QApplication::clipboard()->setText(bufferText);
+            // Устанавливает данные в виджете поиска.
+            m_searchWidget->setData(SearchWidget::Source, source);
+            m_searchWidget->setData(SearchWidget::Group, "Labels");
+            m_searchWidget->setData(SearchWidget::Text, label);
+            slot_executeAction(MainWindow::SearchAction);
         }
+        break;
+
+        case DbViewWidget::Copy_Artist :
+            QApplication::clipboard()->setText(artist);
+        break;
+
+        case DbViewWidget::Copy_Title :
+            QApplication::clipboard()->setText(artist + " - " + title);
+        break;
+
+        case DbViewWidget::Copy_Label :
+            QApplication::clipboard()->setText(label);
+        break;
+
+        case DbViewWidget::Copy_Album :
+            QApplication::clipboard()->setText(album);
+        break;
+
+        case DbViewWidget::Copy_Link :
+            QApplication::clipboard()->setText(linkTrack);
         break;
 
         case DbViewWidget::Remove :
@@ -467,12 +484,18 @@ DataInput MainWindow::getDataFromWidgets()
 {
   DataInput dataInput;
 
-  dataInput.setData(DataInput::Source, m_fetchParametersWidget->getSource());
-  dataInput.setData(DataInput::DateStart, m_fetchParametersWidget->getDateStart());
-  dataInput.setData(DataInput::DateEnd, m_fetchParametersWidget->getDateEnd());
-  dataInput.setData(DataInput::Genre, m_fetchParametersWidget->getGenre());
-  dataInput.setData(DataInput::Period, m_fetchParametersWidget->getPeriod());
-  dataInput.setData(DataInput::Filter, m_fetchParametersWidget->getFilter());
+  dataInput.setData(DataInput::FetchSource,
+               m_fetchParametersWidget->data(FetchWidget::Source).toString());
+  dataInput.setData(DataInput::DateStart,
+               m_fetchParametersWidget->data(FetchWidget::DateStart).toDate());
+  dataInput.setData(DataInput::DateEnd,
+               m_fetchParametersWidget->data(FetchWidget::DateEnd).toDate());
+  dataInput.setData(DataInput::Style,
+               m_fetchParametersWidget->data(FetchWidget::Style).toString());
+  dataInput.setData(DataInput::Period,
+               m_fetchParametersWidget->data(FetchWidget::Period).toString());
+  dataInput.setData(DataInput::Filter,
+               m_fetchParametersWidget->data(FetchWidget::Filter).toString());
   dataInput.setData(DataInput::SingleLoad, m_isSingleLoad);
   dataInput.setData(DataInput::Row, m_dbViewWidget->currentIndex().row());
   dataInput.setData(DataInput::SearchSource,

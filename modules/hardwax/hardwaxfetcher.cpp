@@ -82,7 +82,7 @@ QStringList HardwaxFetcherPrivate::getTrackList(const QWebElement &element,
 
   QWebElementCollection linksCollection = element.findAll("ul.tracklisting li a");
   if (linksCollection.count() == 0) {
-    // TODO Запись пустого релиза в logger.
+    return QStringList();
   }
 
   foreach (QWebElement linkElement, linksCollection) {
@@ -142,6 +142,7 @@ void HardwaxFetcher::result(bool ok)
           track.setData(TrackInfo::Catalog, catNumber);
           track.setData(TrackInfo::Label, label);
 //          track.setData(TrackInfo::LinkImage, trackList.at(i));
+          track.setData(TrackInfo::Source, "Hardwax");
 
           p_d->trackDataList.push_back(track);
       }

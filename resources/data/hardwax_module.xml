@@ -6,19 +6,19 @@
 	<search>
 		<group>All</group>
 	</search>
-	<genres>
-		<genre title="" link=""></genre>
-		<genre title="Chicago Oldschool" link="/?paginate_by=50&amp;page=">chicago-oldschool</genre>
-		<genre title="Detroit" link="/?paginate_by=50&amp;page=">detroit</genre>
-		<genre title="Detroit House" link="/?paginate_by=50&amp;page=">detroit-house</genre>
-		<genre title="Digital" link="/?paginate_by=50&amp;page=">digital</genre>
-		<genre title="Early Electronic" link="/?paginate_by=50&amp;page=">early-electronic</genre>
-		<genre title="Electro" link="/?paginate_by=50&amp;page=">electro</genre>
-		<genre title="Electronic" link="/?paginate_by=50&amp;page=">electronic</genre>
-		<genre title="Exclusives" link="/?paginate_by=50&amp;page=">exclusives</genre>
-		<genre title="House" link="/?paginate_by=50&amp;page=">house</genre>
-		<genre title="Techno" link="/?paginate_by=50&amp;page=">techno</genre>
-	</genres>
+	<styles>
+		<style title="" link=""></style>
+		<style title="Chicago Oldschool" link="/?paginate_by=50&amp;page=">chicago-oldschool</style>
+		<style title="Detroit" link="/?paginate_by=50&amp;page=">detroit</style>
+		<style title="Detroit House" link="/?paginate_by=50&amp;page=">detroit-house</style>
+		<style title="Digital" link="/?paginate_by=50&amp;page=">digital</style>
+		<style title="Early Electronic" link="/?paginate_by=50&amp;page=">early-electronic</style>
+		<style title="Electro" link="/?paginate_by=50&amp;page=">electro</style>
+		<style title="Electronic" link="/?paginate_by=50&amp;page=">electronic</style>
+		<style title="Exclusives" link="/?paginate_by=50&amp;page=">exclusives</style>
+		<style title="House" link="/?paginate_by=50&amp;page=">house</style>
+		<style title="Techno" link="/?paginate_by=50&amp;page=">techno</style>
+	</styles>
 	<periods>
 		<period title="" link=""></period>
 		<period title="This Week" link="/?paginate_by=50&amp;page=">this-week</period>

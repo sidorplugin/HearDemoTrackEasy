@@ -37,47 +37,35 @@ FetchWidget::~FetchWidget()
 }
 
 
-// Возвращает значение поля "Источник".
-QString FetchWidget::getSource() const
+// Возвращает значение по ключу key.
+QVariant FetchWidget::data(int key)
 {
-  return model()->index(FetchModel::SourceItem, 0).
-         data(Qt::DisplayRole).toString();
-}
+  QVariant result;
+  switch (key) {
+    case FetchWidget::Source :
+      result = model()->index(FetchModel::SourceItem, 0).
+               data(Qt::DisplayRole).toString();
+    break;
+    case FetchWidget::DateStart :
+      result = QDate::fromString(model()->index(FetchModel::StartDateItem, 0).
+                                data(Qt::DisplayRole).toString(), "dd.MM.yyyy");
+    break;
+    case FetchWidget::DateEnd :
+      result = QDate::fromString(model()->index(FetchModel::EndDateItem, 0).
+                               data(Qt::DisplayRole).toString(), "dd.MM.yyyy");
+    break;
+    case FetchWidget::Style :
+      result = model()->index(FetchModel::StyleItem, 0).data().toString();
+    break;
+    case FetchWidget::Period :
+      result = model()->index(FetchModel::PeriodItem, 0).data().toString();
+    break;
+    case FetchWidget::Filter :
+      result = model()->index(FetchModel::FilterItem, 0).data().toString();
+    break;
+  }
 
-
-// Возвращает значение поля "Начало".
-QDate FetchWidget::getDateStart() const
-{
-  return QDate::fromString(model()->index(FetchModel::StartDateItem, 0).
-         data(Qt::DisplayRole).toString(), "dd.MM.yyyy");
-}
-
-
-// Возвращает значение поля "Конец".
-QDate FetchWidget::getDateEnd() const
-{
-  return QDate::fromString(model()->index(FetchModel::EndDateItem, 0).
-         data(Qt::DisplayRole).toString(), "dd.MM.yyyy");
-}
-
-// Возвращает значение поля "Жанр".
-QString FetchWidget::getGenre() const
-{
-  return model()->index(FetchModel::GenreItem, 0).data().toString();
-}
-
-
-// Возвращает значение поля "Период".
-QString FetchWidget::getPeriod() const
-{
-  return model()->index(FetchModel::PeriodItem, 0).data().toString();
-}
-
-
-// Возвращает значение поля "Фильтр".
-QString FetchWidget::getFilter() const
-{
-  return model()->index(FetchModel::FilterItem, 0).data().toString();
+  return result;
 }
 
 
@@ -93,7 +81,7 @@ void FetchWidget::on_itemChanged(QStandardItem *item)
       case FetchModel::SourceItem:  // Поле "Источник".
       {
         // Сбрасывает значения полей Жанр, Период, Фильтр.
-          model()->setData(model()->index(FetchModel::GenreItem, 0), "");
+          model()->setData(model()->index(FetchModel::StyleItem, 0), "");
           model()->setData(model()->index(FetchModel::PeriodItem, 0), "");
           model()->setData(model()->index(FetchModel::FilterItem, 0), "");
 
@@ -144,7 +132,7 @@ void FetchWidget::on_pressed(const QModelIndex &index)
   // В зависимости от номера строки производит скрытие или редактирование
   // других ячеек.
   switch (row) {
-    case FetchModel::GenreItem:   // Поле "Жанр".
+    case FetchModel::StyleItem:   // Поле "Жанр".
     {
       // Если "Источник" HARDWAX, тогда очищает поля "Период" и "Фильтр".
       if (indexSource == 1) {
@@ -163,7 +151,7 @@ void FetchWidget::on_pressed(const QModelIndex &index)
     {
       // Если "Источник" HARDWAX, тогда очищает поля "Жанр" и "Фильтр".
       if (indexSource == 1) {
-          model()->setData(model()->index(FetchModel::GenreItem, 0), "");
+          model()->setData(model()->index(FetchModel::StyleItem, 0), "");
           model()->setData(model()->index(FetchModel::FilterItem, 0), "");
       }
     }
@@ -173,7 +161,7 @@ void FetchWidget::on_pressed(const QModelIndex &index)
     {
       // Если "Источник" HARDWAX, тогда очищает поля "Жанр" и "Период".
       if (indexSource == 1) {
-          model()->setData(model()->index(FetchModel::GenreItem, 0), "");
+          model()->setData(model()->index(FetchModel::StyleItem, 0), "");
           model()->setData(model()->index(FetchModel::PeriodItem, 0), "");
       }
     }

@@ -5,59 +5,39 @@
 #include <QVariant>
 
 
-const QString ID = "Id";
-const QString NAME = "Name";
-const QString ADDRESS = "Address";
-const QString ICON = "Icon";
-const QString GENRES = "Genres";
-const QString PERIODS = "Periods";
-const QString FILTERS = "Filters";
-const int VALUE = 0;
-const int LINK = 1;
-
 class ModuleParametersPrivate;
 
 class ModuleParameters
 {
 public:
+  enum Key {
+    Id,
+    Name,
+    Address,
+    Icon,
+    SearchGroups,
+    Styles,
+    Periods,
+    Filters
+  };
+
   ModuleParameters();
   ModuleParameters(const ModuleParameters& other);
   ModuleParameters& operator=(const ModuleParameters& other);
   ~ModuleParameters();
 
-  // Устанавливает/Возвращает параметры модуля.
-  void setId(int id);
-  int id() const;
-
-  void setName(const QString& name);
-  QString name() const;
-
-  void setAddress(const QString& address);
-  QString address() const;
-
-  void setIcon(const QString& icon);
-  QString icon() const;
-
-  void setSearchGroup(const QString& group);
-  QStringList searchGroups() const;
-
-  void setGenre(const QString& genre, const QString& value, const QString& link);
-  QStringList genreInfo(const QString& genre) const;
-  QStringList genres() const;
-
-  void setPeriod(const QString& period, const QString& value, const QString& link);
-  QStringList periodInfo(const QString& period) const;
-  QStringList periods() const;
-
-  void setFilter(const QString& filter, const QString& value, const QString& link);
-  QStringList filterInfo(const QString& filter) const;
-  QStringList filters() const;
-
+  // Устанавливает значение value по ключу key.
+  void setData(int key, const QVariant& value);
+  // Возвращает значение по ключу key.
+  QVariant data(int key);
   // Возвращает список параметров.
   QStringList toStringList() const;
 
 private:
-  ModuleParametersPrivate* m_d;
+  QString nameKey(int key) const;
+
+private:
+  ModuleParametersPrivate* m_d;  
 };
 
 #endif // MODULEPARAMETERS_H

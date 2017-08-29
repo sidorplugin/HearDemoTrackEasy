@@ -12,8 +12,8 @@ class DataInput
 {
 public:
   enum Key {
-    Source,          // Источник.
-    Genre,           // Текущий жанр. Будет отображаться в БД.
+    FetchSource,     // Источник.
+    Style,           // Текущий жанр. Будет отображаться в БД.
     Period,          // Текущий период.
     Filter,          // Текущий фильтр.
     SearchSource,    // Информация по поиску.
@@ -34,9 +34,9 @@ public:
 
 private:
   // Возвращает строковое значение ключа.
-  QString keyToString(DataInput::Key key) const;
+  QString nameKey(DataInput::Key key) const;
   // Возвращает строковое значение ключа на русском.
-  QString keyToRusString(DataInput::Key key) const;
+  QString nameKeyRus(DataInput::Key key) const;
 
 
 private:

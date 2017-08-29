@@ -30,7 +30,7 @@ public:
 
   ModuleParameters createParameters() {
     foreach (ModuleParameters p, GlobalData::getInstance()->parameters) {
-      if (p.name() == "DeejayDe")
+      if (p.data(ModuleParameters::Name).toString() == "DeejayDe")
         return p;
     }
     return ModuleParameters();

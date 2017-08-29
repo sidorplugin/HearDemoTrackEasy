@@ -13,7 +13,7 @@ bool Validator::verify(int action, DataInput &input)
   switch (action) {
     case MainWindow::FetchAction :
     {
-      QString genre = input.data(DataInput::Genre).toString();
+      QString genre = input.data(DataInput::Style).toString();
       QString period = input.data(DataInput::Period).toString();
       QString filter = input.data(DataInput::Filter).toString();
       if (!genre.isEmpty() || !period.isEmpty() || !filter.isEmpty())

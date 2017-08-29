@@ -17,22 +17,21 @@ class FetchWidget : public QTableView
 {
   Q_OBJECT
 public:
+  enum Key {
+    Source,
+    DateStart,
+    DateEnd,
+    Style,
+    Period,
+    Filter
+  };
+
 
   FetchWidget();
   ~FetchWidget();
 
-  // Возвращает значение поля "Источник".
-  QString getSource() const;
-  // Возвращает значение поля "Начало".
-  QDate getDateStart() const;
-  // Возвращает значение поля "Конец".
-  QDate getDateEnd() const;
-  // Возвращает значение поля "Жанр".
-  QString getGenre() const;
-  // Возвращает значение поля "Период".
-  QString getPeriod() const;
-  // Возвращает значение поля "Фильтр".
-  QString getFilter() const;
+  // Возвращает значение по ключу key.
+  QVariant data(int key);
 
 private slots:
   // Действия при изменении данных в модели.

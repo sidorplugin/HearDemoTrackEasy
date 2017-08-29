@@ -2,19 +2,22 @@
 
 
 QString DeejayDeLinkCreator::create(Module::Mode mode, DataInput& input,
-                                    const ModuleParameters& params)
+                                    ModuleParameters& params)
 {
     QString result;
-    QString address = params.address();
+    QString address = params.data(ModuleParameters::Address).toString();
     switch (mode) {
         case Module::FetchMode :
         {
-            QStringList genreInfo = params.genreInfo(
-                                    input.data(DataInput::Genre).toString());
+            QHash<QString, QVariant> hash =
+                params.data(ModuleParameters::Styles).toHash();
+
+            QStringList styleInfo =
+              hash.value(input.data(DataInput::Style).toString()).toStringList();
 
             // "http://www.deejay.de/content.php?param=/m_House/sm_News/
             // sort_voe/perpage_160/page_";
-            result = address + genreInfo.at(VALUE) + genreInfo.at(LINK) + "%1";
+            result = address + styleInfo.at(0) + styleInfo.at(1) + "%1";
         }
         break;
 

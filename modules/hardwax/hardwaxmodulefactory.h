@@ -29,7 +29,7 @@ public:
 
   ModuleParameters createParameters() {
     foreach (ModuleParameters p, GlobalData::getInstance()->parameters) {
-      if (p.name() == "Hardwax")
+      if (p.data(ModuleParameters::Name).toString() == "Hardwax")
         return p;
     }
     return ModuleParameters();

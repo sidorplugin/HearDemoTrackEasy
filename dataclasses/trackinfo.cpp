@@ -40,6 +40,7 @@ QString TrackInfo::keyToString(int key) const
         case TrackInfo::Date :             name = "Date";         break;
         case TrackInfo::LinkTrack :        name = "LinkTrack";    break;
         case TrackInfo::LinkImage :        name = "LinkImage";    break;
+        case TrackInfo::Source :           name = "Source";       break;
     }
     return name;
 }

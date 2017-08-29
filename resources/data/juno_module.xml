@@ -9,14 +9,14 @@
 		<group>Titles</group>
 		<group>Labels</group>	
 	</search>
-	<genres>
-		<genre title="" link=""></genre>
-		<genre title="Electro">electro</genre>
-		<genre title="Funk Soul &amp; Jazz">funk-soul-jazz</genre>
-		<genre title="House">house</genre>
-		<genre title="Techno">techno-music</genre>
-		<genre title="Leftfield">leftfield</genre>
-	</genres>
+	<styles>
+		<style title="" link=""></style>
+		<style title="Electro">electro</style>
+		<style title="Funk Soul &amp; Jazz">funk-soul-jazz</style>
+		<style title="House">house</style>
+		<style title="Techno">techno-music</style>
+		<style title="Leftfield">leftfield</style>
+	</styles>
 	<periods>
 		<period title="" link=""></period>
 		<period title="This Week">this-week</period>

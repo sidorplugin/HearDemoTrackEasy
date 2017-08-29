@@ -199,6 +199,7 @@ void DeejayDeAlbumFetcher::result(bool ok)
       track.setData(TrackInfo::Label, label);
       track.setData(TrackInfo::Date, date);
       track.setData(TrackInfo::LinkImage, linkImage);
+      track.setData(TrackInfo::Source, "DeejayDe");
 
       p_d->trackInfoList.push_back(track);
   }

@@ -41,7 +41,8 @@ void Worker::createModule(ModuleFactory *factory)
   connect(module, SIGNAL(pageFetched(int, int)),
           this, SIGNAL(signal_pageFetched(int, int)));
 
-  m_modules.insert(module->parameters().name(), module);
+  m_modules.insert(module->parameters().data(ModuleParameters::Name).toString(),
+                                                                         module);
 }
 
 
@@ -64,7 +65,7 @@ void Worker::slot_fetch(DataInput &input)
   // Сохраняет поступившие данные на выборку.
   m_input = input;
 
-  Module* module = m_modules.value(input.data(DataInput::Source).toString());
+  Module* module = m_modules.value(input.data(DataInput::FetchSource).toString());
   module->execute(Module::FetchMode, m_input);
 
 }
@@ -118,7 +119,7 @@ void Worker::slot_cancel()
     case MainWindow::SearchingState :
     case MainWindow::FetchingState :
     {
-        Module* module = m_modules.value(m_input.data(DataInput::Source).toString());
+        Module* module = m_modules.value(m_input.data(DataInput::FetchSource).toString());
         module->stop();
     }
     break;

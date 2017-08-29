@@ -21,6 +21,7 @@ Database::Database()
   m_model->setHeaderData(6, Qt::Horizontal, RU_HEADER_DATE);
   m_model->setHeaderData(7, Qt::Horizontal, RU_HEADER_LINK_TRACK);
   m_model->setHeaderData(8, Qt::Horizontal, RU_HEADER_LINK_IMAGE);
+  m_model->setHeaderData(9, Qt::Horizontal, RU_HEADER_SOURCE);
 }
 
 
@@ -71,7 +72,8 @@ QSqlError Database::createTable()
                                   " label VARCHAR,"
                                   " date VARCHAR,"
                                   " link_track VARCHAR,"
-                                  " link_image VARCHAR)")))
+                                  " link_image VARCHAR,"
+                                  " source VARCHAR)")))
     return query.lastError();
 
   return QSqlError();

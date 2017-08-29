@@ -193,6 +193,7 @@ void JunoFetcher::handleElement(const QWebElement &element)
       track.setData(TrackInfo::Label, label);
       track.setData(TrackInfo::Date, date);
 //      track.setData(TrackInfo::LinkImage, );
+      track.setData(TrackInfo::Source, "Juno");
 
       p_d->trackDataList.push_back(track);
   }
