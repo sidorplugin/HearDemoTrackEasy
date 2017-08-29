@@ -1,5 +1,6 @@
 #include "deejaydelinkcreator.h"
 
+#include <QDebug>
 
 QString DeejayDeLinkCreator::create(Module::Mode mode, DataInput& input,
                                     ModuleParameters& params)
@@ -9,11 +10,11 @@ QString DeejayDeLinkCreator::create(Module::Mode mode, DataInput& input,
     switch (mode) {
         case Module::FetchMode :
         {
-            QHash<QString, QVariant> hash =
-                params.data(ModuleParameters::Styles).toHash();
+            QMap<QString, QVariant> map =
+                params.data(ModuleParameters::Styles).toMap();
 
             QStringList styleInfo =
-              hash.value(input.data(DataInput::Style).toString()).toStringList();
+              map.value(input.data(DataInput::Style).toString()).toStringList();
 
             // "http://www.deejay.de/content.php?param=/m_House/sm_News/
             // sort_voe/perpage_160/page_";

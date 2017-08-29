@@ -4,20 +4,20 @@
 QString HardwaxLinkCreator::create(Module::Mode mode, DataInput &input,
                                    ModuleParameters &params)
 {
-  QHash<QString, QVariant> hash;
+  QMap<QString, QVariant> map;
 
   QString address = params.data(ModuleParameters::Address).toString();
 
-  hash = params.data(ModuleParameters::Styles).toHash();
-  QStringList genreInfo = hash.value(input.data(DataInput::Style).toString()).
+  map = params.data(ModuleParameters::Styles).toMap();
+  QStringList genreInfo = map.value(input.data(DataInput::Style).toString()).
                                                                 toStringList();
 
-  hash = params.data(ModuleParameters::Periods).toHash();
-  QStringList periodInfo = hash.value(input.data(DataInput::Period).toString()).
+  map = params.data(ModuleParameters::Periods).toMap();
+  QStringList periodInfo = map.value(input.data(DataInput::Period).toString()).
                                                                 toStringList();
 
-  hash = params.data(ModuleParameters::Filters).toHash();
-  QStringList filterInfo = hash.value(input.data(DataInput::Filter).toString()).
+  map = params.data(ModuleParameters::Filters).toMap();
+  QStringList filterInfo = map.value(input.data(DataInput::Filter).toString()).
                                                                  toStringList();
 
   QString link = genreInfo.at(1);

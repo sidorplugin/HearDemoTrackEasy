@@ -31,9 +31,7 @@ QList<int> DeejayDePageSearcher::getPagesInfo(const QVariantList &params)
 
   // Возвращает список.
   QList<int> result;
-  result[PageSearcher::StartPage] = startPage;
-  result[PageSearcher::EndPage] = endPage;
-  result[PageSearcher::TotalPages] = totalPages;
+  result << startPage << endPage << totalPages;
 
   return result;
 }
