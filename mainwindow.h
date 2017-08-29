@@ -31,7 +31,6 @@ public:
   // Состояние интерфейса.
   enum State {
     ReadyState,              // Готов.
-    WaitingState,            // Ожидание.
     FetchingState,           // Идет выборка.
     FetchedState,            // Выборка окончена.
     LoadingState,            // Идет загрузка.

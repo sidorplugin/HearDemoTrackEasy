@@ -230,8 +230,6 @@ void MainWindow::slot_executeAction(int action)
     case MainWindow::CancelAction:
     {
       qDebug() << "MainWindow::CancelAction";
-
-      setState(MainWindow::WaitingState);
       emit signal_cancel();
     }
     break;

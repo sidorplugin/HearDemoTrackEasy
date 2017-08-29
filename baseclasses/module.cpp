@@ -3,6 +3,7 @@
 #include "globaldata.h"
 
 #include <QEventLoop>
+#include <QDebug>
 
 //**************************  Module  *********************************//
 
@@ -12,11 +13,15 @@ void Module::execute(Module::Mode mode, DataInput &input)
   qDebug() << "Module::execute";
 
   m_mode = mode;
+  m_isPageSearched = false;
 
   connect(m_fetcher, SIGNAL(ready(QList<TrackInfo>)),
           this, SIGNAL(ready(QList<TrackInfo>)));
 
   connect(m_fetcher, SIGNAL(fetched(Fetcher::State)),
+          this, SLOT(on_fetched(Fetcher::State)));
+
+  connect(m_pageSearcher, SIGNAL(fetched(Fetcher::State)),
           this, SLOT(on_fetched(Fetcher::State)));
 
   // Возвращает ссылку для выборки.
@@ -52,6 +57,8 @@ void Module::execute(Module::Mode mode, DataInput &input)
     break;
 
   }
+
+  m_isPageSearched = true;
   // Стартует выборку.
   fetch(link, start, end);
 
@@ -62,9 +69,7 @@ void Module::execute(Module::Mode mode, DataInput &input)
 // Останавливает модуль.
 void Module::stop()
 {
-  // TODO Завершать в зависимости кто находится в работе.
-  m_fetcher->stop();
-  m_pageSearcher->stop();
+  m_isPageSearched ? m_fetcher->stop() : m_pageSearcher->stop();
 }
 
 
@@ -115,6 +120,7 @@ void Module::fetch(const QString& link, int start, int end)
 // Обработка сигнала парсера pageFetched.
 void Module::on_fetched(Fetcher::State state)
 {
+  qDebug() << "Module::on_fetched" << state;
   // 3 состояния выборщика:
   // 1 - удачно завершенная выборка страницы
   // 2 - нет элементов
@@ -125,7 +131,10 @@ void Module::on_fetched(Fetcher::State state)
     break;
     case Fetcher::NoElements :
     case Fetcher::Stoped :
+    {
       m_isStoped = true;
+      emit finished();
+    }
     break;
   }
 

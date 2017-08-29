@@ -20,7 +20,10 @@ class Module : public QObject
 {
   Q_OBJECT
 public:
-  enum Mode { FetchMode, SearchMode };
+  enum Mode {
+    FetchMode,
+    SearchMode
+  };
 
   Module(QObject *parent = 0) {}
   ~Module() {}
@@ -67,6 +70,7 @@ protected:
   int m_total;                // Общее число страниц для выборки.
   int m_mode;
   bool m_isStoped;            // Остановлен?
+  bool m_isPageSearched;      //
 
 private:
   ModuleParameters m_parameters;

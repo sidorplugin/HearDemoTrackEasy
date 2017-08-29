@@ -66,11 +66,16 @@ int DeejayDePageSearcher::page(const QString& address, const QDate& date)
 
   // Пока не найдется искомая страница запрашивает страницы с вновь определенным
   // m_current.
+
+  // TODO Выход по отмене из этого цикла.
   while (!m_isFinded) {
     qDebug() << "searching...";
 
-    if (m_isStop)
+    if (m_isStop) {
+      qDebug() << "stopped...return -1 DeejayDePageSearcher::page()";
+      break;
       return -1;
+    }
 
     // Проверяет страницу на наличие в таблице дат для случая если страница
     // уже была запрошена ранее.
@@ -97,8 +102,11 @@ int DeejayDePageSearcher::page(const QString& address, const QDate& date)
     }
     // Иначе если даты нет в списке производит запрос в сеть.
     else {
-        if (m_isStop)
+        if (m_isStop) {
+          qDebug() << "stopped...return -1 DeejayDePageSearcher::page()";
+          break;
           return -1;
+        }
 
         start(address.arg(QString::number(m_current)));
         // Остается в цикле пока не произведется выборка.
@@ -106,7 +114,6 @@ int DeejayDePageSearcher::page(const QString& address, const QDate& date)
         connect(this, SIGNAL(fetched(Fetcher::State)),
                 &wait, SLOT(quit()));
         wait.exec();
-        // TODO принудительный выход из ожидания.
 
         // Делает паузу.
         pause(GlobalData::getInstance()->delay);

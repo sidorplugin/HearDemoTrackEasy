@@ -119,7 +119,8 @@ void Worker::slot_cancel()
     case MainWindow::SearchingState :
     case MainWindow::FetchingState :
     {
-        Module* module = m_modules.value(m_input.data(DataInput::FetchSource).toString());
+        Module* module =
+            m_modules.value(m_input.data(DataInput::FetchSource).toString());
         module->stop();
     }
     break;
@@ -143,16 +144,21 @@ void Worker::slot_setState(int state)
 // об изменении статуса.
 void Worker::slot_onModulesFinished()
 {
+  qDebug() << "Worker::slot_onModulesFinished()";
   Downloader* downloader = qobject_cast<Downloader*>(QObject::sender());
   Module* module = qobject_cast<Module*>(QObject::sender());
 
   if (downloader)
     emit signal_stateChanged(MainWindow::LoadedState);
   else {
-    if (module->mode() == Module::FetchMode)
+    if (module->mode() == Module::FetchMode) {
+      qDebug() << "FetchMode";
       emit signal_stateChanged(MainWindow::FetchedState);
-    else
+    }
+    else {
+      qDebug() << "SearchedState";
       emit signal_stateChanged(MainWindow::SearchedState);
+    }
   }
 }
 
