@@ -26,14 +26,13 @@ void Worker::createModule(ModuleFactory *factory)
   Module* module = new Module;
 
   module->m_fetcher = factory->createFetcher();
-  module->m_albumFetcher = factory->createAlbumFetcher();
   module->m_pageSearcher = factory->createPageSearcher();
   module->m_linkCreator = factory->createLinkCreator();
   module->setParameters(factory->createParameters());
 
   // Создает связи.
-  connect(module, SIGNAL(ready(QList<TrackInfo>)),
-          this, SLOT(handleTracksFromModule(QList<TrackInfo>)));
+  connect(module, SIGNAL(ready(QList<AlbumInfo>)),
+          this, SLOT(handleTracksFromModule(QList<AlbumInfo>)));
 
   connect(module, SIGNAL(finished()),
           this, SLOT(slot_onModulesFinished()));
@@ -79,7 +78,7 @@ void Worker::slot_load(DataInput &input)
 //  m_downloader->initialize(data.isSingleLoad);
 
   if (input.data(DataInput::SingleLoad).toBool()) {
-    TrackInfo track = m_model->getTrackInfo(input.data(DataInput::Row).toInt());
+    AlbumInfo track = m_model->getTrackInfo(input.data(DataInput::Row).toInt());
     qDebug() << track.toStringList();
     m_downloader->load(track);
   }
@@ -163,14 +162,14 @@ void Worker::slot_onModulesFinished()
 }
 
 // Добавляет треки в модель.
-void Worker::addTracksToModel(const QList<TrackInfo> &tracks)
+void Worker::addTracksToModel(const QList<AlbumInfo> &tracks)
 {
   m_model->add(tracks);
 }
 
 
 // Добавляет треки.
-void Worker::handleTracksFromModule(const QList<TrackInfo>& tracks)
+void Worker::handleTracksFromModule(const QList<AlbumInfo>& tracks)
 {
   qDebug() << "Worker::handleTracksFromModule";
 

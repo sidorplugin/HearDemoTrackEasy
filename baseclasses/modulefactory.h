@@ -13,7 +13,6 @@ class ModuleFactory
 {
 public:
   virtual Fetcher* createFetcher() = 0;
-  virtual Fetcher* createAlbumFetcher() = 0;
   virtual PageSearcher* createPageSearcher() = 0;
   virtual LinkCreator* createLinkCreator() = 0;
   virtual ModuleParameters createParameters() = 0;

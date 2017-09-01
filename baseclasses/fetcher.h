@@ -2,7 +2,7 @@
 #define FETCHER_H
 
 #include "globaldata.h"
-#include "dataclasses/trackinfo.h"
+#include "dataclasses/albuminfo.h"
 
 #include <QObject>
 #include <QWebPage>
@@ -26,13 +26,16 @@ public:
   void start(const QString& url);
   // Останавливает выборку.
   void stop();
+  // Загружает параметры выборки.
+//  void loadFetchParameters(const ModuleParameters& p);
+
   // Возвращает url запроса.
   QString url() const;
 
 signals:
   // Выборка окончена.
   void fetched(Fetcher::State);
-  void ready(const QList <TrackInfo>&);
+  void ready(const QList <AlbumInfo>&);
 
 protected slots:
   // Абстрактный метод обрабатывающий полученные данные.

@@ -5,7 +5,7 @@
 SearchResultModel::SearchResultModel()
 {
   // Создает заголовки модели.
-  for (int i = TrackInfo::Artist; i <= TrackInfo::Source; ++i) {
+  for (int i = AlbumInfo::Artist; i <= AlbumInfo::Source; ++i) {
     setHorizontalHeaderItem(i, new QStandardItem(name(i)));
   }
   setHeaderData(0, Qt::Horizontal, false,  Qt::CheckStateRole);
@@ -13,13 +13,13 @@ SearchResultModel::SearchResultModel()
 
 
 // Добавляет трек в модель.
-void SearchResultModel::add(TrackInfo &track)
+void SearchResultModel::add(AlbumInfo &track)
 {
   insertRow(0);
-  setData(index(0, TrackInfo::Artist), false, Qt::CheckStateRole);
-  item(0, TrackInfo::Artist)->setCheckable(true);
+  setData(index(0, AlbumInfo::Artist), false, Qt::CheckStateRole);
+  item(0, AlbumInfo::Artist)->setCheckable(true);
 
-  for (int i = TrackInfo::Artist; i <= TrackInfo::Source; ++i) {
+  for (int i = AlbumInfo::Artist; i <= AlbumInfo::Source; ++i) {
       setData(index(0, i), track.data(i).toString());
       item(0, i)->setEditable(false);
   }
@@ -27,33 +27,33 @@ void SearchResultModel::add(TrackInfo &track)
 
 
 // Возвращает информацию о треке по номеру строки.
-TrackInfo SearchResultModel::getTrackInfo(int row)
+AlbumInfo SearchResultModel::getTrackInfo(int row)
 {
   // Считывает запись из модели по index.
-  QString artist =    data(index(row, TrackInfo::Artist))   .toString();
-  QString title =     data(index(row, TrackInfo::Title))    .toString();
-  QString album =     data(index(row, TrackInfo::Album))    .toString();
-  QString style =     data(index(row, TrackInfo::Style))    .toString();
-  QString catalog =   data(index(row, TrackInfo::Catalog))  .toString();
-  QString label =     data(index(row, TrackInfo::Label))    .toString();
-  QString date =      data(index(row, TrackInfo::Date))     .toString();
-  QString linkTrack = data(index(row, TrackInfo::LinkTrack)).toString();
-  QString linkImage = data(index(row, TrackInfo::LinkImage)).toString();
-  QString source =    data(index(row, TrackInfo::Source))   .toString();
+  QString artist =    data(index(row, AlbumInfo::Artist))   .toString();
+  QString title =     data(index(row, AlbumInfo::Title))    .toString();
+//  QString album =     data(index(row, AlbumInfo::Album))    .toString();
+  QString style =     data(index(row, AlbumInfo::Style))    .toString();
+  QString catalog =   data(index(row, AlbumInfo::Catalog))  .toString();
+  QString label =     data(index(row, AlbumInfo::Label))    .toString();
+  QString date =      data(index(row, AlbumInfo::Date))     .toString();
+//  QString linkTrack = data(index(row, AlbumInfo::LinkTrack)).toString();
+//  QString linkImage = data(index(row, AlbumInfo::LinkImage)).toString();
+  QString source =    data(index(row, AlbumInfo::Source))   .toString();
 
   // С помощью определенного ранее индекса получает доступ к данным модели.
-  // Заполняет ими структуру TrackInfo.
-  TrackInfo track;
-  track.setData(TrackInfo::Artist,    artist);
-  track.setData(TrackInfo::Title,     title);
-  track.setData(TrackInfo::Album,     album);
-  track.setData(TrackInfo::Style,     style);
-  track.setData(TrackInfo::Catalog,   catalog);
-  track.setData(TrackInfo::Label,     label);
-  track.setData(TrackInfo::Date,      date);
-  track.setData(TrackInfo::LinkTrack, linkTrack);
-  track.setData(TrackInfo::LinkImage, linkImage);
-  track.setData(TrackInfo::Source,    source);
+  // Заполняет ими структуру AlbumInfo.
+  AlbumInfo track;
+  track.setData(AlbumInfo::Artist,    artist);
+  track.setData(AlbumInfo::Title,     title);
+//  track.setData(AlbumInfo::Album,     album);
+  track.setData(AlbumInfo::Style,     style);
+  track.setData(AlbumInfo::Catalog,   catalog);
+  track.setData(AlbumInfo::Label,     label);
+  track.setData(AlbumInfo::Date,      date);
+//  track.setData(AlbumInfo::LinkTrack, linkTrack);
+//  track.setData(AlbumInfo::LinkImage, linkImage);
+  track.setData(AlbumInfo::Source,    source);
 
   return track;
 }
@@ -62,7 +62,7 @@ TrackInfo SearchResultModel::getTrackInfo(int row)
 // Возвращает true если элемент в строке row выделен.
 bool SearchResultModel::isCheckedState(int row)
 {
-  return data(index(row, TrackInfo::Artist), Qt::CheckStateRole).toBool();
+  return data(index(row, AlbumInfo::Artist), Qt::CheckStateRole).toBool();
 }
 
 
@@ -72,16 +72,16 @@ QString SearchResultModel::name(int key)
   QString name;
 
   switch (key) {
-    case TrackInfo::Artist :      name = "Артист";             break;
-    case TrackInfo::Title :       name = "Название";           break;
-    case TrackInfo::Album :       name = "Альбом";             break;
-    case TrackInfo::Style :       name = "Стиль";              break;
-    case TrackInfo::Catalog :     name = "Каталог";            break;
-    case TrackInfo::Label :       name = "Лэйбл";              break;
-    case TrackInfo::Date :        name = "Дата";               break;
-    case TrackInfo::LinkTrack :   name = "Ссылка Трек";        break;
-    case TrackInfo::LinkImage :   name = "Ссылка Изображение"; break;
-    case TrackInfo::Source :      name = "Источник";           break;
+    case AlbumInfo::Artist :      name = "Артист";             break;
+    case AlbumInfo::Title :       name = "Название";           break;
+//    case AlbumInfo::Album :       name = "Альбом";             break;
+    case AlbumInfo::Style :       name = "Стиль";              break;
+    case AlbumInfo::Catalog :     name = "Каталог";            break;
+    case AlbumInfo::Label :       name = "Лэйбл";              break;
+    case AlbumInfo::Date :        name = "Дата";               break;
+//    case AlbumInfo::LinkTrack :   name = "Ссылка Трек";        break;
+//    case AlbumInfo::LinkImage :   name = "Ссылка Изображение"; break;
+    case AlbumInfo::Source :      name = "Источник";           break;
   }
 
   return name;

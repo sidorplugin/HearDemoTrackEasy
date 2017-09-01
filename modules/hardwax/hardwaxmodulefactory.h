@@ -15,10 +15,6 @@ public:
     return new HardwaxFetcher;
   }
 
-  Fetcher* createAlbumFetcher() {
-    return 0;
-  }
-
   PageSearcher* createPageSearcher() {
     return new HardwaxPageSearcher;
   }

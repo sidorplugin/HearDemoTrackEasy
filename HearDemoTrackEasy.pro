@@ -35,7 +35,6 @@ SOURCES += main.cpp\
     widgets/dbviewwidget/dbviewitemdelegate.cpp \
     widgets/dbviewwidget/dbviewmodel.cpp \
     widgets/playerwidget/playerwidget.cpp \
-    dataclasses/trackinfo.cpp \
     database.cpp \
     worker.cpp \
     baseclasses/pagesearcher.cpp \
@@ -50,7 +49,8 @@ SOURCES += main.cpp\
     widgets/fetchwidget/fetchitemdelegate.cpp \
     widgets/fetchwidget/fetchmodel.cpp \
     widgets/searchresultwidget/searchresultwidget.cpp \
-    widgets/searchresultwidget/searchresultmodel.cpp
+    widgets/searchresultwidget/searchresultmodel.cpp \
+    dataclasses/albuminfo.cpp
 
 HEADERS  += mainwindow.h \
     modules/deejayde/deejaydefetcher.h \
@@ -80,7 +80,6 @@ HEADERS  += mainwindow.h \
     widgets/dbviewwidget/dbviewmodel.h \
     widgets/playerwidget/playerwidget.h \
     dataclasses/datainput.h \
-    dataclasses/trackinfo.h \
     database.h \
     worker.h \
     baseclasses/pagesearcher.h \
@@ -94,7 +93,8 @@ HEADERS  += mainwindow.h \
     widgets/fetchwidget/fetchitemdelegate.h \
     widgets/fetchwidget/fetchmodel.h \
     widgets/searchresultwidget/searchresultwidget.h \
-    widgets/searchresultwidget/searchresultmodel.h
+    widgets/searchresultwidget/searchresultmodel.h \
+    dataclasses/albuminfo.h
 
 FORMS    += mainwindow.ui \
             playerwidgetform.ui \

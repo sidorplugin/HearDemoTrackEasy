@@ -7,18 +7,18 @@
 class DeejayDeAlbumFetcherPrivate
 {
 public:
-  QList <TrackInfo> trackInfoList;
+  QList <AlbumInfo> albums;
 
 public:
-  // Возвращает ссылку на изображение релиза.
-  QString getLinkImage(const QWebElement &element);
+  // Возвращает ссылки на изображения релиза.
+  QStringList getImages(const QWebElement &element);
   // Возвращает true если ссылка правильная.
   bool validateLinkImage(const QString& link);
   // Возвращает ссылку на трек.
   QString getLinkTrack(const QWebElement &element,
                        const QString& params = QString());
   // Возвращает название трека.
-  QString getTitle(const QWebElement &element);
+  QString getTitleTrack(const QWebElement &element);
   // Возвращает артиста.
   QString getArtist(const QWebElement &element);
   // Возвращает название релиза.
@@ -33,18 +33,28 @@ public:
   QString getStyle(const QWebElement &element);
 };
 
-// Возвращает ссылку на изображение релиза.
-QString DeejayDeAlbumFetcherPrivate::getLinkImage(const QWebElement &element)
-{
-  QWebElement linkElement = element.findFirst("div.img.allbig.img1 a.noMod");
-  if (linkElement.isNull())
-    linkElement = element.findFirst("div.img.img1 a.noMod");
 
-  QString href = linkElement.attribute("href");
-  if (validateLinkImage(href))
-    return href;
+
+// Возвращает ссылки на изображения релиза.
+QStringList DeejayDeAlbumFetcherPrivate::getImages(const QWebElement &element)
+{
+  QStringList result;
+
+  QWebElement imageElement_1 = element.findFirst("div.img.allbig.img1 a.noMod");
+  QWebElement imageElement_2 = element.findFirst("div.img.allbig.img2 a.noMod");
+
+  if (imageElement_1.isNull())
+    imageElement_1 = element.findFirst("div.img.img1 a.noMod");
+
+  QString link1 = imageElement_1.attribute("href");
+  QString link2 = imageElement_2.attribute("href");
+
+  if (validateLinkImage(link1)) {
+    result << link1 << link2;
+    return result;
+  }
   else
-    return QString();
+    return QStringList();
 }
 
 
@@ -61,7 +71,7 @@ QString DeejayDeAlbumFetcherPrivate::getLinkTrack(const QWebElement &element,
 
 
 // Возвращает название трека.
-QString DeejayDeAlbumFetcherPrivate::getTitle(const QWebElement &element)
+QString DeejayDeAlbumFetcherPrivate::getTitleTrack(const QWebElement &element)
 {
   QString innerXml = element.toInnerXml();
   // Очищает строку от ненужных символов.
@@ -152,80 +162,76 @@ DeejayDeAlbumFetcher::~DeejayDeAlbumFetcher()
 }
 
 
-// Возвращает список с выбранной информацией о треках.
-QList<TrackInfo> DeejayDeAlbumFetcher::getFetchedTrackInfoList() const
+// Возвращает список с выбранной информацией об альбоме.
+QList<AlbumInfo> DeejayDeAlbumFetcher::getFetchedAlbums() const
 {
-  return p_d->trackInfoList;
+  return p_d->albums;
 }
 
 
 // Производит выборку.
 void DeejayDeAlbumFetcher::result(bool ok)
 {
-  p_d->trackInfoList.clear();
+  p_d->albums.clear();
 
   QWebElement contentElement =
       m_page.mainFrame()->findFirstElement("article.single_product");
 
   // Считывает адрес на картинку (необходим для получения адреса на трек).
-  QString linkImage = p_d->getLinkImage(contentElement);
-  if (linkImage.isEmpty()) {
+  QStringList images = p_d->getImages(contentElement);
+  if (images.isEmpty()) {
     emit fetched(Fetcher::NoElements);
     return;
   }
 
-  QDate date = p_d->getDate(contentElement);
   QString artist = p_d->getArtist(contentElement);
-  QString album = p_d->getTitleRelease(contentElement);
-  QString label = p_d->getLabel(contentElement);
-  QString catalog = p_d->getCatalog(contentElement);
+  QString title = p_d->getTitleRelease(contentElement);
+  int id = qHash(artist + title);
   QString style = p_d->getStyle(contentElement);
+  QString catalog = p_d->getCatalog(contentElement);
+  QString label = p_d->getLabel(contentElement);
+  QDate date = p_d->getDate(contentElement);
 
   // Определяет треклист релиза.
-  QStringList trackList = getTrackList(QWebElement(), linkImage);
-  if (trackList.isEmpty()) {
+  QVariantHash tracks = getTrackList(QWebElement(), images.at(0));
+  if (tracks.isEmpty()) {
     emit fetched(Fetcher::NoElements);
     return;
   }
 
-  for(int i = 0; i < trackList.size(); i = i + 2) {
-      TrackInfo track;
-      track.setData(TrackInfo::LinkTrack, trackList.at(i));
-      track.setData(TrackInfo::Title, trackList.at(i + 1));
-      track.setData(TrackInfo::Style, style);
-      track.setData(TrackInfo::Artist, artist);
-      track.setData(TrackInfo::Album, album);
-      track.setData(TrackInfo::Catalog, catalog);
-      track.setData(TrackInfo::Label, label);
-      track.setData(TrackInfo::Date, date);
-      track.setData(TrackInfo::LinkImage, linkImage);
-      track.setData(TrackInfo::Source, "DeejayDe");
+  AlbumInfo album;
+  album.setData(AlbumInfo::Id, id);
+  album.setData(AlbumInfo::Artist, artist);
+  album.setData(AlbumInfo::Title, title);
+  album.setData(AlbumInfo::Style, style);
+  album.setData(AlbumInfo::Catalog, catalog);
+  album.setData(AlbumInfo::Label, label);
+  album.setData(AlbumInfo::Date, date);
+  album.setData(AlbumInfo::Images, images);
+  album.setData(AlbumInfo::Tracks, tracks);
+  album.setData(AlbumInfo::Source, "DeejayDe");
 
-      p_d->trackInfoList.push_back(track);
-  }
+  p_d->albums.push_back(album);
 
   emit fetched(Fetcher::Finished);
 }
 
 
 // Возвращает треклист.
-QStringList DeejayDeAlbumFetcher::getTrackList(const QWebElement &element,
+QVariantHash DeejayDeAlbumFetcher::getTrackList(const QWebElement &element,
                                                const QString& params)
 {
-  QStringList result;
-  QStringList list;
+  QVariantHash result;
 
   QWebElementCollection tracksCollection =
               m_page.mainFrame()->findAllElements("a.track");
   if (tracksCollection.count() == 0)
-    return QStringList();
+    return QVariantHash();
 
   foreach (QWebElement trackElement, tracksCollection) {
-    QString hrefMp3 = p_d->getLinkTrack(trackElement, params);
-    QString titleTrack = p_d->getTitle(trackElement);
-    list << hrefMp3 << titleTrack;
-    result << list;
-    list.clear();
+    QString link = p_d->getLinkTrack(trackElement, params);
+    QString title = p_d->getTitleTrack(trackElement);
+    result.insert(title, link);
   }
 
   return result;

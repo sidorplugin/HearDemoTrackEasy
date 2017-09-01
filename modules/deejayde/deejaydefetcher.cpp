@@ -1,5 +1,6 @@
 #include "deejaydefetcher.h"
-#include "dataclasses/trackinfo.h"
+#include "deejaydealbumfetcher.h"
+#include "dataclasses/albuminfo.h"
 
 #include <QSet>
 
@@ -8,7 +9,7 @@ class DeejayDeFetcherPrivate
 {
 public:
   DeejayDeAlbumFetcher* albumFetcher;
-  QList <TrackInfo> trackDataList;
+  QList <AlbumInfo> albums;
   // Текущая дата релиза по заголовку "Выпуски от dd.MM.yyyy".
   QDate releaseDate;
   QString linkRelease;
@@ -18,8 +19,8 @@ public:
   int getCountTracks(const QString& str);
   // Возвращает заголовок группы релизов "Выпуски от dd.MM.yyyy".
   QDate getDateGroup(const QWebElement &element);
-  // Возвращает ссылку на изображение релиза.
-  QString getLinkImage(const QWebElement &element);
+  // Возвращает ссылки на изображения релиза.
+  QStringList getImages(const QWebElement &element);
   // Возвращает true если ссылка правильная.
   bool validateLinkImage(const QString& link);
 
@@ -44,9 +45,9 @@ public:
   QString getLinkTrack(const QWebElement &element,
                        const QString& params = QString());
   // Возвращает название трека.
-  QString getTitle(const QWebElement &element);
+  QString getTitleTrack(const QWebElement &element);
   // Возвращает треклист.
-  QStringList getTrackList(const QWebElement& element,
+  QVariantHash getTrackList(const QWebElement& element,
                            const QString& params = QString());
 
 };
@@ -80,18 +81,25 @@ QDate DeejayDeFetcherPrivate::getDateGroup(const QWebElement &element)
 }
 
 
-// Возвращает ссылку на изображение релиза.
-QString DeejayDeFetcherPrivate::getLinkImage(const QWebElement &element)
+// Возвращает ссылки на изображения релиза.
+QStringList DeejayDeFetcherPrivate::getImages(const QWebElement &element)
 {
-  QWebElement linkElement = element.findFirst("div.img.img1 a.zoom.noMod");
-  if (linkElement.isNull())
-    linkElement = element.findFirst("div.img.img1 a.noMod");
+  QStringList result;
 
-  QString href = linkElement.attribute("href");
-  if (validateLinkImage(href))
-    return href;
+  QWebElement imageElement_1 = element.findFirst("div.img.img1 a.zoom.noMod");
+  QWebElement imageElement_2 = element.findFirst("div.img.img2 a.zoom.noMod");
+
+  if (imageElement_1.isNull())
+    imageElement_1 = element.findFirst("div.img.img1 a.noMod");
+
+  QString link1 = imageElement_1.attribute("href");
+  QString link2 = imageElement_2.attribute("href");
+  if (validateLinkImage(link1)) {
+    result << link1 << link2;
+    return result;
+  }
   else
-    return QString();
+    return QStringList();
 }
 
 
@@ -193,7 +201,7 @@ QString DeejayDeFetcherPrivate::getLinkTrack(const QWebElement &element,
 
 
 // Возвращает название трека.
-QString DeejayDeFetcherPrivate::getTitle(const QWebElement &element)
+QString DeejayDeFetcherPrivate::getTitleTrack(const QWebElement &element)
 {
   QString innerXml = element.toInnerXml();
   // Очищает строку от ненужных символов.
@@ -211,21 +219,18 @@ QString DeejayDeFetcherPrivate::getTitle(const QWebElement &element)
 
 
 // Возвращает треклист.
-QStringList DeejayDeFetcherPrivate::getTrackList(const QWebElement &element,
+QVariantHash DeejayDeFetcherPrivate::getTrackList(const QWebElement &element,
                                                  const QString& params)
 {
-  QWebElementCollection linksCollection = element.findAll("a.track");
+  QWebElementCollection linksCollection = element.findAll("a.track"); // a.track em
+  qDebug() << linksCollection.count();
 
-  QStringList result;
-  QStringList list;
+  QVariantHash result;
   foreach (QWebElement linkElement, linksCollection) {
-    QString hrefMp3 = getLinkTrack(linkElement, params);
-    QString titleTrack = getTitle(linkElement);
-    list << hrefMp3 << titleTrack;
-    result << list;
-    list.clear();
+    QString link = getLinkTrack(linkElement, params);
+    QString title = getTitleTrack(linkElement);
+    result.insert(title, link);
   }
-
   return result;
 }
 
@@ -236,6 +241,7 @@ QStringList DeejayDeFetcherPrivate::getTrackList(const QWebElement &element,
 DeejayDeFetcher::DeejayDeFetcher(QObject *parent)
 {
   p_d = new DeejayDeFetcherPrivate;
+  p_d->albumFetcher = new DeejayDeAlbumFetcher;
 }
 
 
@@ -245,16 +251,10 @@ DeejayDeFetcher::~DeejayDeFetcher()
 }
 
 
-void DeejayDeFetcher::setAlbumFetcher(DeejayDeAlbumFetcher *fetcher)
-{
-  p_d->albumFetcher = fetcher;
-}
-
-
 void DeejayDeFetcher::result(bool ok)
 {
   m_isStop = false;
-  p_d->trackDataList.clear();
+  p_d->albums.clear();
 
   QWebElementCollection vinylCollection =
     m_page.mainFrame()->findAllElements("article.clearfix.product.notangemeldet");
@@ -279,7 +279,7 @@ void DeejayDeFetcher::result(bool ok)
   }
   pause(m_delay);
 
-  emit ready(p_d->trackDataList);
+  emit ready(p_d->albums);
   emit fetched(Fetcher::Finished);
 }
 
@@ -292,7 +292,6 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
 
   // Если в альбоме не определено количество треков.
   if (countTracks == -1) {
-      p_d->linkRelease = p_d->getLinkRelease(element);
       return;
   }
 
@@ -310,10 +309,10 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
 
       // Если результат выборки альбома не нулевой добавляет его в
       // результирующий список треков.
-      QList <TrackInfo> albumFetchedList =
-                                 p_d->albumFetcher->getFetchedTrackInfoList();
+      QList <AlbumInfo> albumFetchedList =
+                                 p_d->albumFetcher->getFetchedAlbums();
       if (!albumFetchedList.isEmpty())
-        p_d->trackDataList.append(albumFetchedList);
+        p_d->albums.append(albumFetchedList);
   }
   // Если в альбоме не больше 4 треков.
   else {
@@ -329,34 +328,62 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
       }
 
       QString artist = p_d->getArtist(element);
-      QString album = p_d->getTitleRelease(element);
-      QString label = p_d->getLabel(element);
-      QString catNumber = p_d->getCatalog(element);
-      QString linkImage = p_d->getLinkImage(element);
-      QString style = p_d->getStyle(element);
+      qDebug() << "artist = " << artist;
 
-      if (linkImage.isEmpty()) {
-        p_d->linkRelease = p_d->getLinkRelease(element);
+      QString title = p_d->getTitleRelease(element);
+      qDebug() << "title = " << title;
+
+      int id = qHash(artist + title);
+
+      QString style = p_d->getStyle(element);
+      qDebug() << "style = " << style;
+
+      QString catalog = p_d->getCatalog(element);
+      qDebug() << "catalog = " << catalog;
+
+      QString label = p_d->getLabel(element);
+      qDebug() << "label = " << label;
+
+      QStringList images = p_d->getImages(element);
+      qDebug() << "images = " << images;
+
+      if (images.isEmpty()) {
         return;
       }
 
-      QStringList trackList = p_d->getTrackList(element, linkImage);
+      QVariantHash tracks = p_d->getTrackList(element, images.at(0));
+      qDebug() << "tracks = " << tracks;
 
-      for (int i = 0; i < trackList.size(); i = i + 2) {
-          TrackInfo track;
-          track.setData(TrackInfo::LinkTrack, trackList.at(i));
-          track.setData(TrackInfo::Title, trackList.at(i + 1));
-          track.setData(TrackInfo::Style, style);
-          track.setData(TrackInfo::Artist, artist);
-          track.setData(TrackInfo::Album, album);
-          track.setData(TrackInfo::Catalog, catNumber);
-          track.setData(TrackInfo::Label, label);
-          track.setData(TrackInfo::Date, date);
-          track.setData(TrackInfo::LinkImage, linkImage);
-          track.setData(TrackInfo::Source, "DeejayDe");
+      AlbumInfo album;
+      album.setData(AlbumInfo::Id, id);
+      album.setData(AlbumInfo::Artist, artist);
+      album.setData(AlbumInfo::Title, title);
+      album.setData(AlbumInfo::Style, style);
+      album.setData(AlbumInfo::Catalog, catalog);
+      album.setData(AlbumInfo::Label, label);
+      album.setData(AlbumInfo::Date, date);
+      album.setData(AlbumInfo::Images, images);
+      album.setData(AlbumInfo::Tracks, tracks);
+      album.setData(AlbumInfo::Source, "DeejayDe");
 
-          p_d->trackDataList.push_back(track);
-      }
+      p_d->albums.push_back(album);
+
+
+//      for (int i = 0; i < trackList.size(); i = i + 2) {
+//          AlbumInfo track;
+//          track.setData(AlbumInfo::LinkTrack, trackList.at(i));
+//          track.setData(AlbumInfo::Title, trackList.at(i + 1));
+//          track.setData(AlbumInfo::Style, style);
+//          track.setData(AlbumInfo::Artist, artist);
+//          track.setData(AlbumInfo::Album, album);
+//          track.setData(AlbumInfo::Catalog, catNumber);
+//          track.setData(AlbumInfo::Label, label);
+//          track.setData(AlbumInfo::Date, date);
+//          track.setData(AlbumInfo::LinkImage, linkImage);
+//          track.setData(AlbumInfo::Source, "DeejayDe");
+
+//          p_d->albums.push_back(track);
+//      }
   }
 }
 

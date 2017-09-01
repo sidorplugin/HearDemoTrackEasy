@@ -7,26 +7,28 @@ DbViewModel::DbViewModel()
 
 
 // Добавляет список треков в модель.
-void DbViewModel::add(const QList<TrackInfo> &tracks)
+void DbViewModel::add(const QList<AlbumInfo> &tracks)
 {
-  foreach (TrackInfo track, tracks)
+  foreach (AlbumInfo track, tracks)
     add(track);
 }
 
 
 // Добавляет трек в модель.
-void DbViewModel::add(TrackInfo &track)
+void DbViewModel::add(AlbumInfo &track)
 {
-  insertRow(0);
-  setData(index(0, 0), track.data(TrackInfo::Artist).toString());
-  setData(index(0, 1), track.data(TrackInfo::Title).toString());
-  setData(index(0, 2), track.data(TrackInfo::Album).toString());
-  setData(index(0, 3), track.data(TrackInfo::Style).toString());
-  setData(index(0, 4), track.data(TrackInfo::Catalog).toString());
-  setData(index(0, 5), track.data(TrackInfo::Label).toString());
-  setData(index(0, 6), track.data(TrackInfo::Date).toString());
-  setData(index(0, 7), track.data(TrackInfo::LinkTrack).toString());
-  setData(index(0, 8), track.data(TrackInfo::LinkImage).toString());
+  // TODO Запросы такого типа model.setQuery("INSERT INTO album
+  // VALUES (4,'Nilsen', 'Johan', 'Bakken 2', 'Stavanger')");
+//  insertRow(0);
+//  setData(index(0, 0), track.data(AlbumInfo::Artist).toString());
+//  setData(index(0, 1), track.data(AlbumInfo::Title).toString());
+//  setData(index(0, 2), track.data(AlbumInfo::Album).toString());
+//  setData(index(0, 3), track.data(AlbumInfo::Style).toString());
+//  setData(index(0, 4), track.data(AlbumInfo::Catalog).toString());
+//  setData(index(0, 5), track.data(AlbumInfo::Label).toString());
+//  setData(index(0, 6), track.data(AlbumInfo::Date).toString());
+//  setData(index(0, 7), track.data(AlbumInfo::LinkTrack).toString());
+//  setData(index(0, 8), track.data(AlbumInfo::LinkImage).toString());
 
   if (!submitAll())
     qDebug() << lastError();
@@ -45,9 +47,9 @@ void DbViewModel::remove()
 
 
 // Удаляет трек из модели.
-void DbViewModel::remove(TrackInfo &track)
+void DbViewModel::remove(AlbumInfo &track)
 {
-  QString link = track.data(TrackInfo::LinkTrack).toString();
+  QString link = /*track.data(AlbumInfo::LinkTrack).toString()*/"";
 
   QSqlQuery query(database());
   if(!query.exec("DELETE FROM " + TABLE_NAME +
@@ -60,7 +62,7 @@ void DbViewModel::remove(TrackInfo &track)
 
 
 // Возвращает информацию о треке по индексу.
-TrackInfo DbViewModel::getTrackInfo(int index)
+AlbumInfo DbViewModel::getTrackInfo(int index)
 {
   // Считывает запись из модели по index.
   QSqlRecord record = this->record(index);
@@ -77,17 +79,17 @@ TrackInfo DbViewModel::getTrackInfo(int index)
   int linkImageIndex = this->record(index).indexOf("link_image");
 
   // С помощью определенного ранее индекса получает доступ к данным модели.
-  // Заполняет ими структуру TrackInfo.
-  TrackInfo track;
-  track.setData(TrackInfo::Artist, record.value(artistIndex).toString());
-  track.setData(TrackInfo::Title, record.value(titleIndex).toString());
-  track.setData(TrackInfo::Album, record.value(albumIndex).toString());
-  track.setData(TrackInfo::Style, record.value(styleIndex).toString());
-  track.setData(TrackInfo::Catalog, record.value(catalogIndex).toString());
-  track.setData(TrackInfo::Label, record.value(labelIndex).toString());
-  track.setData(TrackInfo::Date, record.value(dateIndex).toString());
-  track.setData(TrackInfo::LinkTrack, record.value(linkTrackIndex).toString());
-  track.setData(TrackInfo::LinkImage, record.value(linkImageIndex).toString());
+  // Заполняет ими структуру AlbumInfo.
+  AlbumInfo track;
+  track.setData(AlbumInfo::Artist, record.value(artistIndex).toString());
+  track.setData(AlbumInfo::Title, record.value(titleIndex).toString());
+//  track.setData(AlbumInfo::Album, record.value(albumIndex).toString());
+  track.setData(AlbumInfo::Style, record.value(styleIndex).toString());
+  track.setData(AlbumInfo::Catalog, record.value(catalogIndex).toString());
+  track.setData(AlbumInfo::Label, record.value(labelIndex).toString());
+  track.setData(AlbumInfo::Date, record.value(dateIndex).toString());
+//  track.setData(AlbumInfo::LinkTrack, record.value(linkTrackIndex).toString());
+//  track.setData(AlbumInfo::LinkImage, record.value(linkImageIndex).toString());
 
   return track;
 }

@@ -14,8 +14,8 @@ public:
   DeejayDeAlbumFetcher(QObject *parent = 0);
   ~DeejayDeAlbumFetcher();
 
-  // Возвращает список с выбранной информацией о треках.
-  QList <TrackInfo> getFetchedTrackInfoList() const;
+  // Возвращает список с выбранной информацией об альбоме.
+  QList <AlbumInfo> getFetchedAlbums() const;
 
 protected slots:
   // Производит выборку.
@@ -23,7 +23,7 @@ protected slots:
 
 private:
   // Возвращает треклист.
-  QStringList getTrackList(const QWebElement& element,
+  QVariantHash getTrackList(const QWebElement& element,
                            const QString& params = QString());
 
 private:

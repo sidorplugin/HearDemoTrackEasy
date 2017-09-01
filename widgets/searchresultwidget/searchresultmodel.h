@@ -1,7 +1,7 @@
 #ifndef SEARCHRESULTMODEL_H
 #define SEARCHRESULTMODEL_H
 
-#include "dataclasses/trackinfo.h"
+#include "dataclasses/albuminfo.h"
 
 #include <QStandardItemModel>
 #include <QObject>
@@ -12,9 +12,9 @@ public:
   SearchResultModel();
 
   // Добавляет трек в модель.
-  void add(TrackInfo& track);
+  void add(AlbumInfo& track);
   // Возвращает информацию о треке по номеру строки.
-  TrackInfo getTrackInfo(int row);
+  AlbumInfo getTrackInfo(int row);
   // Возвращает true если элемент в строке row выделен.
   bool isCheckedState(int row);
   // Возвращает строковое значение перечисления Items.

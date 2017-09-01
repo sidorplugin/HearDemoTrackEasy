@@ -15,8 +15,8 @@ void Module::execute(Module::Mode mode, DataInput &input)
   m_mode = mode;
   m_isPageSearched = false;
 
-  connect(m_fetcher, SIGNAL(ready(QList<TrackInfo>)),
-          this, SIGNAL(ready(QList<TrackInfo>)));
+  connect(m_fetcher, SIGNAL(ready(QList<AlbumInfo>)),
+          this, SIGNAL(ready(QList<AlbumInfo>)));
 
   connect(m_fetcher, SIGNAL(fetched(Fetcher::State)),
           this, SLOT(on_fetched(Fetcher::State)));

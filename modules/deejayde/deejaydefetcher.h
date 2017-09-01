@@ -2,7 +2,6 @@
 #define DEEJAYDEFETCHER_H
 
 #include "baseclasses/fetcher.h"
-#include "deejaydealbumfetcher.h"
 
 #include <QDebug>
 #include <QObject>
@@ -16,8 +15,6 @@ class DeejayDeFetcher : public Fetcher
 public:
   DeejayDeFetcher(QObject *parent = 0);
   ~DeejayDeFetcher();
-
-  void setAlbumFetcher(DeejayDeAlbumFetcher* fetcher);
 
 protected slots:
   void result(bool ok);

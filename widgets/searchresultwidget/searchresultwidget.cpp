@@ -41,12 +41,12 @@ SearchResultWidget::~SearchResultWidget()
 
 
 // Добавляет список треков в таблицу.
-void SearchResultWidget::addTracks(const QList<TrackInfo> &tracks)
+void SearchResultWidget::addTracks(const QList<AlbumInfo> &tracks)
 {
   qDebug() << "SearchResultWidget::addTracks";
 
   // Добавляет в модель треки.
-  foreach (TrackInfo track, tracks) {
+  foreach (AlbumInfo track, tracks) {
     m_model->add(track);
   }
   ui->tableView->resizeColumnsToContents();
@@ -56,14 +56,14 @@ void SearchResultWidget::addTracks(const QList<TrackInfo> &tracks)
 // Проверяет треки модели, формирует список выделенных и отправляет их.
 void SearchResultWidget::checkTracks()
 {
-  QList <TrackInfo> result;
+  QList <AlbumInfo> result;
 
   // Проверяет все элементы модели на CheckState в первом столбце.
   for (int i = 0; i < m_model->rowCount(); i++) {
     // Если элемент выделен.
     if (m_model->isCheckedState(i)) {
       // Считывает дынные трека из модели.
-      TrackInfo track = m_model->getTrackInfo(i);
+      AlbumInfo track = m_model->getTrackInfo(i);
       // Добавляет в результирующий список.
       result.push_back(track);
     }

@@ -153,7 +153,7 @@ void MainWindow::slot_playTrack(int button)
   // Устанавливает index текущей строкой в виджете "Просмотрщик треков".
   m_dbViewWidget->selectRow(row);
 
-  TrackInfo track = m_model->getTrackInfo(row);
+  AlbumInfo track = m_model->getTrackInfo(row);
   m_playerWidget->play(track);
 }
 
@@ -220,8 +220,8 @@ void MainWindow::slot_executeAction(int action)
           m_searchResultWidget->setWindowTitle(QString("Результаты поиска ""\"%1""\"")
                .arg(dataInput.data(DataInput::SearchText).toStringList().at(2)));
 
-          connect(m_searchResultWidget, SIGNAL(ready(QList<TrackInfo>)),
-                  this, SIGNAL(signal_ready(QList<TrackInfo>)));
+          connect(m_searchResultWidget, SIGNAL(ready(QList<AlbumInfo>)),
+                  this, SIGNAL(signal_ready(QList<AlbumInfo>)));
           emit signal_search(dataInput);
         }
     }
@@ -258,7 +258,7 @@ void MainWindow::slot_executeAction(int action)
 
       if (result == QMessageBox::Yes) {
           int row = m_dbViewWidget->currentIndex().row();
-          TrackInfo track = m_model->getTrackInfo(row);
+          AlbumInfo track = m_model->getTrackInfo(row);
           m_model->remove(track);
       }
     }
@@ -308,13 +308,12 @@ void MainWindow::slot_executeActionContextMenu(int action)
    int row = m_dbViewWidget->currentIndex().row();
 
    // Считывает информацию о треке.
-   TrackInfo track = m_model->getTrackInfo(row);
-   QString artist = track.data(TrackInfo::Artist).toString();
-   QString title = track.data(TrackInfo::Title).toString();
-   QString label = track.data(TrackInfo::Label).toString();
-   QString album = track.data(TrackInfo::Album).toString();
-   QString linkTrack = track.data(TrackInfo::LinkTrack).toString();
-   QString source = track.data(TrackInfo::Source).toString();
+   AlbumInfo track = m_model->getTrackInfo(row);
+   QString artist = track.data(AlbumInfo::Artist).toString();
+   QString title = track.data(AlbumInfo::Title).toString();
+   QString label = track.data(AlbumInfo::Label).toString();
+
+   QString source = track.data(AlbumInfo::Source).toString();
 
    // В зависимости от action обрабатывает задачу.
     switch (action) {
@@ -370,11 +369,11 @@ void MainWindow::slot_executeActionContextMenu(int action)
         break;
 
         case DbViewWidget::Copy_Album :
-            QApplication::clipboard()->setText(album);
+//            QApplication::clipboard()->setText(album);
         break;
 
         case DbViewWidget::Copy_Link :
-            QApplication::clipboard()->setText(linkTrack);
+//            QApplication::clipboard()->setText(linkTrack);
         break;
 
         case DbViewWidget::Remove :
@@ -455,7 +454,7 @@ void MainWindow::slot_updateUI(int state)
 
 
 // Добавляет треки в виджет результатов поиска.
-void MainWindow::slot_addTracks(const QList<TrackInfo> &tracks)
+void MainWindow::slot_addTracks(const QList<AlbumInfo> &tracks)
 {
   qDebug() << "MainWindow::slot_addTracks";
 

@@ -1,7 +1,7 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include "dataclasses/trackinfo.h"
+#include "dataclasses/albuminfo.h"
 #include "widgets/dbviewwidget/dbviewmodel.h"
 
 #include <QObject>

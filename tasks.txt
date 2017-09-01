@@ -1,6 +1,34 @@
 --== Hear Demo Track Easy ==--
  
- - 
+ - #playTrack_272798_a > em                     title трека Deejay.de
+ 
+ #item-650995-1 > div.pl-img > a > img             image juno           атрибут src
+ 
+ #record\2e 28792 > div.picture.long > a > img.thumbnail            hardwax image              атрибут src
+ 
+ id INTEGER NOT NULL PRIMARY KEY
+ 
+SELECT  a.artist, t.name, a.name, a.label, a.catalog, a.date FROM album as a JOIN tracks as t ON a.id = t.album_id ORDER BY a.artist
+ 
+ - Убрать AlbumFetcher из фабрики, будет реализован внутри дочернего Fetcher.
+ 
+ - Тэги сайта внести во входной XML.
+	<selectors>
+		<selector name="CountTracks" attr="href">span.allTracks i</selector>
+		<selector name="DateGroup" attr="href">span.allTracks i</selector>
+		<selector name="Images" attr="href">span.allTracks i</selector>
+		<selector name="Date" attr="href">span.allTracks i</selector>
+		<selector name="Artist" attr="href">span.allTracks i</selector>
+		<selector name="TitleAlbum" attr="href">span.allTracks i</selector>
+		<selector name="Label" attr="href">span.allTracks i</selector>
+		<selector name="Catalog" attr="href">span.allTracks i</selector>
+		<selector name="LinkAlbum" attr="href">span.allTracks i</selector>
+		<selector name="Style" attr="href">span.allTracks i</selector>
+		<selector name="LinkTrack" attr="href">span.allTracks i</selector>
+		<selector name="TitleTrack" attr="href">span.allTracks i</selector>		
+	</selectors>
+ 
+ - Парсер.
  
  - Отключает нужные действия в контекстном меню.
  
@@ -8,7 +36,7 @@
  
  - Блок схема работы программы.
  
- - Подумать к кому больше присуще состояние программы, интерфуйсу или worker'у.
+ - Подумать к кому больше присуще понятие состояние программы, интерфуйсу или worker'у.
 
  - Search Widget.
 

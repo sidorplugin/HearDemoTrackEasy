@@ -71,7 +71,7 @@ signals:
   // Сигнал на изменение состояния программы.
   void signal_stateChanged(int);
   // Сигнал с результирующим списком выделенных треков.
-  void signal_ready(const QList<TrackInfo>&);
+  void signal_ready(const QList<AlbumInfo>&);
 
 private slots:
   // Обрабатывает действие главного окна.
@@ -87,7 +87,7 @@ private slots:
   // Обновляет элементы интерфейса.
   void slot_updateUI(int state);
   // Добавляет треки в виджет результатов поиска.
-  void slot_addTracks(const QList<TrackInfo>& tracks);
+  void slot_addTracks(const QList<AlbumInfo>& tracks);
 
 
 private:

@@ -4,13 +4,13 @@
 class HardwaxFetcherPrivate
 {
 public:
-  QList <TrackInfo> trackDataList;
+  QList <AlbumInfo> albums;
 
 public:
   // Возвращает артиста.
   QString getArtist(const QWebElement &element);
   // Возвращает название релиза.
-  QString getTitle(const QWebElement &element);
+  QString getTitleRelease(const QWebElement &element);
   // Возвращает лэйбл.
   QString getLabel(const QWebElement &element);
   // Возвращает номер по каталогу.
@@ -18,10 +18,12 @@ public:
   // Возвращает ссылку на трек.
   QString getLinkTrack(const QWebElement &element,
                        const QString& params = QString());
+  // Возвращает ссылки на изображения релиза.
+  QStringList getImages(const QWebElement &element);
   // Возвращает название трека.
   QString getTitleTrack(const QWebElement &element);
   // Возвращает треклист.
-  QStringList getTrackList(const QWebElement& element,
+  QVariantHash getTrackList(const QWebElement& element,
                            const QString& params = QString());
 
 };
@@ -35,7 +37,7 @@ QString HardwaxFetcherPrivate::getArtist(const QWebElement &element)
 
 
 // Возвращает название релиза.
-QString HardwaxFetcherPrivate::getTitle(const QWebElement &element)
+QString HardwaxFetcherPrivate::getTitleRelease(const QWebElement &element)
 {
   QWebElement titleElement = element.findFirst("div.linebig");
   return titleElement.toPlainText().section(':', 1, 1).replace("&nbsp;", "");
@@ -66,6 +68,25 @@ QString HardwaxFetcherPrivate::getLinkTrack(const QWebElement &element,
 }
 
 
+// Возвращает ссылки на изображения релиза.
+QStringList HardwaxFetcherPrivate::getImages(const QWebElement &element)
+{
+  QStringList result;
+
+  QWebElementCollection images = element.findAll("div.picture.long a img.thumbnail");
+
+  if (images.count() == 0)
+    return QStringList();
+
+  foreach (QWebElement e, images) {
+    QString image = e.attribute("src");
+    result.push_back(image);
+  }
+
+  return result;
+}
+
+
 // Возвращает название трека.
 QString HardwaxFetcherPrivate::getTitleTrack(const QWebElement &element)
 {
@@ -74,23 +95,20 @@ QString HardwaxFetcherPrivate::getTitleTrack(const QWebElement &element)
 
 
 // Возвращает треклист.
-QStringList HardwaxFetcherPrivate::getTrackList(const QWebElement &element,
+QVariantHash HardwaxFetcherPrivate::getTrackList(const QWebElement &element,
                                                 const QString& params)
 {
-  QStringList result;
-  QStringList list;
+  QVariantHash result;
 
   QWebElementCollection linksCollection = element.findAll("ul.tracklisting li a");
   if (linksCollection.count() == 0) {
-    return QStringList();
+    return QVariantHash();
   }
 
   foreach (QWebElement linkElement, linksCollection) {
-    QString hrefMp3 = getLinkTrack(linkElement);
-    QString titleTrack = getTitleTrack(linkElement);
-    list << hrefMp3 << titleTrack;
-    result << list;
-    list.clear();
+    QString link = getLinkTrack(linkElement);
+    QString title = getTitleTrack(linkElement);
+    result.insert(title, link);
   }
 
   return result;
@@ -112,7 +130,7 @@ HardwaxFetcher::~HardwaxFetcher()
 void HardwaxFetcher::result(bool ok)
 {
   m_isStop = false;
-  p_d->trackDataList.clear();
+  p_d->albums.clear();
 
   QWebElementCollection vinylCollection =
       m_page.mainFrame()->findAllElements("div.listing.block");
@@ -126,26 +144,26 @@ void HardwaxFetcher::result(bool ok)
 
   foreach (QWebElement vinylElement, vinylCollection) {
     if (!m_isStop) {
-      QString label = p_d->getLabel(vinylElement);
-      QString catNumber = p_d->getCatNumber(vinylElement);
       QString artist = p_d->getArtist(vinylElement);
-      QString album = p_d->getTitle(vinylElement);
-      QStringList trackList = p_d->getTrackList(vinylElement);
+      QString title = p_d->getTitleRelease(vinylElement);
+      int id = qHash(artist + title);
+      QString catalog = p_d->getCatNumber(vinylElement);
+      QString label = p_d->getLabel(vinylElement);
+      QStringList images = p_d->getImages(vinylElement);
+      QVariantHash tracks = p_d->getTrackList(vinylElement);
 
-      QStringList list;
-      for(int i = 0; i < trackList.size(); i = i + 2) {
-          TrackInfo track;
-          track.setData(TrackInfo::LinkTrack, trackList.at(i));
-          track.setData(TrackInfo::Title, trackList.at(i + 1));
-          track.setData(TrackInfo::Artist, artist);
-          track.setData(TrackInfo::Album, album);
-          track.setData(TrackInfo::Catalog, catNumber);
-          track.setData(TrackInfo::Label, label);
-//          track.setData(TrackInfo::LinkImage, trackList.at(i));
-          track.setData(TrackInfo::Source, "Hardwax");
+      AlbumInfo album;
+      album.setData(AlbumInfo::Id, id);
+      album.setData(AlbumInfo::Artist, artist);
+      album.setData(AlbumInfo::Title, title);
+      album.setData(AlbumInfo::Catalog, catalog);
+      album.setData(AlbumInfo::Label, label);
+      album.setData(AlbumInfo::Images, images);
+      album.setData(AlbumInfo::Tracks, tracks);
+      album.setData(AlbumInfo::Source, "Hardwax");
 
-          p_d->trackDataList.push_back(track);
-      }
+      p_d->albums.push_back(album);
+
     }
     else {
       emit fetched(Fetcher::Stoped);
@@ -157,6 +175,6 @@ void HardwaxFetcher::result(bool ok)
   // Делает паузу.
   pause(m_delay);
 
-  emit ready(p_d->trackDataList);
+  emit ready(p_d->albums);
   emit fetched(Fetcher::Finished);
 }

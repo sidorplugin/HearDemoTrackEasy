@@ -1,7 +1,7 @@
 #ifndef DBVIEWMODEL_H
 #define DBVIEWMODEL_H
 
-#include "dataclasses/trackinfo.h"
+#include "dataclasses/albuminfo.h"
 
 #include <QObject>
 #include <QDebug>
@@ -17,13 +17,13 @@ public:
   DbViewModel();
 
   // Добавляет трек в модель.
-  void add(TrackInfo& track);
+  void add(AlbumInfo& track);
   // Удаляет все треки из модели.
   void remove();
   // Удаляет трек из модели.
-  void remove(TrackInfo& track);
+  void remove(AlbumInfo& track);
   // Возвращает информацию о треке по индексу.
-  TrackInfo getTrackInfo(int index);
+  AlbumInfo getTrackInfo(int index);
   // Возвращает true если модель пуста.
   bool isEmpty() const;
   // Устанавливает значение прогресса для ссылки.
@@ -35,7 +35,7 @@ public:
 
 public slots:
   // Добавляет список треков в модель.
-  void add(const QList<TrackInfo>& tracks);
+  void add(const QList<AlbumInfo>& tracks);
 
 
 private:

@@ -58,16 +58,16 @@ PlayerWidget::~PlayerWidget()
 
 
 // Воспроизводит трек.
-void PlayerWidget::play(TrackInfo& track)
+void PlayerWidget::play(AlbumInfo& track)
 {
-  m_player->setMedia(QUrl(track.data(TrackInfo::LinkTrack).toString()));
+//  m_player->setMedia(QUrl(track.data(AlbumInfo::LinkTrack).toString()));
   m_player->setVolume(ui->slider_Volume->value());
   m_player->play();
 
   // Отображает информацию о треке в виджете.
   ui->label_TrackInfo->setText(
-                       track.data(TrackInfo::Artist).toString() + " - " +
-                       track.data(TrackInfo::Title).toString());
+                       track.data(AlbumInfo::Artist).toString() + " - " +
+                       track.data(AlbumInfo::Title).toString());
 }
 
 

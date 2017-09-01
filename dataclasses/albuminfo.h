@@ -1,29 +1,29 @@
-#ifndef TRACKINFO_H
-#define TRACKINFO_H
+#ifndef ALBUMINFO_H
+#define ALBUMINFO_H
 
 #include <QHash>
 #include <QMediaMetaData>
 #include <QString>
 #include <QDebug>
 
-// Класс TrackInfo хранит информацию о треке.
+// Класс AlbumInfo хранит информацию об альбоме.
 
-class TrackInfo
+class AlbumInfo
 {
 public:
-  enum Key { Artist,       // Артист.
-             Title,        // Название трека.
-             Album,        // Название альбома.
+  enum Key { Id,           // Уникальный id альбома (qHash(Artist + Title)).
+             Artist,       // Артист.
+             Title,        // Название aльбома.
              Style,        // Стиль.
              Catalog,      // Номер по каталогу.
              Label,        // Лэйбл выпустивший альбом.
              Date,         // Дата выпуска альбома.
-             LinkTrack,    // Ссылка на трек.
-             LinkImage,    // Ссылка на изображение.
-             Source
+             Images,       // Ссылки на изображения.
+             Tracks,       // Треки.
+             Source        // Ресурс.
            };
 
-//  TrackInfo(){}
+//  AlbumInfo(){}
 
   // Устанавливает значение value по ключу key.
   void setData(int key, const QVariant& value);
@@ -42,7 +42,7 @@ private:
 
 };
 
-Q_DECLARE_METATYPE(TrackInfo)
+Q_DECLARE_METATYPE(AlbumInfo)
 
 
-#endif // TRACKINFO_H
+#endif // ALBUMINFO_H

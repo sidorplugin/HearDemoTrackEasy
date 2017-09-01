@@ -3,7 +3,6 @@
 
 #include "baseclasses/modulefactory.h"
 #include "modules/deejayde/deejaydefetcher.h"
-#include "modules/deejayde/deejaydealbumfetcher.h"
 #include "modules/deejayde/deejaydepagesearcher.h"
 #include "modules/deejayde/deejaydelinkcreator.h"
 
@@ -14,10 +13,6 @@ class DeejayDeModuleFactory : public ModuleFactory
 public:
   Fetcher* createFetcher() {
     return new DeejayDeFetcher;
-  }
-
-  Fetcher* createAlbumFetcher() {
-    return new DeejayDeAlbumFetcher;
   }
 
   PageSearcher* createPageSearcher() {

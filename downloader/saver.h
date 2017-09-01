@@ -1,7 +1,7 @@
 #ifndef SAVER_H
 #define SAVER_H
 
-#include "dataclasses/trackinfo.h"
+#include "dataclasses/albuminfo.h"
 #include "downloader/idtagcreator.h"
 
 #include <QObject>
@@ -17,17 +17,17 @@ public:
     Saver(QObject *parent = 0);
 
     // Сохраняет данные bytes c данными data в папку root.
-    void save(const QByteArray& bytes, TrackInfo& track, const QString& root);
+    void save(const QByteArray& bytes, AlbumInfo& track, const QString& root);
 
 signals:
     // Сигнал об успешном сохранении.
-    void saved(TrackInfo&);
+    void saved(AlbumInfo&);
 
 private:
     // Строит путь сохранения файла.
-    QString buildSavePath(TrackInfo& track, const QString& root);
+    QString buildSavePath(AlbumInfo& track, const QString& root);
     // Создает тэг.
-    QByteArray createTag(TrackInfo& track);
+    QByteArray createTag(AlbumInfo& track);
     // Возвращает валидное имя файла.
     QString getValidFileName(const QString& name);
 

@@ -15,10 +15,6 @@ public:
     return new JunoFetcher;
   }
 
-  Fetcher* createAlbumFetcher() {
-    return 0;
-  }
-
   PageSearcher* createPageSearcher() {
     return new JunoPageSearcher;
   }

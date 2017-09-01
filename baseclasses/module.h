@@ -46,7 +46,7 @@ signals:
   // Вся выборка завершена.
   void finished();
   // Ответ с данными.
-  void ready(const QList <TrackInfo>&);
+  void ready(const QList <AlbumInfo>&);
 
 private slots:
   // Обработка сигнала парсера pageFetched.
