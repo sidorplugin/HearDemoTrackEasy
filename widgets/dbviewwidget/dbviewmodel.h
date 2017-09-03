@@ -17,11 +17,11 @@ public:
   DbViewModel();
 
   // Добавляет трек в модель.
-  void add(AlbumInfo& track);
+  void add(AlbumInfo& album);
   // Удаляет все треки из модели.
   void remove();
   // Удаляет трек из модели.
-  void remove(AlbumInfo& track);
+  void remove(AlbumInfo& album);
   // Возвращает информацию о треке по индексу.
   AlbumInfo getTrackInfo(int index);
   // Возвращает true если модель пуста.
@@ -35,7 +35,7 @@ public:
 
 public slots:
   // Добавляет список треков в модель.
-  void add(const QList<AlbumInfo>& tracks);
+  void add(const QList<AlbumInfo>& albums);
 
 
 private:

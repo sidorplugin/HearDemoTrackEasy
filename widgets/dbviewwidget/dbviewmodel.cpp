@@ -7,28 +7,57 @@ DbViewModel::DbViewModel()
 
 
 // Добавляет список треков в модель.
-void DbViewModel::add(const QList<AlbumInfo> &tracks)
+void DbViewModel::add(const QList<AlbumInfo> &albums)
 {
-  foreach (AlbumInfo track, tracks)
-    add(track);
+  foreach (AlbumInfo album, albums) {
+    add(album);
+  }
+
+  setQuery(QSqlQuery("SELECT  a.artist, t.name, a.name, a.label, a.catalog, a.date "
+           "FROM album as a JOIN tracks as t "
+           "ON a.id = t.album_id ORDER BY a.artist"));
+
+  qDebug() << "join error : " << lastError();
+
+  if (!submitAll())
+    qDebug() << lastError();
+
 }
 
 
 // Добавляет трек в модель.
-void DbViewModel::add(AlbumInfo &track)
+void DbViewModel::add(AlbumInfo &album)
 {
-  // TODO Запросы такого типа model.setQuery("INSERT INTO album
-  // VALUES (4,'Nilsen', 'Johan', 'Bakken 2', 'Stavanger')");
-//  insertRow(0);
-//  setData(index(0, 0), track.data(AlbumInfo::Artist).toString());
-//  setData(index(0, 1), track.data(AlbumInfo::Title).toString());
-//  setData(index(0, 2), track.data(AlbumInfo::Album).toString());
-//  setData(index(0, 3), track.data(AlbumInfo::Style).toString());
-//  setData(index(0, 4), track.data(AlbumInfo::Catalog).toString());
-//  setData(index(0, 5), track.data(AlbumInfo::Label).toString());
-//  setData(index(0, 6), track.data(AlbumInfo::Date).toString());
-//  setData(index(0, 7), track.data(AlbumInfo::LinkTrack).toString());
-//  setData(index(0, 8), track.data(AlbumInfo::LinkImage).toString());
+  int id = album.data(AlbumInfo::Id).toInt();
+  QString artist = album.data(AlbumInfo::Artist).toString();
+  QString title = album.data(AlbumInfo::Title).toString();
+  QString style = album.data(AlbumInfo::Style).toString();
+  QString catalog = album.data(AlbumInfo::Catalog).toString();
+  QString label = album.data(AlbumInfo::Label).toString();
+  QString date = album.data(AlbumInfo::Date).toString();
+  QStringList images = album.data(AlbumInfo::Images).toStringList();
+  QVariantHash tracks = album.data(AlbumInfo::Tracks).toHash();
+  QString source = album.data(AlbumInfo::Source).toString();
+
+  insertRow(0);
+  setQuery(QSqlQuery("INSERT INTO album VALUES (" + id +
+                                      ",'" + artist + "',"
+                                      "'" + title + "',"
+                                      "'" + style + "',"
+                                      "'" + catalog + "',"
+                                      "'" + label + "',"
+                                      "'" + date + "',"
+                                      "'" + images.join(";") + "',"
+                                      "'" + source + "')"));
+  if (lastError().type() != QSqlError::NoError) {
+      QHashIterator<QString, QVariant> i(tracks);
+      while (i.hasNext()) {
+          i.next();
+          setQuery(QSqlQuery("INSERT INTO tracks VALUES ('" + i.key() + "',"
+                                              "'" + i.value().toString() + "',"
+                                              "'" + id + "')"));
+      }
+  }
 
   if (!submitAll())
     qDebug() << lastError();
@@ -47,7 +76,7 @@ void DbViewModel::remove()
 
 
 // Удаляет трек из модели.
-void DbViewModel::remove(AlbumInfo &track)
+void DbViewModel::remove(AlbumInfo &album)
 {
   QString link = /*track.data(AlbumInfo::LinkTrack).toString()*/"";
 

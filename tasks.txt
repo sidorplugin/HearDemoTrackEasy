@@ -10,6 +10,8 @@
  
 SELECT  a.artist, t.name, a.name, a.label, a.catalog, a.date FROM album as a JOIN tracks as t ON a.id = t.album_id ORDER BY a.artist
  
+ - PageSearcher перевести на сигнали вместо while.
+ 
  - Убрать AlbumFetcher из фабрики, будет реализован внутри дочернего Fetcher.
  
  - Тэги сайта внести во входной XML.

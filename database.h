@@ -11,18 +11,19 @@
 // Database - класс базы данных типа QSQLITE.
 // Является классом одиночкой (Singletone).
 
-const QString TABLE_NAME = "tracks";
+const QString TABLE_NAME = "album";
 
-const QString RU_HEADER_ARTIST =     "Артист";
-const QString RU_HEADER_TITLE =      "Название";
-const QString RU_HEADER_ALBUM =      "Альбом";
-const QString RU_HEADER_STYLE =      "Стиль";
-const QString RU_HEADER_CATALOG =    "Каталог";
-const QString RU_HEADER_LABEL =      "Лэйбл";
-const QString RU_HEADER_DATE =       "Дата";
-const QString RU_HEADER_LINK_TRACK = "Ссылка трек";
-const QString RU_HEADER_LINK_IMAGE = "Ссылка картинка";
-const QString RU_HEADER_SOURCE =     "Источник";
+const QString RU_HEADER_ID =          "Номер";
+const QString RU_HEADER_ARTIST =      "Артист";
+const QString RU_HEADER_TITLE_TRACK = "Название трека";
+const QString RU_HEADER_TITLE_ALBUM = "Название альбома";
+const QString RU_HEADER_STYLE =       "Стиль";
+const QString RU_HEADER_CATALOG =     "Каталог";
+const QString RU_HEADER_LABEL =       "Лэйбл";
+const QString RU_HEADER_DATE =        "Дата";
+const QString RU_HEADER_LINK_TRACK =  "Ссылка трек";
+const QString RU_HEADER_LINK_IMAGES = "Ссылки на обложки";
+const QString RU_HEADER_SOURCE =      "Источник";
 
 class Database
 {

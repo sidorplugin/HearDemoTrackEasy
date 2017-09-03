@@ -85,6 +85,7 @@ QDate DeejayDeFetcherPrivate::getDateGroup(const QWebElement &element)
 QStringList DeejayDeFetcherPrivate::getImages(const QWebElement &element)
 {
   QStringList result;
+  QString baseAddress = "http://www.deejay.de";
 
   QWebElement imageElement_1 = element.findFirst("div.img.img1 a.zoom.noMod");
   QWebElement imageElement_2 = element.findFirst("div.img.img2 a.zoom.noMod");
@@ -95,7 +96,7 @@ QStringList DeejayDeFetcherPrivate::getImages(const QWebElement &element)
   QString link1 = imageElement_1.attribute("href");
   QString link2 = imageElement_2.attribute("href");
   if (validateLinkImage(link1)) {
-    result << link1 << link2;
+    result << baseAddress + link1 << baseAddress + link2;
     return result;
   }
   else
@@ -194,6 +195,7 @@ QString DeejayDeFetcherPrivate::getLinkTrack(const QWebElement &element,
 {
   QString href = "http://www.deejay.de/" + element.attribute("href");
   QString symbol = href.section("_", -1);
+
   QString result = "http://www.deejay.de/streamit/" + params.section("/", -3).
         replace(QString(".jpg"), symbol + QString(".mp3"));
   return result;
@@ -204,17 +206,7 @@ QString DeejayDeFetcherPrivate::getLinkTrack(const QWebElement &element,
 QString DeejayDeFetcherPrivate::getTitleTrack(const QWebElement &element)
 {
   QString innerXml = element.toInnerXml();
-  // Очищает строку от ненужных символов.
-  QRegExp rx ("(<b>|</b>|<em>|</em>|<h5>|</h5>|&nbsp;|<strong>|</strong>)");
-  QStringList list = innerXml.split(rx, QString::SkipEmptyParts);
-
-  QString total;
-  foreach(QString part, list) {
-      total += part;
-  }
-  QString titleTrack = total.replace(QString(":"), QString("_"));
-
-  return titleTrack.replace("&amp;", "&").replace("\"", "");
+  return innerXml.replace("&amp;", "&").replace("\"", "");
 }
 
 
@@ -222,13 +214,13 @@ QString DeejayDeFetcherPrivate::getTitleTrack(const QWebElement &element)
 QVariantHash DeejayDeFetcherPrivate::getTrackList(const QWebElement &element,
                                                  const QString& params)
 {
-  QWebElementCollection linksCollection = element.findAll("a.track"); // a.track em
+  QWebElementCollection linksCollection = element.findAll("a.track");
   qDebug() << linksCollection.count();
 
   QVariantHash result;
   foreach (QWebElement linkElement, linksCollection) {
     QString link = getLinkTrack(linkElement, params);
-    QString title = getTitleTrack(linkElement);
+    QString title = getTitleTrack(linkElement.findFirst("em"));
     result.insert(title, link);
   }
   return result;
@@ -367,23 +359,6 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
       album.setData(AlbumInfo::Source, "DeejayDe");
 
       p_d->albums.push_back(album);
-
-
-//      for (int i = 0; i < trackList.size(); i = i + 2) {
-//          AlbumInfo track;
-//          track.setData(AlbumInfo::LinkTrack, trackList.at(i));
-//          track.setData(AlbumInfo::Title, trackList.at(i + 1));
-//          track.setData(AlbumInfo::Style, style);
-//          track.setData(AlbumInfo::Artist, artist);
-//          track.setData(AlbumInfo::Album, album);
-//          track.setData(AlbumInfo::Catalog, catNumber);
-//          track.setData(AlbumInfo::Label, label);
-//          track.setData(AlbumInfo::Date, date);
-//          track.setData(AlbumInfo::LinkImage, linkImage);
-//          track.setData(AlbumInfo::Source, "DeejayDe");
-
-//          p_d->albums.push_back(track);
-//      }
   }
 }
 
