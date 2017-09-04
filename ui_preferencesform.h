@@ -89,7 +89,7 @@ public:
         spinBox_Waiting = new QSpinBox(layoutWidget);
         spinBox_Waiting->setObjectName(QStringLiteral("spinBox_Waiting"));
         spinBox_Waiting->setMinimum(10000);
-        spinBox_Waiting->setMaximum(50000);
+        spinBox_Waiting->setMaximum(100000);
         spinBox_Waiting->setSingleStep(1000);
         spinBox_Waiting->setValue(15000);
 

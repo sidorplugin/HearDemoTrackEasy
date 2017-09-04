@@ -26,6 +26,21 @@ QStringList AlbumInfo::toStringList() const
    return result;
 }
 
+
+// Очищает все поля в альбоме.
+void AlbumInfo::clear()
+{
+  m_data.clear();
+}
+
+
+// Проверяет на наличие информации в альбоме.
+bool AlbumInfo::isEmpty()
+{
+  return m_data.isEmpty();
+}
+
+
 // Возвращает строковое значение ключа.
 QString AlbumInfo::keyToString(int key) const
 {

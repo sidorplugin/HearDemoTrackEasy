@@ -7,7 +7,7 @@
 class DeejayDeAlbumFetcherPrivate
 {
 public:
-  QList <AlbumInfo> albums;
+  AlbumInfo album;
 
 public:
   // Возвращает ссылки на изображения релиза.
@@ -162,17 +162,17 @@ DeejayDeAlbumFetcher::~DeejayDeAlbumFetcher()
 }
 
 
-// Возвращает список с выбранной информацией об альбоме.
-QList<AlbumInfo> DeejayDeAlbumFetcher::getFetchedAlbums() const
+// Возвращает информацию об альбоме.
+AlbumInfo DeejayDeAlbumFetcher::getFetchedAlbum() const
 {
-  return p_d->albums;
+  return p_d->album;
 }
 
 
 // Производит выборку.
 void DeejayDeAlbumFetcher::result(bool ok)
 {
-  p_d->albums.clear();
+  p_d->album.clear();
 
   QWebElement contentElement =
       m_page.mainFrame()->findFirstElement("article.single_product");
@@ -199,19 +199,16 @@ void DeejayDeAlbumFetcher::result(bool ok)
     return;
   }
 
-  AlbumInfo album;
-  album.setData(AlbumInfo::Id, id);
-  album.setData(AlbumInfo::Artist, artist);
-  album.setData(AlbumInfo::Title, title);
-  album.setData(AlbumInfo::Style, style);
-  album.setData(AlbumInfo::Catalog, catalog);
-  album.setData(AlbumInfo::Label, label);
-  album.setData(AlbumInfo::Date, date);
-  album.setData(AlbumInfo::Images, images);
-  album.setData(AlbumInfo::Tracks, tracks);
-  album.setData(AlbumInfo::Source, "DeejayDe");
-
-  p_d->albums.push_back(album);
+  p_d->album.setData(AlbumInfo::Id, id);
+  p_d->album.setData(AlbumInfo::Artist, artist);
+  p_d->album.setData(AlbumInfo::Title, title);
+  p_d->album.setData(AlbumInfo::Style, style);
+  p_d->album.setData(AlbumInfo::Catalog, catalog);
+  p_d->album.setData(AlbumInfo::Label, label);
+  p_d->album.setData(AlbumInfo::Date, date);
+  p_d->album.setData(AlbumInfo::Images, images);
+  p_d->album.setData(AlbumInfo::Tracks, tracks);
+  p_d->album.setData(AlbumInfo::Source, "DeejayDe");
 
   emit fetched(Fetcher::Finished);
 }

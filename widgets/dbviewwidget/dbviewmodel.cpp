@@ -13,7 +13,7 @@ void DbViewModel::add(const QList<AlbumInfo> &albums)
     add(album);
   }
 
-  setQuery(QSqlQuery("SELECT  a.artist, t.name, a.name, a.label, a.catalog, a.date "
+  setQuery(QSqlQuery("SELECT  a.artist, t.title, a.title, a.style, a.label, a.catalog, a.date "
            "FROM album as a JOIN tracks as t "
            "ON a.id = t.album_id ORDER BY a.artist"));
 
@@ -40,27 +40,30 @@ void DbViewModel::add(AlbumInfo &album)
   QString source = album.data(AlbumInfo::Source).toString();
 
   insertRow(0);
-  setQuery(QSqlQuery("INSERT INTO album VALUES (" + id +
-                                      ",'" + artist + "',"
-                                      "'" + title + "',"
-                                      "'" + style + "',"
-                                      "'" + catalog + "',"
-                                      "'" + label + "',"
-                                      "'" + date + "',"
-                                      "'" + images.join(";") + "',"
-                                      "'" + source + "')"));
+  setQuery(QSqlQuery("INSERT INTO album VALUES(" + QString(id) + ",'"
+                                                  + artist + "','"
+                                                  + title + "','"
+                                                  + style + "','"
+                                                  + catalog + "','"
+                                                  + label + "','"
+                                                  + date + "','"
+                                                  + images.join(";") + "','"
+                                                  + source + "')"));
   if (lastError().type() != QSqlError::NoError) {
+      qDebug() << "insert into track table";
       QHashIterator<QString, QVariant> i(tracks);
       while (i.hasNext()) {
           i.next();
-          setQuery(QSqlQuery("INSERT INTO tracks VALUES ('" + i.key() + "',"
-                                              "'" + i.value().toString() + "',"
-                                              "'" + id + "')"));
+          setQuery(QSqlQuery("INSERT INTO tracks VALUES('" + i.key() + "','"
+                              + i.value().toString() + "','" + id + "')"));
       }
+  }
+  else {
+    qDebug() << "error insert album : " << lastError();
   }
 
   if (!submitAll())
-    qDebug() << lastError();
+    qDebug() << "error submit : " << lastError();
 }
 
 

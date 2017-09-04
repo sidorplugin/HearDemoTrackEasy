@@ -39,6 +39,8 @@ void Fetcher::start(const QString &url)
 {
   qDebug() << "Fetcher::start(" << url << ")";
   m_url = url;
+  m_waiting = GlobalData::getInstance()->waiting;
+  m_delay = GlobalData::getInstance()->delay;
   m_page.mainFrame()->load(QUrl(url));
 }
 

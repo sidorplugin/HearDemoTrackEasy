@@ -14,8 +14,8 @@ public:
   DeejayDeAlbumFetcher(QObject *parent = 0);
   ~DeejayDeAlbumFetcher();
 
-  // Возвращает список с выбранной информацией об альбоме.
-  QList <AlbumInfo> getFetchedAlbums() const;
+  // Возвращает информацию об альбоме.
+  AlbumInfo getFetchedAlbum() const;
 
 protected slots:
   // Производит выборку.

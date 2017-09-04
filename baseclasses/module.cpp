@@ -128,6 +128,8 @@ void Module::on_fetched(Fetcher::State state)
   switch (state) {
     case Fetcher::Finished :
       emit pageFetched(m_count, m_total);
+      // Если не конец
+      // Запускает в обработку следующую страницу.
     break;
     case Fetcher::NoElements :
     case Fetcher::Stoped :

@@ -300,11 +300,10 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
       wait.exec();
 
       // Если результат выборки альбома не нулевой добавляет его в
-      // результирующий список треков.
-      QList <AlbumInfo> albumFetchedList =
-                                 p_d->albumFetcher->getFetchedAlbums();
-      if (!albumFetchedList.isEmpty())
-        p_d->albums.append(albumFetchedList);
+      // результирующий список альбомов.
+      AlbumInfo fetchedAlbum = p_d->albumFetcher->getFetchedAlbum();
+      if (!fetchedAlbum.isEmpty())
+        p_d->albums.append(fetchedAlbum);
   }
   // Если в альбоме не больше 4 треков.
   else {
