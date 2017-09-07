@@ -27,7 +27,7 @@ void SearchResultModel::add(AlbumInfo &track)
 
 
 // Возвращает информацию о треке по номеру строки.
-AlbumInfo SearchResultModel::getTrackInfo(int row)
+AlbumInfo SearchResultModel::getAlbumInfo(int row)
 {
   // Считывает запись из модели по index.
   QString artist =    data(index(row, AlbumInfo::Artist))   .toString();

@@ -5,12 +5,6 @@
 
 #include <QStandardItemModel>
 
-// Константы ролей.
-const int ROLE_LIST = Qt::UserRole;
-const int ROLE_SOURCE_DATA = Qt::UserRole + 1;
-const int ROLE_CURRENT_INDEX = Qt::UserRole + 2;
-
-
 class FetchModel : public QStandardItemModel
 {
 public:
@@ -22,6 +16,11 @@ public:
                   PeriodItem,
                   FilterItem
                 };
+
+  enum Roles { ListRole = Qt::UserRole + 1,
+               SourceDataRole,
+               CurrentIndexRole
+             };
 
   FetchModel(QObject *parent);
 

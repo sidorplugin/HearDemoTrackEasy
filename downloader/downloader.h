@@ -2,7 +2,7 @@
 #define DOWNLOADER_H
 
 #include "downloader/idtagcreator.h"
-#include "widgets/dbviewwidget/dbviewmodel.h"
+#include "model.h"
 #include "downloader/downloadhandler.h"
 #include "downloader/saver.h"
 
@@ -63,7 +63,7 @@ private:
 private:
   DownloadHandler* m_handler;
   Saver* m_saver;
-  DbViewModel* m_model;
+  Model* m_model;
 
   QHash <QString, AlbumInfo> m_tracksData;
   QHash <QString, QNetworkReply*> m_replies;

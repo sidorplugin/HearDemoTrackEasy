@@ -7,22 +7,7 @@ Database::Database()
   // Создает БД и таблицы.
   initialize();
 
-  // Создает и настраивает модель.
-  m_model = new DbViewModel();
-  m_model->setTable(TABLE_NAME);
-  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-  m_model->select();
-  m_model->setHeaderData(0, Qt::Horizontal, RU_HEADER_ID);
-  m_model->setHeaderData(1, Qt::Horizontal, RU_HEADER_ARTIST);
-  m_model->setHeaderData(2, Qt::Horizontal, RU_HEADER_TITLE_TRACK);
-  m_model->setHeaderData(3, Qt::Horizontal, RU_HEADER_TITLE_ALBUM);
-  m_model->setHeaderData(4, Qt::Horizontal, RU_HEADER_STYLE);
-  m_model->setHeaderData(5, Qt::Horizontal, RU_HEADER_CATALOG);
-  m_model->setHeaderData(6, Qt::Horizontal, RU_HEADER_LABEL);
-  m_model->setHeaderData(7, Qt::Horizontal, RU_HEADER_DATE);
-  m_model->setHeaderData(8, Qt::Horizontal, RU_HEADER_LINK_TRACK);
-  m_model->setHeaderData(9, Qt::Horizontal, RU_HEADER_LINK_IMAGES);
-  m_model->setHeaderData(10,Qt::Horizontal, RU_HEADER_SOURCE);
+  m_model = new Model;
 }
 
 
@@ -51,21 +36,23 @@ void Database::initialize()
   }
 
   if (m_database.tables().isEmpty()) {
-    error = createTable();
+    error = createAlmumsTable();
     if (error.type() != QSqlError::NoError) {
-      qWarning() << "Failure to create table in database " + error.text();
+      qWarning() << "Failure to create AlbumsTable in database " + error.text();
+    }
+    error = createTracksTable();
+    if (error.type() != QSqlError::NoError) {
+      qWarning() << "Failure to create TracksTable in database " + error.text();
     }
   }
 }
 
-// TODO Переименовать на createTables
-// Создает таблицы.
-QSqlError Database::createTable()
-{
-  qDebug() << "Database::createTable";
 
+// Создает таблицу альбомов.
+QSqlError Database::createAlmumsTable()
+{
   QSqlQuery query(m_database);
-  if (!query.exec(QLatin1String("CREATE TABLE album(id INTEGER NOT NULL PRIMARY KEY,"
+  if (!query.exec(QLatin1String("CREATE TABLE albums(id INTEGER NOT NULL PRIMARY KEY,"
                                 " artist VARCHAR,"
                                 " title VARCHAR,"
                                 " style VARCHAR,"
@@ -75,6 +62,15 @@ QSqlError Database::createTable()
                                 " images VARCHAR,"
                                 " source VARCHAR)")))
     return query.lastError();
+
+  return QSqlError();
+}
+
+
+// Создает таблицу треков.
+QSqlError Database::createTracksTable()
+{
+  QSqlQuery query(m_database);
   if (!query.exec(QLatin1String("CREATE TABLE tracks(id INTEGER PRIMARY KEY AUTOINCREMENT,"
                                 " title VARCHAR,"
                                 " link VARCHAR,"

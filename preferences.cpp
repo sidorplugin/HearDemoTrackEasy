@@ -56,4 +56,5 @@ void Preferences::save()
                              ui->spinBox_Delay->text().toInt(),
                              ui->spinBox_Waiting->text().toInt(),
                              ui->spinBox_Loads->text().toInt());
+  deleteLater();
 }

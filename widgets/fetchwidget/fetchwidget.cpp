@@ -73,7 +73,7 @@ QVariant FetchWidget::data(int key)
 void FetchWidget::on_itemChanged(QStandardItem *item)
 {
     int row = item->row();
-    int id = item->data(ROLE_CURRENT_INDEX).toInt();
+    int id = item->data(FetchModel::CurrentIndexRole).toInt();
 
     // В зависимости от номера строки производит скрытие или редактирование
     // других ячеек.
@@ -127,7 +127,7 @@ void FetchWidget::on_pressed(const QModelIndex &index)
   int row = index.row();
   // Запоминает значение индекса в поле "Источник".
   int indexSource = index.sibling(FetchModel::SourceItem, 0).
-                    data(ROLE_CURRENT_INDEX).toInt();
+                    data(FetchModel::CurrentIndexRole).toInt();
 
   // В зависимости от номера строки производит скрытие или редактирование
   // других ячеек.

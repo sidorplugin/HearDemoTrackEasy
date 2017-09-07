@@ -153,7 +153,7 @@ void MainWindow::slot_playTrack(int button)
   // Устанавливает index текущей строкой в виджете "Просмотрщик треков".
   m_dbViewWidget->selectRow(row);
 
-  AlbumInfo track = m_model->getTrackInfo(row);
+  AlbumInfo track = m_model->getAlbumInfo(row);
   m_playerWidget->play(track);
 }
 
@@ -258,7 +258,7 @@ void MainWindow::slot_executeAction(int action)
 
       if (result == QMessageBox::Yes) {
           int row = m_dbViewWidget->currentIndex().row();
-          AlbumInfo track = m_model->getTrackInfo(row);
+          AlbumInfo track = m_model->getAlbumInfo(row);
           m_model->remove(track);
       }
     }
@@ -278,8 +278,8 @@ void MainWindow::slot_executeAction(int action)
 
     case MainWindow::PreferencesAction:
     {
-        Preferences preferencesWindow;
-        preferencesWindow.exec();
+        Preferences* preferencesWindow = new Preferences;
+        preferencesWindow->exec();
     }
     break;
 
@@ -308,12 +308,14 @@ void MainWindow::slot_executeActionContextMenu(int action)
    int row = m_dbViewWidget->currentIndex().row();
 
    // Считывает информацию о треке.
-   AlbumInfo track = m_model->getTrackInfo(row);
+   AlbumInfo track = m_model->getAlbumInfo(row);
    QString artist = track.data(AlbumInfo::Artist).toString();
-   QString title = track.data(AlbumInfo::Title).toString();
    QString label = track.data(AlbumInfo::Label).toString();
-
    QString source = track.data(AlbumInfo::Source).toString();
+   QString title = track.data(AlbumInfo::Tracks).toHash().keys().at(0);
+   QString link = track.data(AlbumInfo::Tracks).toHash().values().at(0).toString();
+   QString album = track.data(AlbumInfo::Title).toString();
+
 
    // В зависимости от action обрабатывает задачу.
     switch (action) {
@@ -369,11 +371,11 @@ void MainWindow::slot_executeActionContextMenu(int action)
         break;
 
         case DbViewWidget::Copy_Album :
-//            QApplication::clipboard()->setText(album);
+            QApplication::clipboard()->setText(album);
         break;
 
         case DbViewWidget::Copy_Link :
-//            QApplication::clipboard()->setText(linkTrack);
+            QApplication::clipboard()->setText(link);
         break;
 
         case DbViewWidget::Remove :

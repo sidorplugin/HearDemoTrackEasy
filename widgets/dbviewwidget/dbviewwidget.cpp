@@ -58,6 +58,9 @@ DbViewWidget::DbViewWidget(QWidget* parent)
     m_delegate = new DbViewItemDelegate;
     setModel(Database::getInstance()->model());
     setItemDelegateForColumn(0, m_delegate);
+
+    Database::getInstance()->model()->select();
+
     setSelectionMode(QAbstractItemView::SingleSelection);
     setSelectionBehavior(QAbstractItemView::SelectRows);
 
@@ -68,7 +71,6 @@ DbViewWidget::DbViewWidget(QWidget* parent)
 
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setCornerButtonEnabled(false);
-
 
     // Устанавливаем Контекстное Меню.
     setContextMenuPolicy(Qt::CustomContextMenu);

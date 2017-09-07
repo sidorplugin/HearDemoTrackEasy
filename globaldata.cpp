@@ -27,6 +27,8 @@ void GlobalData::setGlobalSettings(const QString &root_string,
   settings.setValue("Root", root_string);
   settings.setValue("Waiting", waiting_value);
   settings.setValue("Loads", loads_value);
+
+  readGlobalSettings();
 }
 
 

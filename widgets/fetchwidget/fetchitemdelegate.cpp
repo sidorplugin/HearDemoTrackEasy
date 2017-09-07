@@ -67,7 +67,7 @@ void FetchItemDelegate::setEditorData(QWidget *editor,
         // Получает виджет QComboBox из editor.
         QComboBox *comboBox = static_cast<QComboBox*>(editor);
         // Считывает таблицу "Имя - Иконка" из модели.
-        QMap <QString, QVariant> data = index.data(ROLE_SOURCE_DATA).toMap();
+        QMap <QString, QVariant> data = index.data(FetchModel::SourceDataRole).toMap();
 
         // Устанавливает данные из таблицы в виджет.
         QMapIterator <QString, QVariant> i(data);
@@ -80,7 +80,7 @@ void FetchItemDelegate::setEditorData(QWidget *editor,
             comboBox->addItem(QIcon(icon), name, id);
         }
         // Устанавливает текущее значение.
-        comboBox->setCurrentIndex(index.data(ROLE_CURRENT_INDEX).toInt());
+        comboBox->setCurrentIndex(index.data(FetchModel::CurrentIndexRole).toInt());
 
         // Если данные в виджете изменились, вносит изменения в модель
         // и закрывает виджет.
@@ -99,7 +99,7 @@ void FetchItemDelegate::setEditorData(QWidget *editor,
         // В зависимости от значения в поле "Источник" устанавливает
         // определенный список.
         QStringList list;
-        list = index.data(ROLE_LIST).toMap().value(source).toStringList();
+        list = index.data(FetchModel::ListRole).toMap().value(source).toStringList();
         // Добавляет список в ComboBox и устанавливает текущее значение.
         comboBox->addItems(list);
         comboBox->setCurrentIndex(0);
@@ -149,10 +149,10 @@ void FetchItemDelegate::setModelData(QWidget *editor,
 
         QString id = comboBox->currentData().toString();
         // Сохраняет текущую иконку в модель с ролью DecorationRole.
-        QString icon = index.data(ROLE_SOURCE_DATA).toMap().value(id).
+        QString icon = index.data(FetchModel::SourceDataRole).toMap().value(id).
                        toStringList().at(1);
         model->setData(index, QIcon(icon), Qt::DecorationRole);
-        model->setData(index, id, ROLE_CURRENT_INDEX);
+        model->setData(index, id, FetchModel::CurrentIndexRole);
     }
     break;
 

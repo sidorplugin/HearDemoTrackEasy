@@ -53,14 +53,14 @@ void Downloader::load()
         m_isStarted = true;
         // Передает m_countTasksInLoad задач на исполнение "Обработчику".
         for (int i = 0; i < m_countTasksInLoad; i++) {
-            // TODO найти трек по i getTrackInfo(i). => load(track).
-            AlbumInfo track = m_model->getTrackInfo(i);
+            // TODO найти трек по i getAlbumInfo(i). => load(track).
+            AlbumInfo track = m_model->getAlbumInfo(i);
             load(track);
         }
     }
     // Иначе, отправляет Обработчику очередную m_indexNextTrack задачу.
     else {
-        AlbumInfo track = m_model->getTrackInfo(m_indexNextTrack);
+        AlbumInfo track = m_model->getAlbumInfo(m_indexNextTrack);
         load(track);
     }
 
@@ -79,12 +79,12 @@ void Downloader::load()
 void Downloader::load(AlbumInfo &track)
 {
   qDebug() << "Downloader::load(AlbumInfo)"
-           << track.data(AlbumInfo::Title).toString();
+           << track.data(AlbumInfo::Tracks).toHash();
 
   // Сохраняет инфо о треке в таблице.
-//  m_tracksData.insert(track.data(AlbumInfo::LinkTrack).toString(), track);
+  m_tracksData.insert(track.data(AlbumInfo::Tracks).toHash().values().at(0).toString(), track);
   // Отправляет задание "Обработчику".
-//  m_handler->load(track.data(AlbumInfo::LinkTrack).toString());
+  m_handler->load(track.data(AlbumInfo::Tracks).toHash().values().at(0).toString());
   // Увеличивает индекс на 1, указывающий на следующую запись для загрузки.
   m_indexNextTrack++;
 

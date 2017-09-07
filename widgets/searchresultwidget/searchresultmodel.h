@@ -14,7 +14,7 @@ public:
   // Добавляет трек в модель.
   void add(AlbumInfo& track);
   // Возвращает информацию о треке по номеру строки.
-  AlbumInfo getTrackInfo(int row);
+  AlbumInfo getAlbumInfo(int row);
   // Возвращает true если элемент в строке row выделен.
   bool isCheckedState(int row);
   // Возвращает строковое значение перечисления Items.

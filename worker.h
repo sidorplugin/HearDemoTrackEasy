@@ -6,7 +6,7 @@
 #include "baseclasses/modulefactory.h"
 #include "baseclasses/module.h"
 #include "downloader/downloader.h"
-#include "widgets/dbviewwidget/dbviewmodel.h"
+#include "model.h"
 
 #include <QObject>
 
@@ -49,6 +49,7 @@ public slots:
   // Добавляет треки в модель.
   void addTracksToModel(const QList<AlbumInfo>& tracks);
 
+
 signals:
   // Изменено состояние программы.
   void signal_stateChanged(int);
@@ -70,7 +71,7 @@ private:
   DataInput m_input;
   QHash <QString, Module*> m_modules;  // Хранит модули приложения.
   Downloader* m_downloader;            // Загрузчик.
-  DbViewModel* m_model;                // Модель.
+  Model* m_model;                // Модель.
   int m_state;                         // Состояние программы.
 
 

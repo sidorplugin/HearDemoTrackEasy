@@ -4,7 +4,7 @@
 #include "dataclasses/datainput.h"
 #include "widgets/waitingwidget/waitingwidget.h"
 #include "widgets/dbviewwidget/dbviewitemdelegate.h"
-#include "widgets/dbviewwidget/dbviewmodel.h"
+#include "model.h"
 #include "widgets/dbviewwidget/dbviewwidget.h"
 #include "widgets/fetchwidget/fetchwidget.h"
 #include "widgets/playerwidget/playerwidget.h"
@@ -108,7 +108,7 @@ private:
   bool m_isSingleLoad;                 // Одиночная загрузка или нет.
 
 
-  DbViewModel* m_model;
+  Model* m_model;
   WaitingWidget* m_waitingWidget;      // Виджет ожидания.
   FetchWidget* m_fetchParametersWidget; // Виджет параметров выборки.
   DbViewWidget* m_dbViewWidget;        // Виджет "Просмотрщик БД".

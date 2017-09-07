@@ -8,6 +8,7 @@ Worker::Worker(QObject *parent) : QObject(parent)
 {
   qDebug() << "Worker::Worker";
   m_model = Database::getInstance()->model();
+
   createDownloader();
 }
 
@@ -78,7 +79,7 @@ void Worker::slot_load(DataInput &input)
 //  m_downloader->initialize(data.isSingleLoad);
 
   if (input.data(DataInput::SingleLoad).toBool()) {
-    AlbumInfo track = m_model->getTrackInfo(input.data(DataInput::Row).toInt());
+    AlbumInfo track = m_model->getAlbumInfo(input.data(DataInput::Row).toInt());
     qDebug() << track.toStringList();
     m_downloader->load(track);
   }
@@ -164,6 +165,7 @@ void Worker::slot_onModulesFinished()
 // Добавляет треки в модель.
 void Worker::addTracksToModel(const QList<AlbumInfo> &tracks)
 {
+  qDebug() << "Worker::addTracksToModel";
   m_model->add(tracks);
 }
 

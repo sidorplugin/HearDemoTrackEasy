@@ -44,20 +44,20 @@ void Saver::save(const QByteArray &bytes, AlbumInfo &track, const QString &root)
 QString Saver::buildSavePath(AlbumInfo &track, const QString& root)
 {
   QString nameResource;
-  QString href = ""/*track.data(AlbumInfo::LinkTrack).toString()*/;
-  QString genre = track.data(AlbumInfo::Style).toString();
+  QString link = track.data(AlbumInfo::Tracks).toHash().values().at(0).toString();
+  QString style = track.data(AlbumInfo::Style).toString();
   QString date = track.data(AlbumInfo::Date).toString();
   QString year = QDate::fromString(date, "dd.MM.yyyy").toString("yyyy");
   QString month = QDate::fromString(date, "dd.MM.yyyy").toString("MMMM");
 
-  if (href.contains("deejay.de"))
+  if (link.contains("deejay.de"))
     nameResource = "Deejay.de";
-  if (href.contains("media.hardwax.com"))
+  if (link.contains("media.hardwax.com"))
     nameResource = "Hardwax.com";
-  if (href.contains("juno.co.uk"))
+  if (link.contains("juno.co.uk"))
     nameResource = "Juno.co.uk";
 
-  QString path = root + "/" + nameResource + "/" + genre + "/"+ year + "/" + month;
+  QString path = root + "/" + nameResource + "/" + style + "/"+ year + "/" + month;
   QDir dir(path);
 
   if (dir.mkpath(path)) {
@@ -75,24 +75,24 @@ QString Saver::buildSavePath(AlbumInfo &track, const QString& root)
 QByteArray Saver::createTag(AlbumInfo &track)
 {
   QByteArray result;
-  QString href = /*track.data(AlbumInfo::LinkTrack).toString()*/"";
+  QString link = track.data(AlbumInfo::Tracks).toHash().values().at(0).toString();
 
-  if (!href.contains("www.juno.co.uk")) {
+  if (!link.contains("www.juno.co.uk")) {
     // Установка Tag.
-    if (href.contains("media.hardwax.com")) {
+    if (link.contains("media.hardwax.com")) {
       m_tagCreator.setData(IdTagCreator::Ver, IdTagCreator::Hardwax);
     }
-    if (href.contains("deejay.de")) {
+    if (link.contains("deejay.de")) {
       m_tagCreator.setData(IdTagCreator::Ver, IdTagCreator::DeejayDe);
     }
 
     m_tagCreator.setData(IdTagCreator::Header, "TAG");
     m_tagCreator.setData(IdTagCreator::Title,
-                         track.data(AlbumInfo::Title).toString());
+                         track.data(AlbumInfo::Tracks).toHash().keys().at(0));
     m_tagCreator.setData(IdTagCreator::Artist,
                          track.data(AlbumInfo::Artist).toString());
-//    m_tagCreator.setData(IdTagCreator::Album,
-//                         track.data(AlbumInfo::Album).toString());
+    m_tagCreator.setData(IdTagCreator::Album,
+                         track.data(AlbumInfo::Title).toString());
     m_tagCreator.setData(IdTagCreator::Year,
                          track.data(AlbumInfo::Date).toDate().toString("yyyy"));
     m_tagCreator.setData(IdTagCreator::Comment,

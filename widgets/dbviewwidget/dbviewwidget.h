@@ -48,7 +48,6 @@ private:
   QString nameAction(int code);
 
 private:
-  // Делегат колонки "Ссылка".
   DbViewItemDelegate* m_delegate;
   QSignalMapper* m_signalMapper;
   QList <DbViewWidget::Action> m_actionIdList;

@@ -60,7 +60,7 @@ PlayerWidget::~PlayerWidget()
 // Воспроизводит трек.
 void PlayerWidget::play(AlbumInfo& track)
 {
-//  m_player->setMedia(QUrl(track.data(AlbumInfo::LinkTrack).toString()));
+  m_player->setMedia(QUrl(track.data(AlbumInfo::Tracks).toHash().values().at(0).toString()));
   m_player->setVolume(ui->slider_Volume->value());
   m_player->play();
 

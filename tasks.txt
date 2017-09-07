@@ -1,13 +1,5 @@
 --== Hear Demo Track Easy ==--
  
- - #playTrack_272798_a > em                     title трека Deejay.de
- 
- #item-650995-1 > div.pl-img > a > img             image juno           атрибут src
- 
- #record\2e 28792 > div.picture.long > a > img.thumbnail            hardwax image              атрибут src
- 
- id INTEGER NOT NULL PRIMARY KEY
- 
 SELECT  a.artist, t.name, a.name, a.label, a.catalog, a.date FROM album as a JOIN tracks as t ON a.id = t.album_id ORDER BY a.artist
  
  - PageSearcher перевести на сигнали вместо while.
@@ -82,5 +74,5 @@ SELECT  a.artist, t.name, a.name, a.label, a.catalog, a.date FROM album as a JOI
  
  - Бегущая строка проигрываемого трека в плеере.
  
- - Level Meter и  WaveForm проигрываемого трека.
+ - Level Meter и  WaveForm проигрываемого трека. 118 стр Game Programming by Qt.
  

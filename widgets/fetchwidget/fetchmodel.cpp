@@ -46,8 +46,8 @@ QStandardItem* FetchModel::createItem(int type,
                     Qt::DisplayRole);
       item->setData(QIcon(data.value(QString::number(0)).toStringList().at(1)),
                     Qt::DecorationRole);
-      item->setData(0, ROLE_CURRENT_INDEX);
-      item->setData(data, ROLE_SOURCE_DATA);
+      item->setData(0, FetchModel::CurrentIndexRole);
+      item->setData(data, FetchModel::SourceDataRole);
 
     }
     break;
@@ -72,7 +72,7 @@ QStandardItem* FetchModel::createItem(int type,
         QStringList styles =  p.data(ModuleParameters::Styles).toMap().keys();
         data.insert(p.data(ModuleParameters::Name).toString(), styles);
       }
-      item->setData(data, ROLE_LIST);
+      item->setData(data, FetchModel::ListRole);
     }
     break;
 
@@ -83,7 +83,7 @@ QStandardItem* FetchModel::createItem(int type,
         QStringList periods =  p.data(ModuleParameters::Periods).toMap().keys();
         data.insert(p.data(ModuleParameters::Name).toString(), periods);
       }
-      item->setData(data, ROLE_LIST);
+      item->setData(data, FetchModel::ListRole);
     }
     break;
 
@@ -94,7 +94,7 @@ QStandardItem* FetchModel::createItem(int type,
         QStringList filters =  p.data(ModuleParameters::Filters).toMap().keys();
         data.insert(p.data(ModuleParameters::Name).toString(), filters);
       }
-      item->setData(data, ROLE_LIST);
+      item->setData(data, FetchModel::ListRole);
     }
     break;
   }
