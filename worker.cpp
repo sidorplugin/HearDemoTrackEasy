@@ -32,8 +32,8 @@ void Worker::createModule(ModuleFactory *factory)
   module->setParameters(factory->createParameters());
 
   // Создает связи.
-  connect(module, SIGNAL(ready(QList<AlbumInfo>)),
-          this, SLOT(handleTracksFromModule(QList<AlbumInfo>)));
+  connect(module, SIGNAL(ready(QList<MediaInfo>)),
+          this, SLOT(handleTracksFromModule(QList<MediaInfo>)));
 
   connect(module, SIGNAL(finished()),
           this, SLOT(slot_onModulesFinished()));
@@ -79,7 +79,7 @@ void Worker::slot_load(DataInput &input)
 //  m_downloader->initialize(data.isSingleLoad);
 
   if (input.data(DataInput::SingleLoad).toBool()) {
-    AlbumInfo track = m_model->getAlbumInfo(input.data(DataInput::Row).toInt());
+    MediaInfo track = m_model->getAlbumInfo(input.data(DataInput::Row).toInt());
     qDebug() << track.toStringList();
     m_downloader->load(track);
   }
@@ -163,7 +163,7 @@ void Worker::slot_onModulesFinished()
 }
 
 // Добавляет треки в модель.
-void Worker::addTracksToModel(const QList<AlbumInfo> &tracks)
+void Worker::addTracksToModel(const QList<MediaInfo> &tracks)
 {
   qDebug() << "Worker::addTracksToModel";
   m_model->add(tracks);
@@ -171,7 +171,7 @@ void Worker::addTracksToModel(const QList<AlbumInfo> &tracks)
 
 
 // Добавляет треки.
-void Worker::handleTracksFromModule(const QList<AlbumInfo>& tracks)
+void Worker::handleTracksFromModule(const QList<MediaInfo>& tracks)
 {
   qDebug() << "Worker::handleTracksFromModule";
 

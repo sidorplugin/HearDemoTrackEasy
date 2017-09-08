@@ -1,7 +1,7 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include "dataclasses/albuminfo.h"
+#include "dataclasses/mediainfo.h"
 #include "model.h"
 
 #include <QObject>
@@ -25,7 +25,6 @@ public:
 
 private:
   void initialize();              // Инициализация базы данных.
-  QSqlError createAlmumsTable();  // Создает таблицу альбомов.
   QSqlError createTracksTable();  // Создает таблицу треков.
 
 private:

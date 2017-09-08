@@ -47,7 +47,7 @@ public slots:
   // об изменении статуса.
   void slot_onModulesFinished();
   // Добавляет треки в модель.
-  void addTracksToModel(const QList<AlbumInfo>& tracks);
+  void addTracksToModel(const QList<MediaInfo>& tracks);
 
 
 signals:
@@ -56,11 +56,11 @@ signals:
   // Страница выбрана (текущая, всего).
   void signal_pageFetched(int, int);
   // Готовы треки для передачи.
-  void signal_ready(const QList<AlbumInfo>&);
+  void signal_ready(const QList<MediaInfo>&);
 
 private slots:
   // Добавляет треки.
-  void handleTracksFromModule(const QList<AlbumInfo>& tracks);
+  void handleTracksFromModule(const QList<MediaInfo>& tracks);
 
 private:
   // Создает загрузчик.

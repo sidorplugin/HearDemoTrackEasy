@@ -4,7 +4,7 @@
 class JunoFetcherPrivate
 {
 public:
-  QList <AlbumInfo> albums;
+  QList <MediaInfo> albums;
 
 public:
   // Возвращает артиста.
@@ -199,15 +199,15 @@ void JunoFetcher::handleElement(const QWebElement &element)
       element.findFirst("ol.vi-tracklist.jq_highlight");
   QVariantHash tracks = p_d->getTrackList(tracklistElement);
 
-  AlbumInfo album;
-  album.setData(AlbumInfo::Id, id);
-  album.setData(AlbumInfo::Artist, artist);
-  album.setData(AlbumInfo::Title, title);
-  album.setData(AlbumInfo::Catalog, catalog);
-  album.setData(AlbumInfo::Label, label);
-  album.setData(AlbumInfo::Images, images);
-  album.setData(AlbumInfo::Tracks, tracks);
-  album.setData(AlbumInfo::Source, "Juno");
+  MediaInfo album;
+  album.setData(MediaInfo::Id, id);
+  album.setData(MediaInfo::Artist, artist);
+  album.setData(MediaInfo::Title, title);
+  album.setData(MediaInfo::Catalog, catalog);
+  album.setData(MediaInfo::Label, label);
+  album.setData(MediaInfo::Images, images);
+  album.setData(MediaInfo::Tracks, tracks);
+  album.setData(MediaInfo::Source, "Juno");
 
   p_d->albums.push_back(album);
 }

@@ -2,7 +2,7 @@
 #define SEARCHRESULTWIDGET_H
 
 #include "ui_searchresultform.h"
-#include "dataclasses/albuminfo.h"
+#include "dataclasses/mediainfo.h"
 #include "searchresultmodel.h"
 
 #include <QCloseEvent>
@@ -18,11 +18,11 @@ public:
 
 signals:
   // Сигнал с результирующим списком выделенных треков.
-  void ready(const QList<AlbumInfo>&);
+  void ready(const QList<MediaInfo>&);
 
 public slots:
   // Добавляет список треков в таблицу.
-  void addTracks(const QList<AlbumInfo>& tracks);
+  void addTracks(const QList<MediaInfo>& tracks);
 
 private slots:
   // Проверяет треки модели, формирует список выделенных и отправляет их.

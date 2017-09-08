@@ -1,30 +1,30 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "dataclasses/albuminfo.h"
+#include "dataclasses/mediainfo.h"
 
 #include <QObject>
 #include <QDebug>
-#include <QSqlQueryModel>
+#include <QSqlTableModel>
 #include <QSqlRecord>
 
 // Модель Model является оберткой QSqlQueryModel с добавлением полей
 // и методов обеспечивающих хранение и выдачу информации о ходе закачки файлов.
 
 
-class Model : public QSqlQueryModel
+class Model : public QSqlTableModel
 {
 public:
   Model() {}
 
-  // Добавляет трек в модель.
-  void add(AlbumInfo& album);
+  // Добавляет медиа-информацию в модель.
+  void add(MediaInfo& media);
   // Удаляет все треки из модели.
   void remove();
-  // Удаляет трек из модели.
-  void remove(AlbumInfo& track);
+  // Удаляет медиа-информацию из модели.
+  void remove(MediaInfo& media);
   // Возвращает информацию об альбоме по значению строки.
-  AlbumInfo getAlbumInfo(int row);
+  MediaInfo mediaInfo(int row);
   // Возвращает true если модель пуста.
   bool isEmpty() const;
   // Устанавливает значение прогресса для ссылки.
@@ -39,14 +39,8 @@ public:
   QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
 public slots:
-  // Добавляет список треков в модель.
-  void add(const QList<AlbumInfo>& albums);
-
-private:
-  void setHeaders(const QStringList &headers);
-  bool insertAlbumToDb(AlbumInfo &album);
-  bool insertTracksToDb(int id, const QVariantHash& tracks);
-  bool insertTrackToDb(int id, const QString& title, const QString& link);
+  // Добавляет список медиа-информации в модель.
+  void add(const QList<MediaInfo>& mediaList);
 
 private:
   // Таблица "href - %".

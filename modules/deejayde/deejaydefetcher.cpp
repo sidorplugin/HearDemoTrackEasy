@@ -1,6 +1,6 @@
 #include "deejaydefetcher.h"
 #include "deejaydealbumfetcher.h"
-#include "dataclasses/albuminfo.h"
+#include "dataclasses/mediainfo.h"
 
 #include <QSet>
 
@@ -9,7 +9,7 @@ class DeejayDeFetcherPrivate
 {
 public:
   DeejayDeAlbumFetcher* albumFetcher;
-  QList <AlbumInfo> albums;
+  QList <MediaInfo> albums;
   // Текущая дата релиза по заголовку "Выпуски от dd.MM.yyyy".
   QDate releaseDate;
   QString linkRelease;
@@ -301,7 +301,7 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
 
       // Если результат выборки альбома не нулевой добавляет его в
       // результирующий список альбомов.
-      AlbumInfo fetchedAlbum = p_d->albumFetcher->getFetchedAlbum();
+      MediaInfo fetchedAlbum = p_d->albumFetcher->getFetchedAlbum();
       if (!fetchedAlbum.isEmpty())
         p_d->albums.append(fetchedAlbum);
   }
@@ -345,17 +345,17 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
       QVariantHash tracks = p_d->getTrackList(element, images.at(0));
       qDebug() << "tracks = " << tracks;
 
-      AlbumInfo album;
-      album.setData(AlbumInfo::Id, id);
-      album.setData(AlbumInfo::Artist, artist);
-      album.setData(AlbumInfo::Title, title);
-      album.setData(AlbumInfo::Style, style);
-      album.setData(AlbumInfo::Catalog, catalog);
-      album.setData(AlbumInfo::Label, label);
-      album.setData(AlbumInfo::Date, date);
-      album.setData(AlbumInfo::Images, images);
-      album.setData(AlbumInfo::Tracks, tracks);
-      album.setData(AlbumInfo::Source, "DeejayDe");
+      MediaInfo album;
+      album.setData(MediaInfo::Id, id);
+      album.setData(MediaInfo::Artist, artist);
+      album.setData(MediaInfo::Title, title);
+      album.setData(MediaInfo::Style, style);
+      album.setData(MediaInfo::Catalog, catalog);
+      album.setData(MediaInfo::Label, label);
+      album.setData(MediaInfo::Date, date);
+      album.setData(MediaInfo::Images, images);
+      album.setData(MediaInfo::Tracks, tracks);
+      album.setData(MediaInfo::Source, "DeejayDe");
 
       p_d->albums.push_back(album);
   }

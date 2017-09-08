@@ -7,7 +7,7 @@
 class DeejayDeAlbumFetcherPrivate
 {
 public:
-  AlbumInfo album;
+  MediaInfo album;
 
 public:
   // Возвращает ссылки на изображения релиза.
@@ -163,7 +163,7 @@ DeejayDeAlbumFetcher::~DeejayDeAlbumFetcher()
 
 
 // Возвращает информацию об альбоме.
-AlbumInfo DeejayDeAlbumFetcher::getFetchedAlbum() const
+MediaInfo DeejayDeAlbumFetcher::getFetchedAlbum() const
 {
   return p_d->album;
 }
@@ -199,16 +199,16 @@ void DeejayDeAlbumFetcher::result(bool ok)
     return;
   }
 
-  p_d->album.setData(AlbumInfo::Id, id);
-  p_d->album.setData(AlbumInfo::Artist, artist);
-  p_d->album.setData(AlbumInfo::Title, title);
-  p_d->album.setData(AlbumInfo::Style, style);
-  p_d->album.setData(AlbumInfo::Catalog, catalog);
-  p_d->album.setData(AlbumInfo::Label, label);
-  p_d->album.setData(AlbumInfo::Date, date);
-  p_d->album.setData(AlbumInfo::Images, images);
-  p_d->album.setData(AlbumInfo::Tracks, tracks);
-  p_d->album.setData(AlbumInfo::Source, "DeejayDe");
+  p_d->album.setData(MediaInfo::Id, id);
+  p_d->album.setData(MediaInfo::Artist, artist);
+  p_d->album.setData(MediaInfo::Title, title);
+  p_d->album.setData(MediaInfo::Style, style);
+  p_d->album.setData(MediaInfo::Catalog, catalog);
+  p_d->album.setData(MediaInfo::Label, label);
+  p_d->album.setData(MediaInfo::Date, date);
+  p_d->album.setData(MediaInfo::Images, images);
+  p_d->album.setData(MediaInfo::Tracks, tracks);
+  p_d->album.setData(MediaInfo::Source, "DeejayDe");
 
   emit fetched(Fetcher::Finished);
 }

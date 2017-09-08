@@ -2,198 +2,89 @@
 #include "database.h"
 
 
-// Производит выборку элементов в базе для представления.
-void Model::select()
-{
-  setQuery("SELECT t.title, a.artist, a.title, a.style, a.catalog, "
-           "a.label, a.date, t.link, a.images, a.source, a.id "
-           "FROM albums as a JOIN tracks as t ON a.id = t.album_id");
-
-  setHeaders(QStringList() << trUtf8("Трек")
-                           << trUtf8("Артист")
-                           << trUtf8("Альбом")
-                           << trUtf8("Стиль")
-                           << trUtf8("Каталог")
-                           << trUtf8("Лэйбл")
-                           << trUtf8("Дата")
-                           << trUtf8("Ссылка")
-                           << trUtf8("Обложки")
-                           << trUtf8("Источник")
-                           << trUtf8("Альбом_id")
-       );
-
-}
-
-
-void Model::setHeaders(const QStringList &headers)
-{
-  for (int i = 0, j = 0; i < columnCount(); i++, j++) {
-      setHeaderData(i, Qt::Horizontal, headers.at(j));
-    }
-}
-
-
-
 // Добавляет список треков в модель.
-void Model::add(const QList<AlbumInfo> &albums)
+void Model::add(const QList<MediaInfo> &mediaList)
 {
-  foreach (AlbumInfo album, albums) {
-    add(album);
+  foreach (MediaInfo media, mediaList) {
+    add(media);
   }
 }
 
 
 // Добавляет трек в модель.
-void Model::add(AlbumInfo &album)
+void Model::add(MediaInfo &media)
 {
-  qDebug() << " Model::add()";
+    insertRow(0);
+    setData(index(0, 0), track.data(MediaInfo::Artist).toString());
+    setData(index(0, 1), track.data(MediaInfo::Title).toString());
+    setData(index(0, 2), track.data(MediaInfo::Album).toString());
+    setData(index(0, 3), track.data(MediaInfo::Style).toString());
+    setData(index(0, 4), track.data(MediaInfo::Catalog).toString());
+    setData(index(0, 5), track.data(MediaInfo::Label).toString());
+    setData(index(0, 6), track.data(MediaInfo::Date).toString());
+    setData(index(0, 7), track.data(MediaInfo::LinkTrack).toString());
+    setData(index(0, 8), track.data(MediaInfo::LinkImage).toString());
 
-  // Если данные об альбоме вставлены в базу успешно, вставляем данные о треках.
-  if (insertAlbumToDb(album)) {
-      int id = album.data(AlbumInfo::Id).toInt();
-      QVariantHash tracks = album.data(AlbumInfo::Tracks).toHash();
-      if (insertTracksToDb(id, tracks)) {
-        select();
-      }
-      else {
-        qDebug() << "error insert into tracks";
-        return;
-      }
-  }
-  // Иначе предупреждение об ошибке вставки альбома.
-  else {
-    qDebug() << "error insert into albums";
-    return;
-  }
-}
-
-
-bool Model::insertAlbumToDb(AlbumInfo &album)
-{
-  int id = album.data(AlbumInfo::Id).toInt();
-  QString artist = album.data(AlbumInfo::Artist).toString();
-  QString title = album.data(AlbumInfo::Title).toString();
-  QString style = album.data(AlbumInfo::Style).toString();
-  QString catalog = album.data(AlbumInfo::Catalog).toString();
-  QString label = album.data(AlbumInfo::Label).toString();
-  QString date = album.data(AlbumInfo::Date).toString();
-  QStringList images = album.data(AlbumInfo::Images).toStringList();
-  QVariantHash tracks = album.data(AlbumInfo::Tracks).toHash();
-  QString source = album.data(AlbumInfo::Source).toString();
-
-  QSqlQuery query;
-  query.prepare("INSERT INTO albums (id, artist, title, style, catalog, "
-                                     "label, date, images, source) "
-                "VALUES (:id, :artist, :title, :style, :catalog, :label, "
-                        ":date, :images, :title)");
-  query.bindValue(":id", id);
-  query.bindValue(":artist", artist);
-  query.bindValue(":title", title);
-  query.bindValue(":style", style);
-  query.bindValue(":catalog", catalog);
-  query.bindValue(":label", label);
-  query.bindValue(":date", date);
-  query.bindValue(":images", images.join(";"));
-  query.bindValue(":source", source);
-
-  if (query.exec()) {
-    setQuery(query);
-    return true;
-  }
-
-  qDebug() << query.lastError().text();
-  return false;
-}
-
-
-
-bool Model::insertTracksToDb(int id, const QVariantHash &tracks)
-{
-  QHashIterator<QString, QVariant> i(tracks);
-  while (i.hasNext()) {
-      i.next();
-      if (!insertTrackToDb(id, i.key(), i.value().toString()))
-        return false;
-  }
-
-  return true;
-}
-
-
-bool Model::insertTrackToDb(int id, const QString &title, const QString &link)
-{
-  QSqlQuery query;
-  query.prepare("INSERT INTO tracks (title, link, album_id)"
-                "VALUES (:title, :link, :album_id)");
-  query.bindValue(":title", title);
-  query.bindValue(":link", link);
-  query.bindValue(":album_id", id);
-
-  if (query.exec()) {
-      setQuery(query);
-      return true;
-  }
-
-  qDebug() << query.lastError().text();
-  return false;
+    if (!submitAll())
+      qDebug() << lastError();
 }
 
 
 // Удаляет все треки из модели.
 void Model::remove()
 {
-  QSqlQuery query;
-  if(query.exec("DELETE FROM tracks")) {
-      setQuery(query);
-      if(query.exec("DELETE FROM albums")) {
-          setQuery(query);
-          select();
-          return;
-      }
-  }
-  qWarning() << "Failure to clear database " << query.lastError().text();
+  QSqlQuery query(database());
+    if(!query.exec("DELETE FROM tracks")) {
+      qWarning() << "Failure to clear database " << query.lastError().text();
+    }
+    submitAll();
 }
 
 
 // Удаляет трек из модели.
-void Model::remove(AlbumInfo& track)
+void Model::remove(MediaInfo& media)
 {
-  QString link = track.data(AlbumInfo::Tracks).toHash().values().at(0).toString();
+  int id  = media.data(MediaInfo::Id_Track).toInt();
 
-  QSqlQuery query;
-  if(query.exec("DELETE FROM tracks WHERE link = '" + link + "'")) {
-      setQuery(query);
-      select();
-      return;
-  }
-
-  qWarning() << query.lastError();
+    QSqlQuery query(database());
+    if(!query.exec("DELETE FROM tracks WHERE id = " + id)) {
+        qWarning() << query.lastError();
+    }
+    submitAll();
 }
 
 
 // Возвращает информацию об альбоме по значению строки.
-AlbumInfo Model::getAlbumInfo(int row)
+MediaInfo Model::mediaInfo(int row)
 {
-  QSqlRecord record = this->record(row);
+    // Считывает запись из модели по index.
+    QSqlRecord record = this->record(index);
 
-  AlbumInfo album;
-  album.setData(AlbumInfo::Id, record.value(10));
-  album.setData(AlbumInfo::Artist, record.value(1));
-  album.setData(AlbumInfo::Title, record.value(2));
-  album.setData(AlbumInfo::Style, record.value(3));
-  album.setData(AlbumInfo::Catalog, record.value(4));
-  album.setData(AlbumInfo::Label, record.value(5));
-  album.setData(AlbumInfo::Date, record.value(6));
-  album.setData(AlbumInfo::Images, record.value(8).toString().split(";"));
+    // Определяет индекс по имени столбца.
+    int artistIndex = this->record(index).indexOf("artist");
+    int titleIndex = this->record(index).indexOf("title");
+    int albumIndex = this->record(index).indexOf("album");
+    int styleIndex = this->record(index).indexOf("style");
+    int catalogIndex = this->record(index).indexOf("catalog");
+    int labelIndex = this->record(index).indexOf("label");
+    int dateIndex = this->record(index).indexOf("date");
+    int linkTrackIndex = this->record(index).indexOf("link_track");
+    int linkImageIndex = this->record(index).indexOf("link_image");
 
-  QString title = record.value(0).toString();
-  QString link = record.value(7).toString();
-  QVariantHash tracks;
-  tracks.insert(title, link);
-  album.setData(AlbumInfo::Tracks, tracks);
-  album.setData(AlbumInfo::Source, record.value(9));
+    // С помощью определенного ранее индекса получает доступ к данным модели.
+    // Заполняет ими структуру AlbumInfo.
+    AlbumInfo track;
+    track.setData(AlbumInfo::Artist, record.value(artistIndex).toString());
+    track.setData(AlbumInfo::Title, record.value(titleIndex).toString());
+  //  track.setData(AlbumInfo::Album, record.value(albumIndex).toString());
+    track.setData(AlbumInfo::Style, record.value(styleIndex).toString());
+    track.setData(AlbumInfo::Catalog, record.value(catalogIndex).toString());
+    track.setData(AlbumInfo::Label, record.value(labelIndex).toString());
+    track.setData(AlbumInfo::Date, record.value(dateIndex).toString());
+  //  track.setData(AlbumInfo::LinkTrack, record.value(linkTrackIndex).toString());
+  //  track.setData(AlbumInfo::LinkImage, record.value(linkImageIndex).toString());
 
-  return album;
+    return track;
 }
 
 
@@ -223,5 +114,5 @@ void Model::setProgress(const QString &href, int value)
   // Сохраняет значение в таблице.
   m_table.insert(href, value);
 
-//  submitAll();
+  submitAll();
 }

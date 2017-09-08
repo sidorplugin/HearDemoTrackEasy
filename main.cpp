@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "globaldata.h"
 #include "worker.h"
-#include "dataclasses/albuminfo.h"
+#include "dataclasses/mediainfo.h"
 #include "modules/deejayde/deejaydemodulefactory.h"
 #include "modules/juno/junomodulefactory.h"
 #include "modules/hardwax/hardwaxmodulefactory.h"
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    qRegisterMetaType<AlbumInfo>("AlbumInfo");
+    qRegisterMetaType<MediaInfo>("MediaInfo");
     qRegisterMetaType<DataInput>("DataInput");
 
 //    QFile file(":/styles/style/darkstyle.qss");
@@ -95,8 +95,8 @@ int main(int argc, char *argv[])
                      worker, SLOT(slot_setState(int)));
 
     // Сигнал от ui о готовности выбранных треков для добавления в просмотрщик треков.
-    QObject::connect(&mainWindow, SIGNAL(signal_ready(QList<AlbumInfo>)),
-                     worker, SLOT(addTracksToModel(QList<AlbumInfo>)));
+    QObject::connect(&mainWindow, SIGNAL(signal_ready(QList<MediaInfo>)),
+                     worker, SLOT(addTracksToModel(QList<MediaInfo>)));
 
     // Signals To Mainwindow -----------------------------------------------
 
@@ -110,8 +110,8 @@ int main(int argc, char *argv[])
                      &mainWindow, SLOT(slot_pageFetched(int, int)));
 
     // При поиске по готовности списка треков передает в интерфейс список.
-    QObject::connect(worker, SIGNAL(signal_ready(QList<AlbumInfo>)),
-                     &mainWindow, SLOT(slot_addTracks(QList<AlbumInfo>)));
+    QObject::connect(worker, SIGNAL(signal_ready(QList<MediaInfo>)),
+                     &mainWindow, SLOT(slot_addTracks(QList<MediaInfo>)));
 
 
 //    workerThread.start();

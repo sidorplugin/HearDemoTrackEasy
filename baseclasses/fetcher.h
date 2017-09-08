@@ -2,7 +2,7 @@
 #define FETCHER_H
 
 #include "globaldata.h"
-#include "dataclasses/albuminfo.h"
+#include "dataclasses/mediainfo.h"
 
 #include <QObject>
 #include <QWebPage>
@@ -35,7 +35,7 @@ public:
 signals:
   // Выборка окончена.
   void fetched(Fetcher::State);
-  void ready(const QList <AlbumInfo>&);
+  void ready(const QList <MediaInfo>&);
 
 protected slots:
   // Абстрактный метод обрабатывающий полученные данные.

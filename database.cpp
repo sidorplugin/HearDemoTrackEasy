@@ -8,6 +8,26 @@ Database::Database()
   initialize();
 
   m_model = new Model;
+
+  m_model->setTable("tracks");
+//  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+//  m_model->select();
+//  m_model->setHeaderData(0, Qt::Horizontal, "Ссылка");
+//  m_model->setHeaderData(1, Qt::Horizontal, "Трек");
+//  m_model->setHeaderData(2, Qt::Horizontal, "Стиль");
+//  m_model->setHeaderData(3, Qt::Horizontal, "Артист");
+//  m_model->setHeaderData(4, Qt::Horizontal, "Альбом");
+//  m_model->setHeaderData(5, Qt::Horizontal, "Каталог");
+//  m_model->setHeaderData(6, Qt::Horizontal, "Лэйбл");
+//  m_model->setHeaderData(7, Qt::Horizontal, "Дата");
+//  m_model->setHeaderData(0, Qt::Horizontal, "Ссылка");
+//  m_model->setHeaderData(1, Qt::Horizontal, "Трек");
+//  m_model->setHeaderData(2, Qt::Horizontal, "Стиль");
+//  m_model->setHeaderData(3, Qt::Horizontal, "Артист");
+//  m_model->setHeaderData(4, Qt::Horizontal, "Альбом");
+//  m_model->setHeaderData(5, Qt::Horizontal, "Каталог");
+//  m_model->setHeaderData(6, Qt::Horizontal, "Лэйбл");
+//  m_model->setHeaderData(7, Qt::Horizontal, "Дата");
 }
 
 
@@ -36,34 +56,11 @@ void Database::initialize()
   }
 
   if (m_database.tables().isEmpty()) {
-    error = createAlmumsTable();
+    error = createTracksTable();
     if (error.type() != QSqlError::NoError) {
       qWarning() << "Failure to create AlbumsTable in database " + error.text();
     }
-    error = createTracksTable();
-    if (error.type() != QSqlError::NoError) {
-      qWarning() << "Failure to create TracksTable in database " + error.text();
-    }
   }
-}
-
-
-// Создает таблицу альбомов.
-QSqlError Database::createAlmumsTable()
-{
-  QSqlQuery query(m_database);
-  if (!query.exec(QLatin1String("CREATE TABLE albums(id INTEGER NOT NULL PRIMARY KEY,"
-                                " artist VARCHAR,"
-                                " title VARCHAR,"
-                                " style VARCHAR,"
-                                " catalog VARCHAR,"
-                                " label VARCHAR,"
-                                " date VARCHAR,"
-                                " images VARCHAR,"
-                                " source VARCHAR)")))
-    return query.lastError();
-
-  return QSqlError();
 }
 
 
@@ -71,11 +68,20 @@ QSqlError Database::createAlmumsTable()
 QSqlError Database::createTracksTable()
 {
   QSqlQuery query(m_database);
-  if (!query.exec(QLatin1String("CREATE TABLE tracks(id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                " title VARCHAR,"
-                                " link VARCHAR,"
-                                " album_id INTEGER NOT NULL,"
-                                " FOREIGN KEY (album_id) REFERENCES album(id))")))
+  if (!query.exec(QLatin1String("CREATE TABLE tracks("
+                                " id_track INTEGER NOT NULL PRIMARY KEY,"
+                                " id_album INTEGER,"
+                                " artist VARCHAR,"
+                                " title_track VARCHAR,"
+                                " title_album VARCHAR,"
+                                " style VARCHAR,"
+                                " catalog VARCHAR,"
+                                " label VARCHAR,"
+                                " date VARCHAR,"
+                                " images VARCHAR,"
+                                " link_track VARCHAR,"
+                                " link_album VARCHAR,"
+                                " source VARCHAR)")))
     return query.lastError();
 
   return QSqlError();

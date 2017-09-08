@@ -9,7 +9,7 @@ Saver::Saver(QObject *parent) : QObject(parent)
 
 
 // Сохраняет данные bytes c данными data в папку root.
-void Saver::save(const QByteArray &bytes, AlbumInfo &track, const QString &root)
+void Saver::save(const QByteArray &bytes, MediaInfo &track, const QString &root)
 {
   qDebug() << "Saver::save()";
 
@@ -17,8 +17,8 @@ void Saver::save(const QByteArray &bytes, AlbumInfo &track, const QString &root)
   QFile file;
   QString path = buildSavePath(track, root);
   QString fileName = getValidFileName(
-                  track.data(AlbumInfo::Artist).toString() + " - " +
-                  track.data(AlbumInfo::Title).toString());
+                  track.data(MediaInfo::Artist).toString() + " - " +
+                  track.data(MediaInfo::Title).toString());
   qDebug() << "fileName = " << fileName;
 
   file.setFileName(path + "/" + fileName + ".mp3");
@@ -41,12 +41,12 @@ void Saver::save(const QByteArray &bytes, AlbumInfo &track, const QString &root)
 
 
 // Строит путь сохранения для файла.
-QString Saver::buildSavePath(AlbumInfo &track, const QString& root)
+QString Saver::buildSavePath(MediaInfo &track, const QString& root)
 {
   QString nameResource;
-  QString link = track.data(AlbumInfo::Tracks).toHash().values().at(0).toString();
-  QString style = track.data(AlbumInfo::Style).toString();
-  QString date = track.data(AlbumInfo::Date).toString();
+  QString link = track.data(MediaInfo::Tracks).toHash().values().at(0).toString();
+  QString style = track.data(MediaInfo::Style).toString();
+  QString date = track.data(MediaInfo::Date).toString();
   QString year = QDate::fromString(date, "dd.MM.yyyy").toString("yyyy");
   QString month = QDate::fromString(date, "dd.MM.yyyy").toString("MMMM");
 
@@ -72,10 +72,10 @@ QString Saver::buildSavePath(AlbumInfo &track, const QString& root)
 
 
 // Создает тэг.
-QByteArray Saver::createTag(AlbumInfo &track)
+QByteArray Saver::createTag(MediaInfo &track)
 {
   QByteArray result;
-  QString link = track.data(AlbumInfo::Tracks).toHash().values().at(0).toString();
+  QString link = track.data(MediaInfo::Tracks).toHash().values().at(0).toString();
 
   if (!link.contains("www.juno.co.uk")) {
     // Установка Tag.
@@ -88,19 +88,19 @@ QByteArray Saver::createTag(AlbumInfo &track)
 
     m_tagCreator.setData(IdTagCreator::Header, "TAG");
     m_tagCreator.setData(IdTagCreator::Title,
-                         track.data(AlbumInfo::Tracks).toHash().keys().at(0));
+                         track.data(MediaInfo::Tracks).toHash().keys().at(0));
     m_tagCreator.setData(IdTagCreator::Artist,
-                         track.data(AlbumInfo::Artist).toString());
+                         track.data(MediaInfo::Artist).toString());
     m_tagCreator.setData(IdTagCreator::Album,
-                         track.data(AlbumInfo::Title).toString());
+                         track.data(MediaInfo::Title).toString());
     m_tagCreator.setData(IdTagCreator::Year,
-                         track.data(AlbumInfo::Date).toDate().toString("yyyy"));
+                         track.data(MediaInfo::Date).toDate().toString("yyyy"));
     m_tagCreator.setData(IdTagCreator::Comment,
-                         track.data(AlbumInfo::Catalog).toString() + "," +
-                         track.data(AlbumInfo::Label).toString() + "," +
-                         track.data(AlbumInfo::Date).
+                         track.data(MediaInfo::Catalog).toString() + "," +
+                         track.data(MediaInfo::Label).toString() + "," +
+                         track.data(MediaInfo::Date).
                          toDate().toString("dd.MM.yyyy"));
-    int style = m_tagCreator.codeStyle(track.data(AlbumInfo::Style).toString());
+    int style = m_tagCreator.codeStyle(track.data(MediaInfo::Style).toString());
     m_tagCreator.setData(IdTagCreator::Style, style);
 
     result = m_tagCreator.tag();

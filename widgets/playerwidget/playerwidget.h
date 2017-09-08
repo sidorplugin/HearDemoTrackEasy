@@ -2,7 +2,7 @@
 #define PLAYERWIDGET_H
 
 #include "ui_playerwidgetform.h"
-#include "dataclasses/albuminfo.h"
+#include "dataclasses/mediainfo.h"
 
 #include <QObject>
 #include <QDebug>
@@ -32,7 +32,7 @@ public:
 
 public slots:
   // Воспроизводит трек.
-  void play(AlbumInfo& track);
+  void play(MediaInfo& track);
 
 signals:
   // Сигнал о нажатии кнопки управления плеером.

@@ -15,7 +15,7 @@ public:
   ~DeejayDeAlbumFetcher();
 
   // Возвращает информацию об альбоме.
-  AlbumInfo getFetchedAlbum() const;
+  MediaInfo getFetchedAlbum() const;
 
 protected slots:
   // Производит выборку.

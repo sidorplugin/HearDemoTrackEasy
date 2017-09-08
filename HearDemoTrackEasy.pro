@@ -49,9 +49,9 @@ SOURCES += main.cpp\
     widgets/fetchwidget/fetchmodel.cpp \
     widgets/searchresultwidget/searchresultwidget.cpp \
     widgets/searchresultwidget/searchresultmodel.cpp \
-    dataclasses/albuminfo.cpp \
     model.cpp \
-    albummodel.cpp
+    albummodel.cpp \
+    dataclasses/mediainfo.cpp
 
 HEADERS  += mainwindow.h \
     modules/deejayde/deejaydefetcher.h \
@@ -94,9 +94,9 @@ HEADERS  += mainwindow.h \
     widgets/fetchwidget/fetchmodel.h \
     widgets/searchresultwidget/searchresultwidget.h \
     widgets/searchresultwidget/searchresultmodel.h \
-    dataclasses/albuminfo.h \
     model.h \
-    albummodel.h
+    albummodel.h \
+    dataclasses/mediainfo.h
 
 FORMS    += mainwindow.ui \
             playerwidgetform.ui \

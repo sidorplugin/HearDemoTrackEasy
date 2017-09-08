@@ -23,8 +23,8 @@ Downloader::Downloader(QObject *parent) : QObject(parent),
 
   // Когда приходит ответ от "Хранителя" об успешном сохранении файла,
   // отправляет запрос в БД на удаление записи.
-  connect(m_saver, SIGNAL(saved(AlbumInfo&)),
-          this, SLOT(on_saved(AlbumInfo&)));
+  connect(m_saver, SIGNAL(saved(MediaInfo&)),
+          this, SLOT(on_saved(MediaInfo&)));
 
 }
 
@@ -54,13 +54,13 @@ void Downloader::load()
         // Передает m_countTasksInLoad задач на исполнение "Обработчику".
         for (int i = 0; i < m_countTasksInLoad; i++) {
             // TODO найти трек по i getAlbumInfo(i). => load(track).
-            AlbumInfo track = m_model->getAlbumInfo(i);
+            MediaInfo track = m_model->getAlbumInfo(i);
             load(track);
         }
     }
     // Иначе, отправляет Обработчику очередную m_indexNextTrack задачу.
     else {
-        AlbumInfo track = m_model->getAlbumInfo(m_indexNextTrack);
+        MediaInfo track = m_model->getAlbumInfo(m_indexNextTrack);
         load(track);
     }
 
@@ -76,15 +76,15 @@ void Downloader::load()
 
 
 // Закачивает трек.
-void Downloader::load(AlbumInfo &track)
+void Downloader::load(MediaInfo &track)
 {
-  qDebug() << "Downloader::load(AlbumInfo)"
-           << track.data(AlbumInfo::Tracks).toHash();
+  qDebug() << "Downloader::load(MediaInfo)"
+           << track.data(MediaInfo::Tracks).toHash();
 
   // Сохраняет инфо о треке в таблице.
-  m_tracksData.insert(track.data(AlbumInfo::Tracks).toHash().values().at(0).toString(), track);
+  m_tracksData.insert(track.data(MediaInfo::Tracks).toHash().values().at(0).toString(), track);
   // Отправляет задание "Обработчику".
-  m_handler->load(track.data(AlbumInfo::Tracks).toHash().values().at(0).toString());
+  m_handler->load(track.data(MediaInfo::Tracks).toHash().values().at(0).toString());
   // Увеличивает индекс на 1, указывающий на следующую запись для загрузки.
   m_indexNextTrack++;
 
@@ -133,7 +133,7 @@ void Downloader::on_readyReply(const QString &href, QNetworkReply* reply)
   QByteArray byteData = reply->readAll();
 
   // Получает данные о треке по ссылке href.
-  AlbumInfo trackData = m_tracksData.take(href);
+  MediaInfo trackData = m_tracksData.take(href);
 
   // Передает "Сохранителю" данные для сохранения на диск.
   m_saver->save(byteData, trackData, m_root);
@@ -142,9 +142,9 @@ void Downloader::on_readyReply(const QString &href, QNetworkReply* reply)
 
 
 // Слот-реакция на сигнал от "Сохранителя" об успешности сохранения.
-void Downloader::on_saved(AlbumInfo &track)
+void Downloader::on_saved(MediaInfo &track)
 {
-//  qDebug() << "Downloader::on_saved()" << track.data(AlbumInfo::LinkTrack).toString();
+//  qDebug() << "Downloader::on_saved()" << track.data(MediaInfo::LinkTrack).toString();
 
   // Удаляет из БД запись.
   m_model->remove(track);
