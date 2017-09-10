@@ -74,6 +74,11 @@ void MainWindow::createWidgets()
   m_searchWidget = new SearchWidget(this);
   ui->dockWidgetSearch->setWidget(m_searchWidget);
 
+  // Добавляет виджет обложки.
+  m_coverWidget = new CoverWidget(this);
+  ui->dockWidgetCover->setWidget(m_coverWidget);
+
+
 }
 
 
@@ -153,8 +158,16 @@ void MainWindow::slot_playTrack(int button)
   // Устанавливает index текущей строкой в виджете "Просмотрщик треков".
   m_dbViewWidget->selectRow(row);
 
-  MediaInfo track = m_model->getAlbumInfo(row);
-  m_playerWidget->play(track);
+  MediaInfo media = m_model->mediaInfo(row);
+  m_playerWidget->play(media);
+  // Отображает обложку альбома.
+  QStringList listImages = media.data(MediaInfo::Images).toString().split(";");
+
+  for (int i = 0; i < listImages.count(); i++) {
+      m_coverWidget->setImage(i, listImages.at(i));
+  }
+
+
 }
 
 
@@ -258,8 +271,8 @@ void MainWindow::slot_executeAction(int action)
 
       if (result == QMessageBox::Yes) {
           int row = m_dbViewWidget->currentIndex().row();
-          MediaInfo track = m_model->getAlbumInfo(row);
-          m_model->remove(track);
+          MediaInfo media = m_model->mediaInfo(row);
+          m_model->remove(media);
       }
     }
     break;
@@ -308,13 +321,13 @@ void MainWindow::slot_executeActionContextMenu(int action)
    int row = m_dbViewWidget->currentIndex().row();
 
    // Считывает информацию о треке.
-   MediaInfo track = m_model->getAlbumInfo(row);
-   QString artist = track.data(MediaInfo::Artist).toString();
-   QString label = track.data(MediaInfo::Label).toString();
-   QString source = track.data(MediaInfo::Source).toString();
-   QString title = track.data(MediaInfo::Tracks).toHash().keys().at(0);
-   QString link = track.data(MediaInfo::Tracks).toHash().values().at(0).toString();
-   QString album = track.data(MediaInfo::Title).toString();
+   MediaInfo media = m_model->mediaInfo(row);
+   QString artist = media.data(MediaInfo::Artist).toString();
+   QString label = media.data(MediaInfo::Label).toString();
+   QString source = media.data(MediaInfo::Source).toString();
+   QString titleTrack = media.data(MediaInfo::Title_Track).toString();
+   QString linkTrack = media.data(MediaInfo::Link_Track).toString();
+   QString titleAlbum = media.data(MediaInfo::Title_Album).toString();
 
 
    // В зависимости от action обрабатывает задачу.
@@ -343,7 +356,7 @@ void MainWindow::slot_executeActionContextMenu(int action)
             // Устанавливает данные в виджете поиска.
             m_searchWidget->setData(SearchWidget::Source, source);
             m_searchWidget->setData(SearchWidget::Group, "Titles");
-            m_searchWidget->setData(SearchWidget::Text, title);
+            m_searchWidget->setData(SearchWidget::Text, titleTrack);
             slot_executeAction(MainWindow::SearchAction);
         }
         break;
@@ -363,7 +376,7 @@ void MainWindow::slot_executeActionContextMenu(int action)
         break;
 
         case DbViewWidget::Copy_Title :
-            QApplication::clipboard()->setText(artist + " - " + title);
+            QApplication::clipboard()->setText(artist + " - " + titleTrack);
         break;
 
         case DbViewWidget::Copy_Label :
@@ -371,11 +384,11 @@ void MainWindow::slot_executeActionContextMenu(int action)
         break;
 
         case DbViewWidget::Copy_Album :
-            QApplication::clipboard()->setText(album);
+            QApplication::clipboard()->setText(titleAlbum);
         break;
 
         case DbViewWidget::Copy_Link :
-            QApplication::clipboard()->setText(link);
+            QApplication::clipboard()->setText(linkTrack);
         break;
 
         case DbViewWidget::Remove :

@@ -29,7 +29,7 @@ public:
   // Закачивает все треки в БД.
   void load();
   // Закачивает трек.
-  void load(MediaInfo& track);
+  void load(MediaInfo& media);
   // Останавливает закачивание.
   void stop();
 
@@ -48,7 +48,7 @@ private slots:
   void on_readyReply(const QString& href, QNetworkReply* reply);
 
   // Слот-реакция на сигнал от "Сохранителя" об успешности сохранения.
-  void on_saved(MediaInfo &track);
+  void on_saved(MediaInfo &media);
 
   // Управляет прогрессом закачки.
   void on_downloadProgress(const QString& href,
@@ -65,7 +65,7 @@ private:
   Saver* m_saver;
   Model* m_model;
 
-  QHash <QString, MediaInfo> m_tracksData;
+  QHash <QString, MediaInfo> m_mediaData;
   QHash <QString, QNetworkReply*> m_replies;
   QString m_root;                              // Корневой каталог.
   int m_countTasksInLoad;

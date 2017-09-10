@@ -63,9 +63,9 @@ void SearchResultWidget::checkTracks()
     // Если элемент выделен.
     if (m_model->isCheckedState(i)) {
       // Считывает дынные трека из модели.
-      MediaInfo track = m_model->getAlbumInfo(i);
+      MediaInfo media = m_model->mediaInfo(i);
       // Добавляет в результирующий список.
-      result.push_back(track);
+      result.push_back(media);
     }
   }
 

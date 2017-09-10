@@ -9,16 +9,16 @@ Saver::Saver(QObject *parent) : QObject(parent)
 
 
 // Сохраняет данные bytes c данными data в папку root.
-void Saver::save(const QByteArray &bytes, MediaInfo &track, const QString &root)
+void Saver::save(const QByteArray &bytes, MediaInfo &media, const QString &root)
 {
   qDebug() << "Saver::save()";
 
   QByteArray result;
   QFile file;
-  QString path = buildSavePath(track, root);
+  QString path = buildSavePath(media, root);
   QString fileName = getValidFileName(
-                  track.data(MediaInfo::Artist).toString() + " - " +
-                  track.data(MediaInfo::Title).toString());
+                  media.data(MediaInfo::Artist).toString() + " - " +
+                  media.data(MediaInfo::Title_Track).toString());
   qDebug() << "fileName = " << fileName;
 
   file.setFileName(path + "/" + fileName + ".mp3");
@@ -28,27 +28,27 @@ void Saver::save(const QByteArray &bytes, MediaInfo &track, const QString &root)
   }
 
   // Добавляет тег.
-  QByteArray tag = createTag(track);
+  QByteArray tag = createTag(media);
   result.append(bytes);
   result.append(tag);
 
   file.write(result);
   file.close();
 
-  emit saved(track);
+  emit saved(media);
 
 }
 
 
 // Строит путь сохранения для файла.
-QString Saver::buildSavePath(MediaInfo &track, const QString& root)
+QString Saver::buildSavePath(MediaInfo &media, const QString& root)
 {
   QString nameResource;
-  QString link = track.data(MediaInfo::Tracks).toHash().values().at(0).toString();
-  QString style = track.data(MediaInfo::Style).toString();
-  QString date = track.data(MediaInfo::Date).toString();
-  QString year = QDate::fromString(date, "dd.MM.yyyy").toString("yyyy");
-  QString month = QDate::fromString(date, "dd.MM.yyyy").toString("MMMM");
+  QString link = media.data(MediaInfo::Link_Track).toString();
+  QString style = media.data(MediaInfo::Style).toString();
+  QDate date = media.data(MediaInfo::Date).toDate();
+  QString year = date.toString("yyyy");
+  QString month = date.toString("MMMM");
 
   if (link.contains("deejay.de"))
     nameResource = "Deejay.de";
@@ -72,10 +72,10 @@ QString Saver::buildSavePath(MediaInfo &track, const QString& root)
 
 
 // Создает тэг.
-QByteArray Saver::createTag(MediaInfo &track)
+QByteArray Saver::createTag(MediaInfo &media)
 {
   QByteArray result;
-  QString link = track.data(MediaInfo::Tracks).toHash().values().at(0).toString();
+  QString link = media.data(MediaInfo::Link_Track).toString();
 
   if (!link.contains("www.juno.co.uk")) {
     // Установка Tag.
@@ -88,19 +88,19 @@ QByteArray Saver::createTag(MediaInfo &track)
 
     m_tagCreator.setData(IdTagCreator::Header, "TAG");
     m_tagCreator.setData(IdTagCreator::Title,
-                         track.data(MediaInfo::Tracks).toHash().keys().at(0));
+                         media.data(MediaInfo::Title_Track).toString());
     m_tagCreator.setData(IdTagCreator::Artist,
-                         track.data(MediaInfo::Artist).toString());
+                         media.data(MediaInfo::Artist).toString());
     m_tagCreator.setData(IdTagCreator::Album,
-                         track.data(MediaInfo::Title).toString());
+                         media.data(MediaInfo::Title_Album).toString());
     m_tagCreator.setData(IdTagCreator::Year,
-                         track.data(MediaInfo::Date).toDate().toString("yyyy"));
+                         media.data(MediaInfo::Date).toDate().toString("yyyy"));
     m_tagCreator.setData(IdTagCreator::Comment,
-                         track.data(MediaInfo::Catalog).toString() + "," +
-                         track.data(MediaInfo::Label).toString() + "," +
-                         track.data(MediaInfo::Date).
+                         media.data(MediaInfo::Catalog).toString() + "," +
+                         media.data(MediaInfo::Label).toString() + "," +
+                         media.data(MediaInfo::Date).
                          toDate().toString("dd.MM.yyyy"));
-    int style = m_tagCreator.codeStyle(track.data(MediaInfo::Style).toString());
+    int style = m_tagCreator.codeStyle(media.data(MediaInfo::Style).toString());
     m_tagCreator.setData(IdTagCreator::Style, style);
 
     result = m_tagCreator.tag();

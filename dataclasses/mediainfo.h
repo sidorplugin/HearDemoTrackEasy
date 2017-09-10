@@ -34,16 +34,12 @@ public:
   QVariant data(int key);
   // Возвращает строковое значение информации о треке в виде списка.
   QStringList toStringList() const;
+  // Возвращает строковое значение ключа.
+  static QString name(int key);
   // Очищает все поля в альбоме.
   void clear();
   // Проверяет на наличие информации в альбоме.
   bool isEmpty();
-
-
-private:
-  // Возвращает строковое значение ключа.
-  QString keyToString(int key) const;
-
 
 private:
   QHash <int, QVariant> m_data;

@@ -22,7 +22,7 @@ QList<int> JunoPageSearcher::getPagesInfo(const QVariantList &params)
 {
   QString link = params.at(0).toString();
 
-  start(link + "1");
+  start(link.arg("1"));
 
   // Остается в цикле пока не произведется выборка.
   QEventLoop wait;
@@ -31,8 +31,6 @@ QList<int> JunoPageSearcher::getPagesInfo(const QVariantList &params)
   wait.exec();
 
   QList<int> result;
-  result[PageSearcher::StartPage] = 1;
-  result[PageSearcher::EndPage] = m_endPage;
-  result[PageSearcher::TotalPages] = m_endPage;
+  result << 1 << m_endPage << m_endPage;
   return result;
 }

@@ -21,8 +21,8 @@ void Module::execute(Module::Mode mode, DataInput &input)
   connect(m_fetcher, SIGNAL(fetched(Fetcher::State)),
           this, SLOT(on_fetched(Fetcher::State)));
 
-  connect(m_pageSearcher, SIGNAL(fetched(Fetcher::State)),
-          this, SLOT(on_fetched(Fetcher::State)));
+//  connect(m_pageSearcher, SIGNAL(fetched(Fetcher::State)),
+//          this, SLOT(on_fetched(Fetcher::State)));
 
   // Возвращает ссылку для выборки.
   QString link = m_linkCreator->create(mode, input, parameters());

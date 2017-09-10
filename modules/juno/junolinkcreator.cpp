@@ -14,5 +14,5 @@ QString JunoLinkCreator::create(Module::Mode mode, DataInput &input,
   QStringList periodInfo = map.value(input.data(DataInput::Period).toString()).
                                                                 toStringList();
 
-  return address + genreInfo.at(0) + "/" + periodInfo.at(0) + "/";
+  return address + genreInfo.at(0) + "/" + periodInfo.at(0) + "/" + "%1";
 }

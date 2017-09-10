@@ -20,7 +20,7 @@ QStringList MediaInfo::toStringList() const
    QHashIterator <int, QVariant> i(m_data);
    while (i.hasNext()) {
        i.next();
-       QString nameKey = keyToString(i.key());
+       QString nameKey = name(i.key());
        result.append(nameKey + " : " + i.value().toString());
    }
    return result;
@@ -42,24 +42,24 @@ bool MediaInfo::isEmpty()
 
 
 // Возвращает строковое значение ключа.
-QString MediaInfo::keyToString(int key) const
+QString MediaInfo::name(int key)
 {
     QString name;
     switch (key) {
-      case MediaInfo::Id_Album :         name = "Id_Album";     break;
-      case MediaInfo::Id_Track :         name = "Id_Track";     break;
-      case MediaInfo::Artist :           name = "Artist";       break;
-      case MediaInfo::Title_Album :      name = "Title_Album";  break;
-      case MediaInfo::Title_Track :      name = "Title_Track";  break;
-      case MediaInfo::Style :            name = "Style";        break;
-      case MediaInfo::Catalog :          name = "Catalog";      break;
-      case MediaInfo::Label :            name = "Label";        break;
-      case MediaInfo::Date :             name = "Date";         break;
-      case MediaInfo::Images :           name = "Images";       break;
-      case MediaInfo::Tracks :           name = "Tracks";       break;
-      case MediaInfo::Link_Album :       name = "Link_Album";   break;
-      case MediaInfo::Link_Track :       name = "Link_Track";   break;
-      case MediaInfo::Source :           name = "Source";       break;
+      case MediaInfo::Id_Album :         name = "Id_Альбом";          break;
+      case MediaInfo::Id_Track :         name = "Id_Трек";            break;
+      case MediaInfo::Artist :           name = "Артист";             break;
+      case MediaInfo::Title_Album :      name = "Альбом";             break;
+      case MediaInfo::Title_Track :      name = "Название";           break;
+      case MediaInfo::Style :            name = "Стиль";              break;
+      case MediaInfo::Catalog :          name = "Каталог";            break;
+      case MediaInfo::Label :            name = "Лэйбл";              break;
+      case MediaInfo::Date :             name = "Дата";               break;
+      case MediaInfo::Images :           name = "Обложка";            break;
+      case MediaInfo::Link_Track :       name = "Ссылка на трек";     break;
+      case MediaInfo::Link_Album :       name = "Ссылка на альбом";   break;
+      case MediaInfo::Source :           name = "Источник";           break;
+      case MediaInfo::Tracks :           name = "Треки";              break;
     }
     return name;
 }

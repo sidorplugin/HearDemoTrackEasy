@@ -10,24 +10,13 @@ Database::Database()
   m_model = new Model;
 
   m_model->setTable("tracks");
-//  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-//  m_model->select();
-//  m_model->setHeaderData(0, Qt::Horizontal, "Ссылка");
-//  m_model->setHeaderData(1, Qt::Horizontal, "Трек");
-//  m_model->setHeaderData(2, Qt::Horizontal, "Стиль");
-//  m_model->setHeaderData(3, Qt::Horizontal, "Артист");
-//  m_model->setHeaderData(4, Qt::Horizontal, "Альбом");
-//  m_model->setHeaderData(5, Qt::Horizontal, "Каталог");
-//  m_model->setHeaderData(6, Qt::Horizontal, "Лэйбл");
-//  m_model->setHeaderData(7, Qt::Horizontal, "Дата");
-//  m_model->setHeaderData(0, Qt::Horizontal, "Ссылка");
-//  m_model->setHeaderData(1, Qt::Horizontal, "Трек");
-//  m_model->setHeaderData(2, Qt::Horizontal, "Стиль");
-//  m_model->setHeaderData(3, Qt::Horizontal, "Артист");
-//  m_model->setHeaderData(4, Qt::Horizontal, "Альбом");
-//  m_model->setHeaderData(5, Qt::Horizontal, "Каталог");
-//  m_model->setHeaderData(6, Qt::Horizontal, "Лэйбл");
-//  m_model->setHeaderData(7, Qt::Horizontal, "Дата");
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->select();
+
+  // Создает заголовки модели.
+  for (int i = MediaInfo::Id_Track; i <= MediaInfo::Source; i++) {
+      m_model->setHeaderData(i, Qt::Horizontal, MediaInfo::name(i));
+  }
 }
 
 

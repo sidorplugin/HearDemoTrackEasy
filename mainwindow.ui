@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>946</width>
-    <height>674</height>
+    <height>725</height>
    </rect>
   </property>
   <property name="font">
@@ -69,7 +69,7 @@
       <widget class="QWidget" name="dockWidgetContents"/>
      </widget>
     </item>
-    <item row="0" column="1" rowspan="5">
+    <item row="0" column="1" rowspan="4">
      <widget class="QDockWidget" name="dockWidgetDbView">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -147,7 +147,46 @@
       <widget class="QWidget" name="dockWidgetContents_3"/>
      </widget>
     </item>
+    <item row="3" column="0">
+     <widget class="QDockWidget" name="dockWidgetCover">
+      <property name="minimumSize">
+       <size>
+        <width>280</width>
+        <height>160</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>280</width>
+        <height>130</height>
+       </size>
+      </property>
+      <property name="features">
+       <set>QDockWidget::NoDockWidgetFeatures</set>
+      </property>
+      <property name="allowedAreas">
+       <set>Qt::LeftDockWidgetArea</set>
+      </property>
+      <property name="windowTitle">
+       <string>Обложка</string>
+      </property>
+      <widget class="QWidget" name="dockWidgetContents_5"/>
+     </widget>
+    </item>
    </layout>
+   <widget class="QLabel" name="labelImage">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>589</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

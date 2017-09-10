@@ -15,7 +15,7 @@ public:
   ~DeejayDeAlbumFetcher();
 
   // Возвращает информацию об альбоме.
-  MediaInfo getFetchedAlbum() const;
+  MediaInfo getFetchedMedia() const;
 
 protected slots:
   // Производит выборку.
@@ -23,7 +23,7 @@ protected slots:
 
 private:
   // Возвращает треклист.
-  QVariantHash getTrackList(const QWebElement& element,
+  QVariantHash getTrackList(int id, const QWebElement& element,
                            const QString& params = QString());
 
 private:

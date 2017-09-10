@@ -1,41 +1,64 @@
 #include "model.h"
 #include "database.h"
 
+Model::Model()
+{
+}
+
 
 // Добавляет список треков в модель.
 void Model::add(const QList<MediaInfo> &mediaList)
 {
-  foreach (MediaInfo media, mediaList) {
-    add(media);
-  }
+    foreach (MediaInfo media, mediaList) {
+        add(media);
+    }
 }
 
 
-// Добавляет трек в модель.
+// Добавляет медиа-информацию в модель.
 void Model::add(MediaInfo &media)
 {
-    insertRow(0);
-    setData(index(0, 0), track.data(MediaInfo::Artist).toString());
-    setData(index(0, 1), track.data(MediaInfo::Title).toString());
-    setData(index(0, 2), track.data(MediaInfo::Album).toString());
-    setData(index(0, 3), track.data(MediaInfo::Style).toString());
-    setData(index(0, 4), track.data(MediaInfo::Catalog).toString());
-    setData(index(0, 5), track.data(MediaInfo::Label).toString());
-    setData(index(0, 6), track.data(MediaInfo::Date).toString());
-    setData(index(0, 7), track.data(MediaInfo::LinkTrack).toString());
-    setData(index(0, 8), track.data(MediaInfo::LinkImage).toString());
+    QVariantHash tracks = media.data(MediaInfo::Tracks).toHash();
 
-    if (!submitAll())
-      qDebug() << lastError();
+    QHashIterator<QString, QVariant>it(tracks);
+    while (it.hasNext()) {
+        it.next();
+
+        insertRow(0);
+
+        int idTrack = it.key().toInt();
+        QString titleTrack = it.value().toStringList().at(0);
+        QString linkTrack = it.value().toStringList().at(1);
+
+        setData(index(0, 0), idTrack);
+        setData(index(0, 1), media.data(MediaInfo::Id_Album).toInt());
+        setData(index(0, 2), media.data(MediaInfo::Artist).toString());
+        setData(index(0, 3), titleTrack);
+        setData(index(0, 4), media.data(MediaInfo::Title_Album).toString());
+        setData(index(0, 5), media.data(MediaInfo::Style).toString());
+        setData(index(0, 6), media.data(MediaInfo::Catalog).toString());
+        setData(index(0, 7), media.data(MediaInfo::Label).toString());
+        setData(index(0, 8), media.data(MediaInfo::Date).toString());
+        setData(index(0, 9), media.data(MediaInfo::Images).toString());
+        setData(index(0, 10), linkTrack);
+        setData(index(0, 11), media.data(MediaInfo::Link_Album).toString());
+        setData(index(0, 12), media.data(MediaInfo::Source).toString());
+
+        if (!submitAll()) {
+          qDebug() << lastError();
+          qDebug() << "error add media :" << idTrack;
+          removeRow(0);
+        }
+    }
 }
 
 
 // Удаляет все треки из модели.
 void Model::remove()
 {
-  QSqlQuery query(database());
+    QSqlQuery query(database());
     if(!query.exec("DELETE FROM tracks")) {
-      qWarning() << "Failure to clear database " << query.lastError().text();
+        qWarning() << "Failure to clear database " << query.lastError().text();
     }
     submitAll();
 }
@@ -44,10 +67,12 @@ void Model::remove()
 // Удаляет трек из модели.
 void Model::remove(MediaInfo& media)
 {
-  int id  = media.data(MediaInfo::Id_Track).toInt();
+    int idTrack  = media.data(MediaInfo::Id_Track).toInt();
+    qDebug() << idTrack;
+    qDebug() << media.toStringList();
 
     QSqlQuery query(database());
-    if(!query.exec("DELETE FROM tracks WHERE id = " + id)) {
+    if(!query.exec("DELETE FROM tracks WHERE id_track =" + QString::number(idTrack))) {
         qWarning() << query.lastError();
     }
     submitAll();
@@ -58,61 +83,70 @@ void Model::remove(MediaInfo& media)
 MediaInfo Model::mediaInfo(int row)
 {
     // Считывает запись из модели по index.
-    QSqlRecord record = this->record(index);
+    QSqlRecord record = this->record(row);
 
     // Определяет индекс по имени столбца.
-    int artistIndex = this->record(index).indexOf("artist");
-    int titleIndex = this->record(index).indexOf("title");
-    int albumIndex = this->record(index).indexOf("album");
-    int styleIndex = this->record(index).indexOf("style");
-    int catalogIndex = this->record(index).indexOf("catalog");
-    int labelIndex = this->record(index).indexOf("label");
-    int dateIndex = this->record(index).indexOf("date");
-    int linkTrackIndex = this->record(index).indexOf("link_track");
-    int linkImageIndex = this->record(index).indexOf("link_image");
+    int idTrackIndex    = this->record(row).indexOf("id_track");
+    int idAlbumIndex    = this->record(row).indexOf("id_album");
+    int artistIndex     = this->record(row).indexOf("artist");
+    int titleTrackIndex = this->record(row).indexOf("title_track");
+    int titleAlbumIndex = this->record(row).indexOf("title_album");
+    int styleIndex      = this->record(row).indexOf("style");
+    int catalogIndex    = this->record(row).indexOf("catalog");
+    int labelIndex      = this->record(row).indexOf("label");
+    int dateIndex       = this->record(row).indexOf("date");
+    int imagesIndex     = this->record(row).indexOf("images");
+    int linkTrackIndex  = this->record(row).indexOf("link_track");
+    int linkAlbumIndex  = this->record(row).indexOf("link_album");
+    int sourceIndex     = this->record(row).indexOf("source");
 
     // С помощью определенного ранее индекса получает доступ к данным модели.
-    // Заполняет ими структуру AlbumInfo.
-    AlbumInfo track;
-    track.setData(AlbumInfo::Artist, record.value(artistIndex).toString());
-    track.setData(AlbumInfo::Title, record.value(titleIndex).toString());
-  //  track.setData(AlbumInfo::Album, record.value(albumIndex).toString());
-    track.setData(AlbumInfo::Style, record.value(styleIndex).toString());
-    track.setData(AlbumInfo::Catalog, record.value(catalogIndex).toString());
-    track.setData(AlbumInfo::Label, record.value(labelIndex).toString());
-    track.setData(AlbumInfo::Date, record.value(dateIndex).toString());
-  //  track.setData(AlbumInfo::LinkTrack, record.value(linkTrackIndex).toString());
-  //  track.setData(AlbumInfo::LinkImage, record.value(linkImageIndex).toString());
+    // Заполняет ими структуру MediaInfo.
+    MediaInfo media;
+    media.setData(MediaInfo::Id_Track, record.value(idTrackIndex).toInt());
+    media.setData(MediaInfo::Id_Album, record.value(idAlbumIndex).toInt());
+    media.setData(MediaInfo::Artist, record.value(artistIndex).toString());
+    media.setData(MediaInfo::Title_Track, record.value(titleTrackIndex).toString());
+    media.setData(MediaInfo::Title_Album, record.value(titleAlbumIndex).toString());
+    media.setData(MediaInfo::Style, record.value(styleIndex).toString());
+    media.setData(MediaInfo::Catalog, record.value(catalogIndex).toString());
+    media.setData(MediaInfo::Label, record.value(labelIndex).toString());
+    media.setData(MediaInfo::Date, record.value(dateIndex).toString());
+    media.setData(MediaInfo::Images, record.value(imagesIndex).toString());
+    media.setData(MediaInfo::Link_Track, record.value(linkTrackIndex).toString());
+    media.setData(MediaInfo::Link_Album, record.value(linkAlbumIndex).toString());
+    media.setData(MediaInfo::Source, record.value(sourceIndex).toString());
 
-    return track;
+    return media;
 }
 
 
 // Возвращает true если модель пуста.
 bool Model::isEmpty() const
 {
-  return (rowCount() == 0);
+    return (rowCount() == 0);
 }
 
 
 // Возвращает данные по индексу и роли. Переопределен.
 QVariant Model::data(const QModelIndex &index, int role) const
 {
-  // Для роли AccessibleTextRole возвращает значение прогресса загрузки.
-  if (role == Qt::AccessibleTextRole) {
-    QString href = index.data().toString();
-    return m_table.value(href);
-  }
+    // Для роли AccessibleTextRole возвращает значение прогресса загрузки.
+    if (role == Qt::AccessibleTextRole) {
+        QString href = record(index.row()).value(MediaInfo::Link_Track).toString();
 
-  return QSqlQueryModel::data(index, role);
+        return m_table.value(href);
+    }
+
+    return QSqlTableModel::data(index, role);
 }
 
 
 // Устанавливает значение прогресса для ссылки.
 void Model::setProgress(const QString &href, int value)
 {
-  // Сохраняет значение в таблице.
-  m_table.insert(href, value);
+    // Сохраняет значение в таблице.
+    m_table.insert(href, value);
 
-  submitAll();
+    submitAll();
 }

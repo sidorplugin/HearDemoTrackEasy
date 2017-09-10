@@ -15,7 +15,7 @@
 class Model : public QSqlTableModel
 {
 public:
-  Model() {}
+  Model();
 
   // Добавляет медиа-информацию в модель.
   void add(MediaInfo& media);
@@ -29,8 +29,6 @@ public:
   bool isEmpty() const;
   // Устанавливает значение прогресса для ссылки.
   void setProgress(const QString& href, int value);
-  // Производит выборку элементов в базе для представления.
-  void select();
 
 
 

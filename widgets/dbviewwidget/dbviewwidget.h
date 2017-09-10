@@ -41,6 +41,8 @@ private slots:
   // Создает контекстное меню.
   void createContextMenu(QPoint position);
 
+//  void slot1(const QModelIndex& index);
+
 private:
   // Создает действие для контекстного меню.
   QAction* createAction(int id, const QStringList& info, int state);

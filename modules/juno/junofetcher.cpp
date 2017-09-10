@@ -4,25 +4,27 @@
 class JunoFetcherPrivate
 {
 public:
-  QList <MediaInfo> albums;
+  QList <MediaInfo> media;
 
 public:
   // Возвращает артиста.
   QString getArtist(const QWebElement &element);
   // Возвращает название релиза.
   QString getTitleRelease(const QWebElement &element);
+  // Возвращает ссылку на релиз.
+  QString getLinkRelease(const QWebElement &element);
   // Возвращает лэйбл.
   QString getLabel(const QWebElement &element);
   // Возвращает номер по каталогу.
   QString getCatNumber(const QWebElement &element);
   // Возвращает ссылки на изображения релиза.
-  QStringList getImages(const QWebElement &element);
+  QString getImages(const QWebElement &element);
   // Возвращает ссылку на трек.
   QString getLinkTrack(const QWebElement &element, const QString& params = QString());
   // Возвращает название трека.
   QString getTitleTrack(const QWebElement &element);
   // Возвращает треклист.
-  QVariantHash getTrackList(const QWebElement& element, const QString& params = QString());
+  QVariantHash getTrackList(int id, const QWebElement& element, const QString& params = QString());
   // Возвращает дату релиза.
   QDate getDateRelease(const QWebElement &element);
 
@@ -44,6 +46,14 @@ QString JunoFetcherPrivate::getTitleRelease(const QWebElement &element)
 }
 
 
+// Возвращает ссылку на релиз.
+QString JunoFetcherPrivate::getLinkRelease(const QWebElement &element)
+{
+    QWebElement linkElement = element.findFirst("a.text_medium.text_fg");
+    return "www.juno.co.uk" + linkElement.attribute("href");
+}
+
+
 // Возвращает лэйбл.
 QString JunoFetcherPrivate::getLabel(const QWebElement &element)
 {
@@ -59,19 +69,17 @@ QString JunoFetcherPrivate::getCatNumber(const QWebElement &element)
 
 
 // Возвращает ссылки на изображения релиза.
-QStringList JunoFetcherPrivate::getImages(const QWebElement &element)
+QString JunoFetcherPrivate::getImages(const QWebElement &element)
 {
-  QStringList result;
-
-  QWebElement imageElement = element.findFirst("div.pl-img a img");
+  QWebElement imageElement = element.findFirst("div.pl-img img");
 
   if (imageElement.isNull())
-    return QStringList();
+    return QString();
 
-  QString image = imageElement.attribute("src");
-  result.push_back(image);
+  if (!imageElement.attribute("rel").isEmpty())
+      return imageElement.attribute("rel");
 
-  return result;
+  return imageElement.attribute("src");
 }
 
 
@@ -110,7 +118,7 @@ QString JunoFetcherPrivate::getTitleTrack(const QWebElement &element)
 
 
 // Возвращает треклист.
-QVariantHash JunoFetcherPrivate::getTrackList(const QWebElement &element,
+QVariantHash JunoFetcherPrivate::getTrackList(int id, const QWebElement &element,
                                               const QString& params)
 {
   QVariantHash result;
@@ -120,10 +128,11 @@ QVariantHash JunoFetcherPrivate::getTrackList(const QWebElement &element,
       return QVariantHash();
   }
 
+  int idTrack = id;
   foreach (QWebElement track, tracksCollection) {
     QString link = getLinkTrack(track);
     QString title = getTitleTrack(track);
-    result.insert(title, link);
+    result.insert(QString::number(idTrack++), QStringList() << title << link);
   }
 
   return result;
@@ -148,9 +157,10 @@ JunoFetcher::~JunoFetcher()
 void JunoFetcher::result(bool ok)
 {
   m_isStop = false;
-  p_d->albums.clear();
+  p_d->media.clear();
 
-  QWebElementCollection vinylCollection = m_page.mainFrame()->findAllElements("div.dv-item");
+  QWebElementCollection vinylCollection =
+          m_page.mainFrame()->findAllElements("div.dv-item");
   qDebug() << vinylCollection.count();
 
   // Если нет элементов на странице завершает выборку.
@@ -173,7 +183,7 @@ void JunoFetcher::result(bool ok)
   // Делает паузу.
   pause(m_delay);
 
-  emit ready(p_d->albums);
+  emit ready(p_d->media);
   emit fetched(Fetcher::Finished);
 }
 
@@ -182,7 +192,6 @@ void JunoFetcher::handleElement(const QWebElement &element)
 {
   QWebElementCollection infoCollection =
       element.findAll("div.pl-info.jq_highlight div.vi-text");
-  qDebug() << infoCollection.count();
 
   if (infoCollection.count() < 3)
     return;
@@ -190,24 +199,29 @@ void JunoFetcher::handleElement(const QWebElement &element)
   QString artist = p_d->getArtist(infoCollection.at(0));
   QString title = p_d->getTitleRelease(infoCollection.at(1));
   int id = qHash(artist + title);
-  QString label = p_d->getLabel(infoCollection.at(2));
   QString catalog = p_d->getCatNumber(infoCollection.at(3));
-  QStringList images = p_d->getImages(element);
+  QString label = p_d->getLabel(infoCollection.at(2));
+  QString images = p_d->getImages(element);
+  QString linkAlbum = p_d->getLinkRelease(infoCollection.at(1));
   QDate date = p_d->getDateRelease(infoCollection.at(3));
 
   QWebElement tracklistElement =
       element.findFirst("ol.vi-tracklist.jq_highlight");
-  QVariantHash tracks = p_d->getTrackList(tracklistElement);
+  QVariantHash tracks = p_d->getTrackList(id, tracklistElement);
 
   MediaInfo album;
-  album.setData(MediaInfo::Id, id);
+  album.setData(MediaInfo::Id_Album, id);
   album.setData(MediaInfo::Artist, artist);
-  album.setData(MediaInfo::Title, title);
+  album.setData(MediaInfo::Title_Album, title);
   album.setData(MediaInfo::Catalog, catalog);
   album.setData(MediaInfo::Label, label);
+  album.setData(MediaInfo::Date, date);
   album.setData(MediaInfo::Images, images);
+  album.setData(MediaInfo::Link_Album, linkAlbum);
   album.setData(MediaInfo::Tracks, tracks);
   album.setData(MediaInfo::Source, "Juno");
 
-  p_d->albums.push_back(album);
+  qDebug() << album.toStringList();
+
+  p_d->media.push_back(album);
 }

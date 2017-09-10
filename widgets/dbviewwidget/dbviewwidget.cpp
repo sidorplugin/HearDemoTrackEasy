@@ -57,7 +57,7 @@ DbViewWidget::DbViewWidget(QWidget* parent)
     // Создает и настраивает прогрессбар делегат для первой ячейки таблицы.
     m_delegate = new DbViewItemDelegate;
     setModel(Database::getInstance()->model());
-    setItemDelegateForColumn(0, m_delegate);
+    setItemDelegateForColumn(2, m_delegate);
 
     Database::getInstance()->model()->select();
 
@@ -75,10 +75,15 @@ DbViewWidget::DbViewWidget(QWidget* parent)
     // Устанавливаем Контекстное Меню.
     setContextMenuPolicy(Qt::CustomContextMenu);
 
+//    setColumnHidden(0, true);
+//    setColumnHidden(1, true);
+
     // Подключает СЛОТ вызова контекстного меню.
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(createContextMenu(QPoint)));
 
+//    connect(this->horizontalHeader(), SIGNAL(activated(QModelIndex)),
+//            this, SLOT(slot1(QModelIndex)));
 }
 
 DbViewWidget::~DbViewWidget()
@@ -133,6 +138,12 @@ void DbViewWidget::createContextMenu(QPoint position)
   // Вызываем контекстное меню.
   menu->popup(viewport()->mapToGlobal(position));
 }
+
+//void DbViewWidget::slot1(const QModelIndex &index)
+//{
+//    Database::getInstance()->model()->setSort(index.column(), Qt::AscendingOrder);
+//    Database::getInstance()->model()->select();
+//}
 
 
 // Создает действие для контекстного меню.

@@ -71,7 +71,7 @@ private:
   DataInput m_input;
   QHash <QString, Module*> m_modules;  // Хранит модули приложения.
   Downloader* m_downloader;            // Загрузчик.
-  Model* m_model;                // Модель.
+  Model* m_model;                      // Модель.
   int m_state;                         // Состояние программы.
 
 

@@ -1,5 +1,6 @@
 #include "worker.h"
 #include "database.h"
+#include "globaldata.h"
 
 //**************************  Worker  *********************************//
 
@@ -75,13 +76,15 @@ void Worker::slot_fetch(DataInput &input)
 void Worker::slot_load(DataInput &input)
 {
   qDebug() << "Worker::slot_load()";
-  // TODO Mode load.
-//  m_downloader->initialize(data.isSingleLoad);
+
+  m_downloader->initialize(GlobalData::getInstance()->root,
+                           GlobalData::getInstance()->delay,
+                           GlobalData::getInstance()->loads,
+                           input.data(DataInput::SingleLoad).toBool());
 
   if (input.data(DataInput::SingleLoad).toBool()) {
-    MediaInfo track = m_model->getAlbumInfo(input.data(DataInput::Row).toInt());
-    qDebug() << track.toStringList();
-    m_downloader->load(track);
+    MediaInfo media = m_model->mediaInfo(input.data(DataInput::Row).toInt());
+    m_downloader->load(media);
   }
   else
     m_downloader->load();

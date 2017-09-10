@@ -1,10 +1,10 @@
 --== Hear Demo Track Easy ==--
  
-SELECT  a.artist, t.name, a.name, a.label, a.catalog, a.date FROM album as a JOIN tracks as t ON a.id = t.album_id ORDER BY a.artist
+ - Juno. парсить Стиль. Не пропускает скобки с указанием ремиксов. QRegExp prepareRx ("[(]dd:dd[)]"); 
  
- - PageSearcher перевести на сигнали вместо while.
+ - Фильтрация по столбцам в таблице.
  
- - Убрать AlbumFetcher из фабрики, будет реализован внутри дочернего Fetcher.
+ - PageSearcher перевести на сигналы вместо while.
  
  - Тэги сайта внести во входной XML.
 	<selectors>

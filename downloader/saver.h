@@ -17,7 +17,7 @@ public:
     Saver(QObject *parent = 0);
 
     // Сохраняет данные bytes c данными data в папку root.
-    void save(const QByteArray& bytes, MediaInfo& track, const QString& root);
+    void save(const QByteArray& bytes, MediaInfo& media, const QString& root);
 
 signals:
     // Сигнал об успешном сохранении.
@@ -25,9 +25,9 @@ signals:
 
 private:
     // Строит путь сохранения файла.
-    QString buildSavePath(MediaInfo& track, const QString& root);
+    QString buildSavePath(MediaInfo& media, const QString& root);
     // Создает тэг.
-    QByteArray createTag(MediaInfo& track);
+    QByteArray createTag(MediaInfo& media);
     // Возвращает валидное имя файла.
     QString getValidFileName(const QString& name);
 

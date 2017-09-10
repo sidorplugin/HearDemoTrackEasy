@@ -1,61 +1,92 @@
 #include "searchresultmodel.h"
 
 #include <QDebug>
+#include <QDate>
 
 SearchResultModel::SearchResultModel()
 {
   // Создает заголовки модели.
-  for (int i = MediaInfo::Artist; i <= MediaInfo::Source; ++i) {
-    setHorizontalHeaderItem(i, new QStandardItem(name(i)));
+  for (int i = MediaInfo::Id_Track; i <= MediaInfo::Source; ++i) {
+    setHorizontalHeaderItem(i, new QStandardItem(MediaInfo::name(i)));
   }
   setHeaderData(0, Qt::Horizontal, false,  Qt::CheckStateRole);
 }
 
 
-// Добавляет трек в модель.
-void SearchResultModel::add(MediaInfo &track)
+// Добавляет медиа информацию в модель.
+void SearchResultModel::add(MediaInfo &media)
 {
-  insertRow(0);
-  setData(index(0, MediaInfo::Artist), false, Qt::CheckStateRole);
-  item(0, MediaInfo::Artist)->setCheckable(true);
+  // Получает все треки из media.
+  QVariantHash tracks = media.data(MediaInfo::Tracks).toHash();
+  // Для каждого трека добавляет информацию в таблицу.
+  QHashIterator<QString, QVariant>it(tracks);
+  while (it.hasNext()) {
+      it.next();
+      int idTrack = it.key().toInt();
+      QString titleTrack = it.value().toStringList().at(0);
+      QString linkTrack = it.value().toStringList().at(1);
 
-  for (int i = MediaInfo::Artist; i <= MediaInfo::Source; ++i) {
-      setData(index(0, i), track.data(i).toString());
-      item(0, i)->setEditable(false);
+      insertRow(0);
+      // Для  каждого столбца устанавливает данные.
+      for (int i = MediaInfo::Id_Track; i <= MediaInfo::Source; ++i) {
+          if (i == MediaInfo::Id_Track) {
+              setData(index(0, i), idTrack);
+          }
+          else if (i == MediaInfo::Title_Track) {
+              setData(index(0, i), titleTrack);
+              item(0, i)->setEditable(false);
+          }
+          else if (i == MediaInfo::Link_Track) {
+              setData(index(0, i), linkTrack);
+              item(0, i)->setEditable(false);
+          }
+          else if (i == MediaInfo::Artist) {
+              setData(index(0, i), false, Qt::CheckStateRole);
+              item(0, i)->setCheckable(true);
+          }
+          else {
+              setData(index(0, i), media.data(i).toString());
+              item(0, i)->setEditable(false);
+          }
+      }
   }
+
 }
 
 
 // Возвращает информацию о треке по номеру строки.
-MediaInfo SearchResultModel::getAlbumInfo(int row)
+MediaInfo SearchResultModel::mediaInfo(int row)
 {
-  // Считывает запись из модели по index.
-  QString artist =    data(index(row, MediaInfo::Artist))   .toString();
-  QString title =     data(index(row, MediaInfo::Title))    .toString();
-//  QString album =     data(index(row, MediaInfo::Album))    .toString();
-  QString style =     data(index(row, MediaInfo::Style))    .toString();
-  QString catalog =   data(index(row, MediaInfo::Catalog))  .toString();
-  QString label =     data(index(row, MediaInfo::Label))    .toString();
-  QString date =      data(index(row, MediaInfo::Date))     .toString();
-//  QString linkTrack = data(index(row, MediaInfo::LinkTrack)).toString();
-//  QString linkImage = data(index(row, MediaInfo::LinkImage)).toString();
-  QString source =    data(index(row, MediaInfo::Source))   .toString();
+  int     idTrack =    data(index(row, MediaInfo::Id_Track))   .toInt();
+  int     idAlbum =    data(index(row, MediaInfo::Id_Album))   .toInt();
+  QString artist =     data(index(row, MediaInfo::Artist))     .toString();
+  QString titleTrack = data(index(row, MediaInfo::Title_Track)).toString();
+  QString titleAlbum = data(index(row, MediaInfo::Title_Album)).toString();
+  QString style =      data(index(row, MediaInfo::Style))      .toString();
+  QString catalog =    data(index(row, MediaInfo::Catalog))    .toString();
+  QString label =      data(index(row, MediaInfo::Label))      .toString();
+  QString date =       data(index(row, MediaInfo::Date))       .toString();
+  QString images =     data(index(row, MediaInfo::Images))     .toString();
+  QString linkTrack =  data(index(row, MediaInfo::Link_Track)) .toString();
+  QString linkAlbum =  data(index(row, MediaInfo::Link_Album)) .toString();
+  QString source =     data(index(row, MediaInfo::Source))     .toString();
 
-  // С помощью определенного ранее индекса получает доступ к данным модели.
-  // Заполняет ими структуру MediaInfo.
-  MediaInfo track;
-  track.setData(MediaInfo::Artist,    artist);
-  track.setData(MediaInfo::Title,     title);
-//  track.setData(MediaInfo::Album,     album);
-  track.setData(MediaInfo::Style,     style);
-  track.setData(MediaInfo::Catalog,   catalog);
-  track.setData(MediaInfo::Label,     label);
-  track.setData(MediaInfo::Date,      date);
-//  track.setData(MediaInfo::LinkTrack, linkTrack);
-//  track.setData(MediaInfo::LinkImage, linkImage);
-  track.setData(MediaInfo::Source,    source);
+  MediaInfo media;
+  media.setData(MediaInfo::Id_Track,    idTrack);
+  media.setData(MediaInfo::Id_Album,    idAlbum);
+  media.setData(MediaInfo::Artist,      artist);
+  media.setData(MediaInfo::Title_Track, titleTrack);
+  media.setData(MediaInfo::Title_Album, titleAlbum);
+  media.setData(MediaInfo::Style,       style);
+  media.setData(MediaInfo::Catalog,     catalog);
+  media.setData(MediaInfo::Label,       label);
+  media.setData(MediaInfo::Date,        QDate::fromString(date, "dd.MM.yyyy"));
+  media.setData(MediaInfo::Images,      images);
+  media.setData(MediaInfo::Link_Track,  linkTrack);
+  media.setData(MediaInfo::Link_Album,  linkAlbum);
+  media.setData(MediaInfo::Source,      source);
 
-  return track;
+  return media;
 }
 
 
@@ -64,26 +95,3 @@ bool SearchResultModel::isCheckedState(int row)
 {
   return data(index(row, MediaInfo::Artist), Qt::CheckStateRole).toBool();
 }
-
-
-// Возвращает строковое значение перечисления Items.
-QString SearchResultModel::name(int key)
-{
-  QString name;
-
-  switch (key) {
-    case MediaInfo::Artist :      name = "Артист";             break;
-    case MediaInfo::Title :       name = "Название";           break;
-//    case MediaInfo::Album :       name = "Альбом";             break;
-    case MediaInfo::Style :       name = "Стиль";              break;
-    case MediaInfo::Catalog :     name = "Каталог";            break;
-    case MediaInfo::Label :       name = "Лэйбл";              break;
-    case MediaInfo::Date :        name = "Дата";               break;
-//    case MediaInfo::LinkTrack :   name = "Ссылка Трек";        break;
-//    case MediaInfo::LinkImage :   name = "Ссылка Изображение"; break;
-    case MediaInfo::Source :      name = "Источник";           break;
-  }
-
-  return name;
-}
-

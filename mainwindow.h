@@ -10,6 +10,7 @@
 #include "widgets/playerwidget/playerwidget.h"
 #include "widgets/searchwidget/searchwidget.h"
 #include "widgets/searchresultwidget/searchresultwidget.h"
+#include "widgets/coverwidget/coverwidget.h"
 
 #include <QMainWindow>
 #include <QNetworkRequest>
@@ -115,6 +116,7 @@ private:
   PlayerWidget* m_playerWidget;        // Виджет "Плеер".
   SearchWidget* m_searchWidget;
   SearchResultWidget* m_searchResultWidget;
+  CoverWidget* m_coverWidget;
 
   QSignalMapper* m_mapper;
   QMap <int, QAction*> m_actions;

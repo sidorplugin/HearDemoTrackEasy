@@ -50,8 +50,8 @@ SOURCES += main.cpp\
     widgets/searchresultwidget/searchresultwidget.cpp \
     widgets/searchresultwidget/searchresultmodel.cpp \
     model.cpp \
-    albummodel.cpp \
-    dataclasses/mediainfo.cpp
+    dataclasses/mediainfo.cpp \
+    widgets/coverwidget/coverwidget.cpp
 
 HEADERS  += mainwindow.h \
     modules/deejayde/deejaydefetcher.h \
@@ -95,14 +95,15 @@ HEADERS  += mainwindow.h \
     widgets/searchresultwidget/searchresultwidget.h \
     widgets/searchresultwidget/searchresultmodel.h \
     model.h \
-    albummodel.h \
-    dataclasses/mediainfo.h
+    dataclasses/mediainfo.h \
+    widgets/coverwidget/coverwidget.h
 
 FORMS    += mainwindow.ui \
             playerwidgetform.ui \
             preferencesform.ui \
     searchform.ui \
-    searchresultform.ui
+    searchresultform.ui \
+    coverwidget.ui
 
 RESOURCES += \
     resources/resources.qrc
