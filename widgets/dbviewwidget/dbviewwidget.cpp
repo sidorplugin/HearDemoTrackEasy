@@ -55,7 +55,7 @@ DbViewWidget::DbViewWidget(QWidget* parent)
             this, SIGNAL(actionTriggered(int)));
 
     // Создает и настраивает прогрессбар делегат для первой ячейки таблицы.
-    m_delegate = new DbViewItemDelegate;
+    m_delegate = new DbViewItemDelegate(this);
     setModel(Database::getInstance()->model());
     setItemDelegateForColumn(2, m_delegate);
 

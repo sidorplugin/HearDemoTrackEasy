@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'coverwidget.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.1
+** Created by: Qt User Interface Compiler version 5.5.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -50,11 +50,13 @@ public:
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         label_Image1 = new QLabel(groupBox);
         label_Image1->setObjectName(QStringLiteral("label_Image1"));
+        label_Image1->setMinimumSize(QSize(138, 138));
 
         gridLayout_2->addWidget(label_Image1, 0, 0, 1, 1);
 
         label_Image2 = new QLabel(groupBox);
         label_Image2->setObjectName(QStringLiteral("label_Image2"));
+        label_Image2->setMinimumSize(QSize(138, 138));
 
         gridLayout_2->addWidget(label_Image2, 0, 1, 1, 1);
 

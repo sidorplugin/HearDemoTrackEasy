@@ -54,6 +54,12 @@
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
          <widget class="QLabel" name="label_Image1">
+          <property name="minimumSize">
+           <size>
+            <width>138</width>
+            <height>138</height>
+           </size>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -61,6 +67,12 @@
         </item>
         <item row="0" column="1">
          <widget class="QLabel" name="label_Image2">
+          <property name="minimumSize">
+           <size>
+            <width>138</width>
+            <height>138</height>
+           </size>
+          </property>
           <property name="text">
            <string/>
           </property>

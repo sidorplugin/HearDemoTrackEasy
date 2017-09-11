@@ -49,6 +49,8 @@ public:
   // Возвращает треклист.
   QVariantHash getTrackList(int id, const QWebElement& element,
                             const QString& params = QString());
+  // Возвращает уникальный id строк catalog и label.
+  int getUniqueId(const QString& catalog, const QString& label);
 
 };
 
@@ -96,13 +98,16 @@ QString DeejayDeFetcherPrivate::getImages(const QWebElement &element)
   }
 
   QString link1 = imageElement_1.attribute("href");
-  QString link2 = imageElement_2.attribute("href");
   if (validateLinkImage(link1)) {
-    result = baseAddress + link1 + ";" + baseAddress + link2;
-    return result;
+    result = baseAddress + link1;
   }
-  else
-    return QString();
+
+  QString link2 = imageElement_2.attribute("href");
+  if (validateLinkImage(link2)) {
+    result.push_back(";" + baseAddress + link2);
+  }
+
+  return result;
 }
 
 
@@ -110,7 +115,7 @@ QString DeejayDeFetcherPrivate::getImages(const QWebElement &element)
 bool DeejayDeFetcherPrivate::validateLinkImage(const QString &link)
 {
   // Если путь к изображению не подходящий.
-  if (link.section("/", -3).isEmpty()) {
+  if (link.section("/", -3).isEmpty() || link.isEmpty()) {
     qDebug() << "picLink validate false";
     return false;
   }
@@ -231,6 +236,20 @@ QVariantHash DeejayDeFetcherPrivate::getTrackList(int id,
 }
 
 
+// Возвращает уникальный id строк catalog и label.
+int DeejayDeFetcherPrivate::getUniqueId(const QString& catalog,
+                                        const QString& label)
+{
+  QString firstWordLabel = label.split(" ").at(0);
+  QString prepareString = QString(catalog + firstWordLabel).toLower();
+  // Регулярное выражение - все знаки и пробел.
+  QRegExp rx ("[ ,_.;:'%`!-\$<>()&#\^\"\\/]");
+  prepareString.remove(rx);
+
+  return qHash(prepareString);
+}
+
+
 //**************************  DeejayDeFetcher  *********************************//
 
 
@@ -323,31 +342,18 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
       }
 
       QString artist = p_d->getArtist(element);
-      qDebug() << "artist = " << artist;
-
       QString title = p_d->getTitleRelease(element);
-      qDebug() << "title = " << title;
-
-      int id = qHash(artist + title);
-
       QString style = p_d->getStyle(element);
-      qDebug() << "style = " << style;
-
       QString catalog = p_d->getCatalog(element);
-      qDebug() << "catalog = " << catalog;
-
       QString label = p_d->getLabel(element);
-      qDebug() << "label = " << label;
-
+      int id = p_d->getUniqueId(catalog, label);
       QString images = p_d->getImages(element);
-      qDebug() << "images = " << images;
 
       if (images.isEmpty()) {
         return;
       }
 
       QVariantHash tracks = p_d->getTrackList(id, element, images.split(";").at(0));
-      qDebug() << "tracks = " << tracks;
 
       MediaInfo media;
       media.setData(MediaInfo::Id_Album, id);

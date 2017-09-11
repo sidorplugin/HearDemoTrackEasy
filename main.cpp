@@ -27,7 +27,8 @@ int main(int argc, char *argv[])
 
     a.setStyleSheet("QProgressBar {"
                       "border: 1px solid transparent;"
-                      "text-align: center;"
+                      "text-align: left;"
+                      "selection-background-color: #ababab;"
                     "}"
 
                     "QProgressBar::chunk {"

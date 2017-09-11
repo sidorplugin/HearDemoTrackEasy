@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.1
+** Created by: Qt User Interface Compiler version 5.5.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -40,18 +40,18 @@ public:
     QAction *action_ShowControl;
     QAction *action_Search;
     QWidget *centralWidget;
-    QLabel *labelImage;
     QGridLayout *gridLayout;
     QDockWidget *dockWidgetParameters;
     QWidget *dockWidgetContents;
-    QDockWidget *dockWidgetDbView;
-    QWidget *dockWidgetContents_13;
     QDockWidget *dockWidgetSearch;
     QWidget *dockWidgetContents_7;
     QDockWidget *dockWidgetPlay;
     QWidget *dockWidgetContents_3;
     QDockWidget *dockWidgetCover;
     QWidget *dockWidgetContents_5;
+    QLabel *labelImage;
+    QDockWidget *dockWidgetDbView;
+    QWidget *dockWidgetContents_13;
     QMenuBar *menuBar;
     QMenu *menu;
     QMenu *menu_2;
@@ -65,7 +65,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(946, 725);
+        MainWindow->resize(1165, 749);
         QFont font;
         font.setPointSize(8);
         font.setKerning(true);
@@ -130,9 +130,6 @@ public:
         action_Search->setIcon(icon10);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        labelImage = new QLabel(centralWidget);
-        labelImage->setObjectName(QStringLiteral("labelImage"));
-        labelImage->setGeometry(QRect(9, 589, 16, 16));
         gridLayout = new QGridLayout(centralWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -153,22 +150,6 @@ public:
         dockWidgetParameters->setWidget(dockWidgetContents);
 
         gridLayout->addWidget(dockWidgetParameters, 0, 0, 1, 1);
-
-        dockWidgetDbView = new QDockWidget(centralWidget);
-        dockWidgetDbView->setObjectName(QStringLiteral("dockWidgetDbView"));
-        QSizePolicy sizePolicy1(QSizePolicy::Maximum, QSizePolicy::Maximum);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(dockWidgetDbView->sizePolicy().hasHeightForWidth());
-        dockWidgetDbView->setSizePolicy(sizePolicy1);
-        dockWidgetDbView->setMinimumSize(QSize(642, 542));
-        dockWidgetDbView->setFeatures(QDockWidget::NoDockWidgetFeatures);
-        dockWidgetDbView->setAllowedAreas(Qt::RightDockWidgetArea);
-        dockWidgetContents_13 = new QWidget();
-        dockWidgetContents_13->setObjectName(QStringLiteral("dockWidgetContents_13"));
-        dockWidgetDbView->setWidget(dockWidgetContents_13);
-
-        gridLayout->addWidget(dockWidgetDbView, 0, 1, 4, 1);
 
         dockWidgetSearch = new QDockWidget(centralWidget);
         dockWidgetSearch->setObjectName(QStringLiteral("dockWidgetSearch"));
@@ -197,7 +178,7 @@ public:
         dockWidgetCover = new QDockWidget(centralWidget);
         dockWidgetCover->setObjectName(QStringLiteral("dockWidgetCover"));
         dockWidgetCover->setMinimumSize(QSize(280, 160));
-        dockWidgetCover->setMaximumSize(QSize(280, 130));
+        dockWidgetCover->setMaximumSize(QSize(280, 160));
         dockWidgetCover->setFeatures(QDockWidget::NoDockWidgetFeatures);
         dockWidgetCover->setAllowedAreas(Qt::LeftDockWidgetArea);
         dockWidgetContents_5 = new QWidget();
@@ -206,10 +187,31 @@ public:
 
         gridLayout->addWidget(dockWidgetCover, 3, 0, 1, 1);
 
+        labelImage = new QLabel(centralWidget);
+        labelImage->setObjectName(QStringLiteral("labelImage"));
+
+        gridLayout->addWidget(labelImage, 4, 0, 1, 1);
+
+        dockWidgetDbView = new QDockWidget(centralWidget);
+        dockWidgetDbView->setObjectName(QStringLiteral("dockWidgetDbView"));
+        QSizePolicy sizePolicy1(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(dockWidgetDbView->sizePolicy().hasHeightForWidth());
+        dockWidgetDbView->setSizePolicy(sizePolicy1);
+        dockWidgetDbView->setMinimumSize(QSize(642, 542));
+        dockWidgetDbView->setFeatures(QDockWidget::NoDockWidgetFeatures);
+        dockWidgetDbView->setAllowedAreas(Qt::RightDockWidgetArea);
+        dockWidgetContents_13 = new QWidget();
+        dockWidgetContents_13->setObjectName(QStringLiteral("dockWidgetContents_13"));
+        dockWidgetDbView->setWidget(dockWidgetContents_13);
+
+        gridLayout->addWidget(dockWidgetDbView, 0, 1, 5, 1);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 946, 21));
+        menuBar->setGeometry(QRect(0, 0, 1165, 21));
         menu = new QMenu(menuBar);
         menu->setObjectName(QStringLiteral("menu"));
         menu_2 = new QMenu(menuBar);
@@ -296,12 +298,12 @@ public:
         action_Info->setText(QApplication::translate("MainWindow", "\320\241\320\277\321\200\320\260\320\262\320\272\320\260", 0));
         action_ShowControl->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\272\320\260\320\267\320\260\321\202\321\214 \320\277\320\260\320\275\320\265\320\273\321\214 \321\203\320\277\321\200\320\260\320\262\320\273\320\265\320\275\320\270\321\217", 0));
         action_Search->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\270\321\201\320\272", 0));
-        labelImage->setText(QString());
         dockWidgetParameters->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \320\262\321\213\320\261\320\276\321\200\320\272\320\270", 0));
-        dockWidgetDbView->setWindowTitle(QApplication::translate("MainWindow", "\320\221\320\260\320\267\320\260 \321\202\321\200\320\265\320\272\320\276\320\262", 0));
         dockWidgetSearch->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\276\320\270\321\201\320\272", 0));
         dockWidgetPlay->setWindowTitle(QApplication::translate("MainWindow", "\320\237\320\273\320\265\320\265\321\200", 0));
         dockWidgetCover->setWindowTitle(QApplication::translate("MainWindow", "\320\236\320\261\320\273\320\276\320\266\320\272\320\260", 0));
+        labelImage->setText(QString());
+        dockWidgetDbView->setWindowTitle(QApplication::translate("MainWindow", "\320\221\320\260\320\267\320\260 \321\202\321\200\320\265\320\272\320\276\320\262", 0));
         menu->setTitle(QApplication::translate("MainWindow", "\320\224\320\265\320\271\321\201\321\202\320\262\320\270\321\217", 0));
         menu_2->setTitle(QApplication::translate("MainWindow", "\320\244\320\260\320\271\320\273", 0));
         menu_3->setTitle(QApplication::translate("MainWindow", "\320\241\320\277\321\200\320\260\320\262\320\272\320\260", 0));

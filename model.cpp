@@ -46,7 +46,10 @@ void Model::add(MediaInfo &media)
 
         if (!submitAll()) {
           qDebug() << lastError();
-          qDebug() << "error add media :" << idTrack;
+          qDebug() << "error add media :" << idTrack
+                   << titleTrack << media.data(MediaInfo::Label).toString()
+                   << media.data(MediaInfo::Catalog).toString()
+                   << media.data(MediaInfo::Title_Album).toString();
           removeRow(0);
         }
     }
@@ -68,8 +71,6 @@ void Model::remove()
 void Model::remove(MediaInfo& media)
 {
     int idTrack  = media.data(MediaInfo::Id_Track).toInt();
-    qDebug() << idTrack;
-    qDebug() << media.toStringList();
 
     QSqlQuery query(database());
     if(!query.exec("DELETE FROM tracks WHERE id_track =" + QString::number(idTrack))) {

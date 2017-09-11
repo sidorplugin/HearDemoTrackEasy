@@ -10,12 +10,14 @@
 
 class DbViewItemDelegate : public QStyledItemDelegate
 {
+  Q_OBJECT
 public:
-  DbViewItemDelegate();
+  DbViewItemDelegate(QObject * parent = 0);
 
   void paint(QPainter *painter,
              const QStyleOptionViewItem &option,
              const QModelIndex &index) const;
+
 
 };
 

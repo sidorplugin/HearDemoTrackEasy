@@ -31,6 +31,8 @@ public:
   QDate getDate(const QWebElement &element);
   // Возвращает стиль релиза.
   QString getStyle(const QWebElement &element);
+  // Возвращает уникальный id строк catalog и label.
+  int getUniqueId(const QString& catalog, const QString& label);
 };
 
 
@@ -143,6 +145,20 @@ QString DeejayDeAlbumFetcherPrivate::getStyle(const QWebElement &element)
 }
 
 
+// Возвращает уникальный id строк catalog и label.
+int DeejayDeAlbumFetcherPrivate::getUniqueId(const QString& catalog,
+                                        const QString& label)
+{
+  QString firstWordLabel = label.split(" ").at(0);
+  QString prepareString = QString(catalog + firstWordLabel).toLower();
+  // Регулярное выражение - все знаки и пробел.
+  QRegExp rx ("[ ,_.;:'%`!-\$<>()&#\^\"\\/]");
+  prepareString.remove(rx);
+
+  return qHash(prepareString);
+}
+
+
 //**************************  DeejayDeAlbumFetcher  *********************************//
 
 DeejayDeAlbumFetcher::DeejayDeAlbumFetcher(QObject *parent)
@@ -179,11 +195,11 @@ void DeejayDeAlbumFetcher::result(bool ok)
   }
 
   QString artist = p_d->getArtist(contentElement);
-  QString title = p_d->getTitleRelease(contentElement);
-  int id = qHash(artist + title);
+  QString title = p_d->getTitleRelease(contentElement);  
   QString style = p_d->getStyle(contentElement);
   QString catalog = p_d->getCatalog(contentElement);
   QString label = p_d->getLabel(contentElement);
+  int id = p_d->getUniqueId(catalog, label);
   QDate date = p_d->getDate(contentElement);
 
   // Определяет треклист релиза.

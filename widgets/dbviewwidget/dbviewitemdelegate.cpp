@@ -1,6 +1,6 @@
 #include "dbviewitemdelegate.h"
 
-DbViewItemDelegate::DbViewItemDelegate()
+DbViewItemDelegate::DbViewItemDelegate(QObject* parent)
 {
 }
 
@@ -24,7 +24,7 @@ void DbViewItemDelegate::paint(QPainter* painter,
   opt.maximum = 100;
   opt.rect = option.rect;
   opt.progress = value;
-  opt.textAlignment = Qt::AlignHCenter;
+  opt.textAlignment = Qt::AlignLeft;
   opt.textVisible = true;
   opt.text = index.data(Qt::DisplayRole).toString();
 
