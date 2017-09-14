@@ -29,8 +29,11 @@ public:
   void readGlobalSettings();
   // Возвращает хэш таблицу параметров модуля из XML файла.
   ModuleParameters readFromXmlFile(const QString& fileName);
+  // Возвращает уникальный id строк catalog и label.
+  int getUniqueId(const QString& catalog, const QString& label);
 
 public:
+  // TODO в private. Создать get и set.
   QString root;                    // Путь к папке для сохранения файлов.
   int delay;                       // Задержка между запросами.
   int waiting;                     // Время ожидания выполнения запроса.

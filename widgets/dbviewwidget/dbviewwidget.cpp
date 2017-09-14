@@ -1,5 +1,6 @@
 #include "dbviewwidget.h"
 #include "database.h"
+#include "model.h"
 
 #include <QAction>
 #include <QMenu>
@@ -59,32 +60,41 @@ DbViewWidget::DbViewWidget(QWidget* parent)
     setModel(Database::getInstance()->model());
     setItemDelegateForColumn(2, m_delegate);
 
-    Database::getInstance()->model()->select();
+    // Настраивает Header таблицы.
+    m_tableHeader = new FilterTableHeader(this);
+    setHorizontalHeader(m_tableHeader);
+    // Создает Header'ы для всех колонок модели.
+    m_tableHeader->generateFilters(Database::getInstance()->model()->columnCount());
+    // При изменении значения в фильтре обновляет модель.
+    connect(m_tableHeader, SIGNAL(filterChanged(int, QString)),
+            this, SLOT(updateFilter(int, QString)));
 
-    setSelectionMode(QAbstractItemView::SingleSelection);
-    setSelectionBehavior(QAbstractItemView::SelectRows);
+    // Производит выборку данных из модели.
+    Database::getInstance()->model()->select();
 
     // Настраивает параметры таблицы.
     verticalHeader()->setDefaultSectionSize(21);
     if (!Database::getInstance()->model()->isEmpty())
       resizeColumnsToContents();
 
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionBehavior(QAbstractItemView::SelectRows);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
     setCornerButtonEnabled(false);
 
-    // Устанавливаем Контекстное Меню.
+    // Устанавливает контекстное меню.
     setContextMenuPolicy(Qt::CustomContextMenu);
 
-//    setColumnHidden(0, true);
-//    setColumnHidden(1, true);
+    setColumnHidden(0, true);
+    setColumnHidden(1, true);
 
     // Подключает СЛОТ вызова контекстного меню.
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(createContextMenu(QPoint)));
 
-//    connect(this->horizontalHeader(), SIGNAL(activated(QModelIndex)),
-//            this, SLOT(slot1(QModelIndex)));
 }
+
 
 DbViewWidget::~DbViewWidget()
 {
@@ -97,6 +107,13 @@ DbViewWidget::~DbViewWidget()
 void DbViewWidget::setState(int state)
 {
   m_state = state;
+}
+
+
+// Фильтрует модель по колонке column и значению value.
+void DbViewWidget::updateFilter(int column, const QString &value)
+{
+  Database::getInstance()->model()->updateFilter(column, value);
 }
 
 
@@ -138,12 +155,6 @@ void DbViewWidget::createContextMenu(QPoint position)
   // Вызываем контекстное меню.
   menu->popup(viewport()->mapToGlobal(position));
 }
-
-//void DbViewWidget::slot1(const QModelIndex &index)
-//{
-//    Database::getInstance()->model()->setSort(index.column(), Qt::AscendingOrder);
-//    Database::getInstance()->model()->select();
-//}
 
 
 // Создает действие для контекстного меню.

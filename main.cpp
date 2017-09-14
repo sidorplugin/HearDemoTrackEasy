@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "logger.h"
 #include "globaldata.h"
 #include "worker.h"
 #include "dataclasses/mediainfo.h"
@@ -12,12 +13,43 @@
 #include <QThread>
 #include <QDebug>
 
+
+void logMessageHandler(QtMsgType type,
+                       const QMessageLogContext &context,
+                       const QString &msg)
+{
+  QString note = QString("[%1]%2\n").
+    arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss")).arg(msg);
+
+  switch (type){
+      case QtDebugMsg:
+          gLogger() << note;
+      break;
+
+      case QtWarningMsg:
+          gLogger() << note;
+      break;
+
+      case QtCriticalMsg:
+          gLogger() << note;
+      break;
+
+      case QtFatalMsg:
+          gLogger() << note;
+      break;
+   }
+}
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
     qRegisterMetaType<MediaInfo>("MediaInfo");
     qRegisterMetaType<DataInput>("DataInput");
+
+    gLogger().makeLog("main", "log.log", false);
+    qInstallMessageHandler(logMessageHandler);
 
 //    QFile file(":/styles/style/darkstyle.qss");
 //    file.open(QFile::ReadOnly);
@@ -28,8 +60,9 @@ int main(int argc, char *argv[])
     a.setStyleSheet("QProgressBar {"
                       "border: 1px solid transparent;"
                       "text-align: left;"
-                      "selection-background-color: #ababab;"
                     "}"
+
+                    "QProgressBar:selected { background: #ababab;}"
 
                     "QProgressBar::chunk {"
                       "background-color: #facd95;"
@@ -37,7 +70,9 @@ int main(int argc, char *argv[])
 
                     "QTableView {"
                       "selection-background-color: #ababab;"
+                      "selection-color: black;"
                     "}"
+
                    );
 
 

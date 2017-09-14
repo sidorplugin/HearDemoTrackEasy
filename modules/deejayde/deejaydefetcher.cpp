@@ -49,8 +49,6 @@ public:
   // Возвращает треклист.
   QVariantHash getTrackList(int id, const QWebElement& element,
                             const QString& params = QString());
-  // Возвращает уникальный id строк catalog и label.
-  int getUniqueId(const QString& catalog, const QString& label);
 
 };
 
@@ -236,20 +234,6 @@ QVariantHash DeejayDeFetcherPrivate::getTrackList(int id,
 }
 
 
-// Возвращает уникальный id строк catalog и label.
-int DeejayDeFetcherPrivate::getUniqueId(const QString& catalog,
-                                        const QString& label)
-{
-  QString firstWordLabel = label.split(" ").at(0);
-  QString prepareString = QString(catalog + firstWordLabel).toLower();
-  // Регулярное выражение - все знаки и пробел.
-  QRegExp rx ("[ ,_.;:'%`!-\$<>()&#\^\"\\/]");
-  prepareString.remove(rx);
-
-  return qHash(prepareString);
-}
-
-
 //**************************  DeejayDeFetcher  *********************************//
 
 
@@ -346,7 +330,7 @@ void DeejayDeFetcher::handleElement(const QWebElement& element)
       QString style = p_d->getStyle(element);
       QString catalog = p_d->getCatalog(element);
       QString label = p_d->getLabel(element);
-      int id = p_d->getUniqueId(catalog, label);
+      int id = GlobalData::getInstance()->getUniqueId(catalog, label);
       QString images = p_d->getImages(element);
 
       if (images.isEmpty()) {

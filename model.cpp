@@ -46,10 +46,8 @@ void Model::add(MediaInfo &media)
 
         if (!submitAll()) {
           qDebug() << lastError();
-          qDebug() << "error add media :" << idTrack
-                   << titleTrack << media.data(MediaInfo::Label).toString()
-                   << media.data(MediaInfo::Catalog).toString()
-                   << media.data(MediaInfo::Title_Album).toString();
+          qDebug() << "----------------Don't add track-----------------------";
+          qDebug() << media.toStringList();
           removeRow(0);
         }
     }
@@ -150,4 +148,50 @@ void Model::setProgress(const QString &href, int value)
     m_table.insert(href, value);
 
     submitAll();
+}
+
+
+// Фильтрует модель по колонке column и значению value.
+void Model::updateFilter(int column, const QString &value)
+{
+  QString filter;
+
+  // Если поле в фильтре пустое сбрасывает фильтр модели.
+  if (value.isEmpty()) {
+      filter = QString();
+  }
+  else
+    // В зависимости от column формирует запрос на выборку элементов
+    // модели по колонке и значению.
+    filter = QString("%1 LIKE '%%2%' ORDER BY 'id_album'").
+                         arg(nameFieldForColumn(column)).arg(value);
+
+  // Устанавливает фильтр для модели.
+  setFilter(filter);
+  // Выбирает элементы из модели.
+  select();
+
+}
+
+
+// Возвращает название поля в БД по колонке column.
+QString Model::nameFieldForColumn(int column)
+{
+  QString name;
+  switch (column) {
+    case MediaInfo::Id_Album :         name = "id_album";         break;
+    case MediaInfo::Id_Track :         name = "id_track";         break;
+    case MediaInfo::Artist :           name = "artist";           break;
+    case MediaInfo::Title_Album :      name = "title_album";      break;
+    case MediaInfo::Title_Track :      name = "title_track";      break;
+    case MediaInfo::Style :            name = "style";            break;
+    case MediaInfo::Catalog :          name = "catalog";          break;
+    case MediaInfo::Label :            name = "label";            break;
+    case MediaInfo::Date :             name = "date";             break;
+    case MediaInfo::Images :           name = "images";           break;
+    case MediaInfo::Link_Track :       name = "link_track";       break;
+    case MediaInfo::Link_Album :       name = "link_album";       break;
+    case MediaInfo::Source :           name = "source";           break;
+  }
+  return name;
 }

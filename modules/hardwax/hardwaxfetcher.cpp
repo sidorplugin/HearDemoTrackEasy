@@ -4,7 +4,7 @@
 class HardwaxFetcherPrivate
 {
 public:
-  QList <MediaInfo> albums;
+  QList <MediaInfo> mediaList;
 
 public:
   // Возвращает артиста.
@@ -25,7 +25,6 @@ public:
   // Возвращает треклист.
   QVariantHash getTrackList(int id, const QWebElement& element,
                            const QString& params = QString());
-
 };
 
 // Возвращает артиста.
@@ -114,6 +113,7 @@ QVariantHash HardwaxFetcherPrivate::getTrackList(int id, const QWebElement &elem
   return result;
 }
 
+
 //**************************  HardwaxFetcher  *********************************//
 
 HardwaxFetcher::HardwaxFetcher(QObject *parent)
@@ -130,7 +130,7 @@ HardwaxFetcher::~HardwaxFetcher()
 void HardwaxFetcher::result(bool ok)
 {
   m_isStop = false;
-  p_d->albums.clear();
+  p_d->mediaList.clear();
 
   QWebElementCollection vinylCollection =
       m_page.mainFrame()->findAllElements("div.listing.block");
@@ -146,23 +146,23 @@ void HardwaxFetcher::result(bool ok)
     if (!m_isStop) {
       QString artist = p_d->getArtist(vinylElement);
       QString title = p_d->getTitleRelease(vinylElement);
-      int id = qHash(artist + title);
       QString catalog = p_d->getCatNumber(vinylElement);
       QString label = p_d->getLabel(vinylElement);
+      int id = GlobalData::getInstance()->getUniqueId(catalog, label);
       QString images = p_d->getImages(vinylElement);
       QVariantHash tracks = p_d->getTrackList(id, vinylElement);
 
-      MediaInfo album;
-      album.setData(MediaInfo::Id_Album, id);
-      album.setData(MediaInfo::Artist, artist);
-      album.setData(MediaInfo::Title_Album, title);
-      album.setData(MediaInfo::Catalog, catalog);
-      album.setData(MediaInfo::Label, label);
-      album.setData(MediaInfo::Images, images);
-      album.setData(MediaInfo::Source, "Hardwax");
-      album.setData(MediaInfo::Tracks, tracks);
+      MediaInfo media;
+      media.setData(MediaInfo::Id_Album, id);
+      media.setData(MediaInfo::Artist, artist);
+      media.setData(MediaInfo::Title_Album, title);
+      media.setData(MediaInfo::Catalog, catalog);
+      media.setData(MediaInfo::Label, label);
+      media.setData(MediaInfo::Images, images);
+      media.setData(MediaInfo::Source, "Hardwax");
+      media.setData(MediaInfo::Tracks, tracks);
 
-      p_d->albums.push_back(album);
+      p_d->mediaList.push_back(media);
 
     }
     else {
@@ -175,6 +175,6 @@ void HardwaxFetcher::result(bool ok)
   // Делает паузу.
   pause(m_delay);
 
-  emit ready(p_d->albums);
+  emit ready(p_d->mediaList);
   emit fetched(Fetcher::Finished);
 }

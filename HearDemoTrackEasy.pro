@@ -11,9 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = HearDemoTrackEasy
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
-        mainwindow.cpp \
+    mainwindow.cpp \
     modules/deejayde/deejaydefetcher.cpp \
     modules/deejayde/deejaydealbumfetcher.cpp \
     modules/deejayde/deejaydepagesearcher.cpp \
@@ -51,7 +50,10 @@ SOURCES += main.cpp\
     widgets/searchresultwidget/searchresultmodel.cpp \
     model.cpp \
     dataclasses/mediainfo.cpp \
-    widgets/coverwidget/coverwidget.cpp
+    widgets/coverwidget/coverwidget.cpp \
+    widgets/dbviewwidget/filterlineedit.cpp \
+    widgets/dbviewwidget/filtertableheader.cpp \
+    logger.cpp
 
 HEADERS  += mainwindow.h \
     modules/deejayde/deejaydefetcher.h \
@@ -96,11 +98,15 @@ HEADERS  += mainwindow.h \
     widgets/searchresultwidget/searchresultmodel.h \
     model.h \
     dataclasses/mediainfo.h \
-    widgets/coverwidget/coverwidget.h
+    widgets/coverwidget/coverwidget.h \
+    widgets/dbviewwidget/filterlineedit.h \
+    widgets/dbviewwidget/filtertableheader.h \
+    logger.h
 
-FORMS    += mainwindow.ui \
-            playerwidgetform.ui \
-            preferencesform.ui \
+
+FORMS += mainwindow.ui \
+    playerwidgetform.ui \
+    preferencesform.ui \
     searchform.ui \
     searchresultform.ui \
     coverwidget.ui

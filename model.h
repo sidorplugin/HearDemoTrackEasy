@@ -31,7 +31,6 @@ public:
   void setProgress(const QString& href, int value);
 
 
-
 public:
   // Возвращает данные по индексу и роли. Переопределен.
   QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
@@ -39,6 +38,10 @@ public:
 public slots:
   // Добавляет список медиа-информации в модель.
   void add(const QList<MediaInfo>& mediaList);
+  // Фильтрует модель по колонке column и значению value.
+  void updateFilter(int column, const QString& value);
+  // Возвращает название поля в БД по колонке column.
+  QString nameFieldForColumn(int column);
 
 private:
   // Таблица "href - %".

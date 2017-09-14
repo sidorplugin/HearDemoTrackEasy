@@ -4,7 +4,7 @@
 class JunoFetcherPrivate
 {
 public:
-  QList <MediaInfo> media;
+  QList <MediaInfo> mediaList;
 
 public:
   // Возвращает артиста.
@@ -27,8 +27,6 @@ public:
   QVariantHash getTrackList(int id, const QWebElement& element, const QString& params = QString());
   // Возвращает дату релиза.
   QDate getDateRelease(const QWebElement &element);
-  // Возвращает уникальный id строк catalog и label.
-  int getUniqueId(const QString& catalog, const QString& label);
 
 };
 
@@ -139,20 +137,6 @@ QVariantHash JunoFetcherPrivate::getTrackList(int id, const QWebElement &element
 }
 
 
-// Возвращает уникальный id строк catalog и label.
-int JunoFetcherPrivate::getUniqueId(const QString& catalog,
-                                        const QString& label)
-{
-  QString firstWordLabel = label.split(" ").at(0);
-  QString prepareString = QString(catalog + firstWordLabel).toLower();
-  // Регулярное выражение - все знаки и пробел.
-  QRegExp rx ("[ ,_.;:'%`!-\$<>()&#\^\"\\/]");
-  prepareString.remove(rx);
-
-  return qHash(prepareString);
-}
-
-
 //**************************  JunoFetcher  *********************************//
 
 
@@ -171,7 +155,7 @@ JunoFetcher::~JunoFetcher()
 void JunoFetcher::result(bool ok)
 {
   m_isStop = false;
-  p_d->media.clear();
+  p_d->mediaList.clear();
 
   QWebElementCollection vinylCollection =
           m_page.mainFrame()->findAllElements("div.dv-item");
@@ -197,7 +181,7 @@ void JunoFetcher::result(bool ok)
   // Делает паузу.
   pause(m_delay);
 
-  emit ready(p_d->media);
+  emit ready(p_d->mediaList);
   emit fetched(Fetcher::Finished);
 }
 
@@ -214,7 +198,7 @@ void JunoFetcher::handleElement(const QWebElement &element)
   QString title = p_d->getTitleRelease(infoCollection.at(1));
   QString catalog = p_d->getCatNumber(infoCollection.at(3));
   QString label = p_d->getLabel(infoCollection.at(2));
-  int id = p_d->getUniqueId(catalog, label);
+  int id = GlobalData::getInstance()->getUniqueId(catalog, label);
   QString images = p_d->getImages(element);
   QString linkAlbum = p_d->getLinkRelease(infoCollection.at(1));
   QDate date = p_d->getDateRelease(infoCollection.at(3));
@@ -235,5 +219,5 @@ void JunoFetcher::handleElement(const QWebElement &element)
   album.setData(MediaInfo::Tracks, tracks);
   album.setData(MediaInfo::Source, "Juno");
 
-  p_d->media.push_back(album);
+  p_d->mediaList.push_back(album);
 }

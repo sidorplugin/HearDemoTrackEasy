@@ -2,6 +2,7 @@
 #define DBVIEWWIDGET_H
 
 #include "dbviewitemdelegate.h"
+#include "filtertableheader.h"
 
 #include <QObject>
 #include <QTableView>
@@ -32,6 +33,8 @@ public:
 public slots:
   // Устанавливает статус программы.
   void setState(int state);
+  // Фильтрует модель по колонке column и значению value.
+  void updateFilter(int column, const QString& value);
 
 signals:
   // Активировано действие.
@@ -40,8 +43,6 @@ signals:
 private slots:
   // Создает контекстное меню.
   void createContextMenu(QPoint position);
-
-//  void slot1(const QModelIndex& index);
 
 private:
   // Создает действие для контекстного меню.
@@ -52,6 +53,7 @@ private:
 private:
   DbViewItemDelegate* m_delegate;
   QSignalMapper* m_signalMapper;
+  FilterTableHeader* m_tableHeader;
   QList <DbViewWidget::Action> m_actionIdList;
   QStringList m_actionNameList;
   QStringList m_actionIconList;

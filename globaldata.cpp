@@ -144,3 +144,24 @@ ModuleParameters GlobalData::readFromXmlFile(const QString &fileName)
 }
 
 
+// Возвращает уникальный id строк catalog и label.
+int GlobalData::getUniqueId(const QString &catalog, const QString &label)
+{
+  QString digitalPartCatalog;
+  QString firstWordLabel = label.split(" ").at(0);
+  QRegExp rxDigital ("(\\d+)");
+  int pos = rxDigital.indexIn(catalog);
+  if (pos > -1)
+    digitalPartCatalog = rxDigital.cap();
+
+  // Hardwax id enabled record.
+//  QString prepareString = QString(firstWordLabel + digitalPartCatalog).toLower();
+  QString prepareString = QString(catalog + firstWordLabel).toLower();
+  // Регулярное выражение - все знаки и пробел.
+  QRegExp rx ("[ ,_.;:'%`!-\$<>()&#\^\"\\/]");
+  prepareString.remove(rx);
+
+  return qHash(prepareString);
+}
+
+
