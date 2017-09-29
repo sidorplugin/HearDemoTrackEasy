@@ -83,6 +83,17 @@ DbViewWidget::DbViewWidget(QWidget* parent)
     setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
     setCornerButtonEnabled(false);
 
+    // Создаем объект контекстного меню.
+    m_menu = new QMenu(this);
+    // Создаем подменю Копирования и Поиска.
+    m_copyMenu = new QMenu("Копировать", this);
+    m_copyMenu->setIcon(QIcon(":/images_ui/images/copy.png"));
+    m_searchMenu = new QMenu("Поиск", this);
+    m_searchMenu->setIcon(QIcon(":/images_ui/images/search.png"));
+
+    m_menu->addMenu(m_copyMenu);
+    m_menu->addMenu(m_searchMenu);
+
     // Устанавливает контекстное меню.
     setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -119,15 +130,7 @@ void DbViewWidget::updateFilter(int column, const QString &value)
 
 // Создает контекстное меню.
 void DbViewWidget::createContextMenu(QPoint position)
-{
-  // Создаем объект контекстного меню.
-  QMenu* menu = new QMenu(this);
-  // Создаем подменю Копирования и Поиска.
-  QMenu* copyMenu = new QMenu("Копировать", this);
-  copyMenu->setIcon(QIcon(":/images_ui/images/copy.png"));
-  QMenu* searchMenu = new QMenu("Поиск", this);
-  searchMenu->setIcon(QIcon(":/images_ui/images/search.png"));
-
+{  
   // Создаём действия для контекстного меню.
   QMapIterator <int, QVariant> i(m_actionsTable);
   while (i.hasNext()) {
@@ -141,19 +144,16 @@ void DbViewWidget::createContextMenu(QPoint position)
       m_signalMapper->setMapping(action, id);
 
       if (nameAction(id).contains("Search"))
-        searchMenu->addAction(action);
+        m_searchMenu->addAction(action);
       else if (nameAction(id).contains("Copy"))
-        copyMenu->addAction(action);
+        m_copyMenu->addAction(action);
       else
-        menu->addAction(action);
+        m_menu->addAction(action);
 
   }
 
-  menu->addMenu(copyMenu);
-  menu->addMenu(searchMenu);
-
   // Вызываем контекстное меню.
-  menu->popup(viewport()->mapToGlobal(position));
+  m_menu->popup(viewport()->mapToGlobal(position));
 }
 
 

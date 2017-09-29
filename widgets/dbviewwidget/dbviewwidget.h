@@ -60,7 +60,9 @@ private:
   // Таблица действий контекстного меню.
   // (id = DbViewWidget::Action, List = name, icon).
   QMap <int, QVariant> m_actionsTable;
-
+  QMenu* m_menu;
+  QMenu* m_copyMenu;
+  QMenu* m_searchMenu;
 
   int m_state;
 
