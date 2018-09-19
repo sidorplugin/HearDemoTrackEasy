@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlayerWidgetForm</class>
+ <widget class="QWidget" name="PlayerWidgetForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>221</width>
+    <height>70</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>221</width>
+    <height>70</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>221</width>
+    <height>70</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string/>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>32</y>
+     <width>181</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="previous">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Prev (Ctrl+Z)</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-top: 3px transparent;
+border-bottom: 3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../resources/resources.qrc">
+        <normaloff>:/images_ui/images/player_start.png</normaloff>:/images_ui/images/player_start.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>36</width>
+        <height>36</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>Z</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QToolButton" name="play">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Play (Ctrl+X)</string>
+      </property>
+      <property name="accessibleDescription">
+       <string/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-top: 3px transparent;
+border-bottom: 3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../resources/resources.qrc">
+        <normaloff>:/images_ui/images/player_play.png</normaloff>:/images_ui/images/player_play.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>36</width>
+        <height>36</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>X</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QToolButton" name="pause">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Pause (Ctrl+C)</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-top: 3px transparent;
+border-bottom: 3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../resources/resources.qrc">
+        <normaloff>:/images_ui/images/player_pause.png</normaloff>:/images_ui/images/player_pause.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>36</width>
+        <height>36</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>C</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <property name="autoRaise">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QToolButton" name="stop">
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Stop (Ctrl+V)</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-top: transparent;
+border-bottom: transparent;
+border-right: transparent;
+border-left: transparent;
+</string>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../resources/resources.qrc">
+        <normaloff>:/images_ui/images/player_stop.png</normaloff>:/images_ui/images/player_stop.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>36</width>
+        <height>36</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>V</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QToolButton" name="next">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Next (Ctrl+B)</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-top: 3px transparent;
+border-bottom: 3px transparent;
+border-right: 3px transparent;
+border-left: 3px transparent;
+hovered: true;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../resources/resources.qrc">
+        <normaloff>:/images_ui/images/player_end.png</normaloff>:/images_ui/images/player_end.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>36</width>
+        <height>36</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>B</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QSlider" name="rewind">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>22</y>
+     <width>181</width>
+     <height>10</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>181</width>
+     <height>10</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>181</width>
+     <height>10</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QSlider::groove:horizontal {
+	background: red;
+    position: absolute;
+}
+
+QSlider::handle:horizontal {
+	height: 1px;
+    background: #545454;
+    margin: 0 -3px;
+}
+
+QSlider::add-page:horizontal {
+	background: #facd95;
+}
+
+QSlider::sub-page:horizontal {
+	background: #8b8b8b;
+}</string>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickPosition">
+    <enum>QSlider::NoTicks</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="volume">
+   <property name="geometry">
+    <rect>
+     <x>201</x>
+     <y>22</y>
+     <width>10</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>10</width>
+     <height>40</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>10</width>
+     <height>40</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QSlider::groove:vertical {
+         background: black;
+         position: absolute;        
+}
+
+QSlider::handle:vertical {
+       height: 7px;
+       background: #545454;
+}
+
+QSlider::add-page:vertical {
+	background: #8b8b8b;
+}
+
+QSlider::sub-page:vertical {
+	background: #facd95;
+}</string>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+   <property name="tickPosition">
+    <enum>QSlider::NoTicks</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="info">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>7</y>
+     <width>181</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>181</width>
+     <height>15</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>181</width>
+     <height>15</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../resources/resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

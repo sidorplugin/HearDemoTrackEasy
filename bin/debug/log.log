@@ -1,0 +1,550 @@
+[23.12.2017 18:45:52]GlobalData::readGlobalSettings
+[23.12.2017 18:45:52]GlobalData::readFromXmlFile
+[23.12.2017 18:45:52]GlobalData::readFromXmlFile
+[23.12.2017 18:45:52]GlobalData::readFromXmlFile
+[23.12.2017 18:45:53]libpng warning: iCCP: known incorrect sRGB profile
+[23.12.2017 18:45:53]Database::initialize()
+[23.12.2017 18:45:53]libpng warning: iCCP: known incorrect sRGB profile
+[23.12.2017 18:45:54]Unknown property hovered
+[23.12.2017 18:45:54]Unknown property hovered
+[23.12.2017 18:45:54]Unknown property hovered
+[23.12.2017 18:45:54]Unknown property hovered
+[23.12.2017 18:45:54]MainWindow::setConnections()
+[23.12.2017 18:45:54]MainWindow::setActions()
+[23.12.2017 18:45:54]Worker::Worker
+[23.12.2017 18:45:54]Worker::createDownloader
+[23.12.2017 18:45:54]Worker::createModule
+[23.12.2017 18:45:54]Worker::createModule
+[23.12.2017 18:45:54]Worker::createModule
+[23.12.2017 18:45:54]Unknown property hovered
+[23.12.2017 18:45:54]Unknown property hovered
+[23.12.2017 18:45:55]MainWindow::FetchAction
+[23.12.2017 18:45:55]MainWindow::updateUI
+[23.12.2017 18:45:59]Worker::fetch()
+[23.12.2017 18:45:59]Module::execute
+[23.12.2017 18:45:59]"http://www.deejay.de/content.php?param=/m_House/sm_News/sort_voe/perpage_160/page_%1"
+[23.12.2017 18:45:59]page( QDate("2017-12-23") )
+[23.12.2017 18:45:59]page( QDate("2017-12-01") )
+[23.12.2017 18:45:59]searching...
+[23.12.2017 18:45:59]Fetcher::start( "http://www.deejay.de/content.php?param=/m_House/sm_News/sort_voe/perpage_160/page_20" )
+[23.12.2017 18:45:59]Fetcher::on_started
+[23.12.2017 18:45:59]waiting =  15000
+[23.12.2017 18:45:59]progress =  10
+[23.12.2017 18:46:02]progress =  30
+[23.12.2017 18:46:02]progress =  37
+[23.12.2017 18:46:03]progress =  40
+[23.12.2017 18:46:03]progress =  43
+[23.12.2017 18:46:03]progress =  46
+[23.12.2017 18:46:03]progress =  48
+[23.12.2017 18:46:03]progress =  49
+[23.12.2017 18:46:03]progress =  50
+[23.12.2017 18:46:03]progress =  50
+[23.12.2017 18:46:03]progress =  50
+[23.12.2017 18:46:03]progress =  50
+[23.12.2017 18:46:03]progress =  50
+[23.12.2017 18:46:03]progress =  50
+[23.12.2017 18:46:04]progress =  51
+[23.12.2017 18:46:04]progress =  53
+[23.12.2017 18:46:04]progress =  55
+[23.12.2017 18:46:04]progress =  58
+[23.12.2017 18:46:04]progress =  60
+[23.12.2017 18:46:04]progress =  62
+[23.12.2017 18:46:04]progress =  64
+[23.12.2017 18:46:04]progress =  67
+[23.12.2017 18:46:04]progress =  69
+[23.12.2017 18:46:04]progress =  71
+[23.12.2017 18:46:04]progress =  73
+[23.12.2017 18:46:05]progress =  76
+[23.12.2017 18:46:05]progress =  78
+[23.12.2017 18:46:05]progress =  80
+[23.12.2017 18:46:05]progress =  82
+[23.12.2017 18:46:05]progress =  84
+[23.12.2017 18:46:05]progress =  87
+[23.12.2017 18:46:05]progress =  89
+[23.12.2017 18:46:05]progress =  90
+[23.12.2017 18:46:05]progress =  90
+[23.12.2017 18:46:05]progress =  90
+[23.12.2017 18:46:05]progress =  90
+[23.12.2017 18:46:06]progress =  90
+[23.12.2017 18:46:06]progress =  100
+[23.12.2017 18:46:06]Fetcher::on_finished() true
+[23.12.2017 18:46:06]stop timeout
+[23.12.2017 18:46:06]date for search =  QDate("2017-12-01")
+[23.12.2017 18:46:06]QHash((20, (QDate("2017-07-24"))))
+[23.12.2017 18:46:06]QHash((20, (QDate("2017-07-24"), QDate("2017-07-18"))))
+[23.12.2017 18:46:06]m_directiveFlag =  1
+[23.12.2017 18:46:06]setLimits()
+[23.12.2017 18:46:06]Limit not Finded
+[23.12.2017 18:46:06]DateIsLater
+[23.12.2017 18:46:06]1 10 20
+[23.12.2017 18:46:06]searching...
+[23.12.2017 18:46:06]Fetcher::start( "http://www.deejay.de/content.php?param=/m_House/sm_News/sort_voe/perpage_160/page_10" )
+[23.12.2017 18:46:06]Fetcher::on_started
+[23.12.2017 18:46:06]waiting =  15000
+[23.12.2017 18:46:06]progress =  10
+[23.12.2017 18:46:07]progress =  30
+[23.12.2017 18:46:07]progress =  50
+[23.12.2017 18:46:07]progress =  50
+[23.12.2017 18:46:08]progress =  71
+[23.12.2017 18:46:08]progress =  74
+[23.12.2017 18:46:08]progress =  76
+[23.12.2017 18:46:08]progress =  79
+[23.12.2017 18:46:08]progress =  81
+[23.12.2017 18:46:08]progress =  84
+[23.12.2017 18:46:08]progress =  86
+[23.12.2017 18:46:08]progress =  88
+[23.12.2017 18:46:08]progress =  89
+[23.12.2017 18:46:08]progress =  89
+[23.12.2017 18:46:08]progress =  89
+[23.12.2017 18:46:08]progress =  90
+[23.12.2017 18:46:08]progress =  90
+[23.12.2017 18:46:09]progress =  90
+[23.12.2017 18:46:09]progress =  90
+[23.12.2017 18:46:09]progress =  90
+[23.12.2017 18:46:09]progress =  90
+[23.12.2017 18:46:09]progress =  90
+[23.12.2017 18:46:09]progress =  90
+[23.12.2017 18:46:09]progress =  90
+[23.12.2017 18:46:10]progress =  100
+[23.12.2017 18:46:10]Fetcher::on_finished() true
+[23.12.2017 18:46:10]stop timeout
+[23.12.2017 18:46:10]date for search =  QDate("2017-12-01")
+[23.12.2017 18:46:10]QHash((10, (QDate("2017-10-18")))(20, (QDate("2017-07-24"), QDate("2017-07-18"))))
+[23.12.2017 18:46:10]QHash((10, (QDate("2017-10-18"), QDate("2017-10-11")))(20, (QDate("2017-07-24"), QDate("2017-07-18"))))
+[23.12.2017 18:46:10]m_directiveFlag =  1
+[23.12.2017 18:46:10]setLimits()
+[23.12.2017 18:46:10]LimitFinded
+[23.12.2017 18:46:10]DateIsLater
+[23.12.2017 18:46:10]1 5 10
+[23.12.2017 18:46:10]searching...
+[23.12.2017 18:46:10]Fetcher::start( "http://www.deejay.de/content.php?param=/m_House/sm_News/sort_voe/perpage_160/page_5" )
+[23.12.2017 18:46:10]Fetcher::on_started
+[23.12.2017 18:46:10]waiting =  15000
+[23.12.2017 18:46:10]progress =  10
+[23.12.2017 18:46:11]progress =  30
+[23.12.2017 18:46:11]progress =  50
+[23.12.2017 18:46:11]progress =  50
+[23.12.2017 18:46:11]progress =  71
+[23.12.2017 18:46:11]progress =  74
+[23.12.2017 18:46:11]progress =  76
+[23.12.2017 18:46:11]progress =  79
+[23.12.2017 18:46:11]progress =  81
+[23.12.2017 18:46:12]progress =  83
+[23.12.2017 18:46:12]progress =  86
+[23.12.2017 18:46:12]progress =  88
+[23.12.2017 18:46:12]progress =  90
+[23.12.2017 18:46:12]progress =  90
+[23.12.2017 18:46:12]progress =  90
+[23.12.2017 18:46:12]progress =  90
+[23.12.2017 18:46:12]progress =  90
+[23.12.2017 18:46:13]progress =  90
+[23.12.2017 18:46:13]progress =  100
+[23.12.2017 18:46:13]Fetcher::on_finished() true
+[23.12.2017 18:46:13]stop timeout
+[23.12.2017 18:46:13]date for search =  QDate("2017-12-01")
+[23.12.2017 18:46:13]QHash((10, (QDate("2017-10-18"), QDate("2017-10-11")))(20, (QDate("2017-07-24"), QDate("2017-07-18")))(5, (QDate("2017-11-24"))))
+[23.12.2017 18:46:13]QHash((10, (QDate("2017-10-18"), QDate("2017-10-11")))(20, (QDate("2017-07-24"), QDate("2017-07-18")))(5, (QDate("2017-11-24"), QDate("2017-11-20"))))
+[23.12.2017 18:46:13]m_directiveFlag =  1
+[23.12.2017 18:46:13]setLimits()
+[23.12.2017 18:46:13]LimitFinded
+[23.12.2017 18:46:13]DateIsLater
+[23.12.2017 18:46:13]1 3 5
+[23.12.2017 18:46:13]searching...
+[23.12.2017 18:46:13]Fetcher::start( "http://www.deejay.de/content.php?param=/m_House/sm_News/sort_voe/perpage_160/page_3" )
+[23.12.2017 18:46:13]Fetcher::on_started
+[23.12.2017 18:46:13]waiting =  15000
+[23.12.2017 18:46:13]progress =  10
+[23.12.2017 18:46:15]progress =  30
+[23.12.2017 18:46:16]progress =  50
+[23.12.2017 18:46:16]progress =  50
+[23.12.2017 18:46:16]progress =  54
+[23.12.2017 18:46:16]progress =  58
+[23.12.2017 18:46:16]progress =  62
+[23.12.2017 18:46:16]progress =  66
+[23.12.2017 18:46:16]progress =  70
+[23.12.2017 18:46:16]progress =  74
+[23.12.2017 18:46:16]progress =  78
+[23.12.2017 18:46:16]progress =  82
+[23.12.2017 18:46:16]progress =  86
+[23.12.2017 18:46:16]progress =  87
+[23.12.2017 18:46:16]progress =  88
+[23.12.2017 18:46:16]progress =  89
+[23.12.2017 18:46:16]progress =  89
+[23.12.2017 18:46:17]progress =  90
+[23.12.2017 18:46:17]progress =  90
+[23.12.2017 18:46:17]progress =  90
+[23.12.2017 18:46:17]progress =  90
+[23.12.2017 18:46:17]progress =  90
+[23.12.2017 18:46:17]progress =  90
+[23.12.2017 18:46:17]progress =  90
+[23.12.2017 18:46:17]progress =  90
+[23.12.2017 18:46:18]progress =  90
+[23.12.2017 18:46:18]progress =  100
+[23.12.2017 18:46:18]Fetcher::on_finished() true
+[23.12.2017 18:46:18]stop timeout
+[23.12.2017 18:46:18]date for search =  QDate("2017-12-01")
+[23.12.2017 18:46:18]QHash((10, (QDate("2017-10-18"), QDate("2017-10-11")))(3, (QDate("2017-12-08")))(20, (QDate("2017-07-24"), QDate("2017-07-18")))(5, (QDate("2017-11-24"), QDate("2017-11-20"))))
+[23.12.2017 18:46:18]QHash((10, (QDate("2017-10-18"), QDate("2017-10-11")))(3, (QDate("2017-12-08"), QDate("2017-11-30")))(20, (QDate("2017-07-24"), QDate("2017-07-18")))(5, (QDate("2017-11-24"), QDate("2017-11-20"))))
+[23.12.2017 18:46:18]m_directiveFlag =  1
+[23.12.2017 18:46:18]finded
+[23.12.2017 18:46:18]Module::fetch(  1  -  3 )
+[23.12.2017 18:46:18]Fetcher::start( "http://www.deejay.de/content.php?param=/m_House/sm_News/sort_voe/perpage_160/page_1" )
+[23.12.2017 18:46:18]Fetcher::on_started
+[23.12.2017 18:46:18]waiting =  15000
+[23.12.2017 18:46:18]progress =  10
+[23.12.2017 18:46:19]progress =  30
+[23.12.2017 18:46:19]progress =  50
+[23.12.2017 18:46:19]progress =  50
+[23.12.2017 18:46:20]progress =  50
+[23.12.2017 18:46:20]progress =  55
+[23.12.2017 18:46:20]progress =  60
+[23.12.2017 18:46:20]progress =  65
+[23.12.2017 18:46:20]progress =  70
+[23.12.2017 18:46:20]progress =  75
+[23.12.2017 18:46:20]progress =  80
+[23.12.2017 18:46:20]progress =  85
+[23.12.2017 18:46:20]progress =  90
+[23.12.2017 18:46:20]progress =  90
+[23.12.2017 18:46:20]progress =  90
+[23.12.2017 18:46:20]progress =  90
+[23.12.2017 18:46:20]progress =  90
+[23.12.2017 18:46:20]progress =  90
+[23.12.2017 18:46:21]progress =  90
+[23.12.2017 18:46:21]progress =  90
+[23.12.2017 18:46:21]progress =  90
+[23.12.2017 18:46:21]progress =  100
+[23.12.2017 18:46:21]Fetcher::on_finished() true
+[23.12.2017 18:46:21]stop timeout
+[23.12.2017 18:46:21]160
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]2
+[23.12.2017 18:46:22]3
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]2
+[23.12.2017 18:46:22]3
+[23.12.2017 18:46:22]2
+[23.12.2017 18:46:22]2
+[23.12.2017 18:46:22]2
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]3
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]2
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]Fetcher::start( "http://www.deejay.de/content.php?param=/J-walk_Limelight_Nights_WSD042LP__291844" )
+[23.12.2017 18:46:22]Fetcher::on_started
+[23.12.2017 18:46:22]waiting =  15000
+[23.12.2017 18:46:22]progress =  10
+[23.12.2017 18:46:22]progress =  30
+[23.12.2017 18:46:22]progress =  50
+[23.12.2017 18:46:22]progress =  50
+[23.12.2017 18:46:22]progress =  50
+[23.12.2017 18:46:22]progress =  100
+[23.12.2017 18:46:22]Fetcher::on_finished() true
+[23.12.2017 18:46:22]stop timeout
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]4
+[23.12.2017 18:46:22]Fetcher::start( "http://www.deejay.de/content.php?param=/Kid_Cudi_Passion_Pain_%26_Demon_Slayin_0602557266016__298942" )
+[23.12.2017 18:46:22]Fetcher::on_started
+[23.12.2017 18:46:22]waiting =  15000
+[23.12.2017 18:46:22]progress =  10
+[23.12.2017 18:46:23]progress =  30
+[23.12.2017 18:46:23]progress =  50
+[23.12.2017 18:46:23]progress =  50
+[23.12.2017 18:46:23]progress =  50
+[23.12.2017 18:46:23]progress =  100
+[23.12.2017 18:46:23]Fetcher::on_finished() true
+[23.12.2017 18:46:23]stop timeout
+[23.12.2017 18:46:23]2
+[23.12.2017 18:46:23]4
+[23.12.2017 18:46:23]1
+[23.12.2017 18:46:23]4
+[23.12.2017 18:46:23]Fetcher::start( "http://www.deejay.de/content.php?param=/Mobbs_Onelord_PRMSSS003__295195" )
+[23.12.2017 18:46:23]Fetcher::on_started
+[23.12.2017 18:46:23]waiting =  15000
+[23.12.2017 18:46:23]progress =  10
+[23.12.2017 18:46:23]progress =  30
+[23.12.2017 18:46:23]progress =  50
+[23.12.2017 18:46:23]progress =  50
+[23.12.2017 18:46:24]progress =  50
+[23.12.2017 18:46:24]progress =  100
+[23.12.2017 18:46:24]Fetcher::on_finished() true
+[23.12.2017 18:46:24]stop timeout
+[23.12.2017 18:46:24]3
+[23.12.2017 18:46:24]Fetcher::start( "http://www.deejay.de/content.php?param=/Oldtoy_Random_Moods_FUFUHS001__295378" )
+[23.12.2017 18:46:24]Fetcher::on_started
+[23.12.2017 18:46:24]waiting =  15000
+[23.12.2017 18:46:24]progress =  10
+[23.12.2017 18:46:24]progress =  30
+[23.12.2017 18:46:24]progress =  30
+[23.12.2017 18:46:24]progress =  50
+[23.12.2017 18:46:25]progress =  50
+[23.12.2017 18:46:26]progress =  50
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]1
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Various_Artist_Sbt002_SBT002__297554" )
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  50
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Basses-terres_Counting_Pulsations_BFDM012__298559" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Wetware_Salpinx_BNK011__277203" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Atree_Pambore_2x12_PNR009__283924" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Blind_Stitch_Special_Pack_01_BLSPACK01__299470" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Blue_Cola_Special_Pack_03_BLCRPACK03__299467" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Ny_Housen_Authority_Dyckman_House_NGR015__157991" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Octave_One_The_x_Files_4W220__213837" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Soft_Fit_Aquatic_Language_Dream_Plants_VNC005__298697" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Chocolateclay_Chocolateclay_CAT2610__291855" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Garth_Be_Seppuku_WOLFEP043__288474" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Gnork_Presents_Dj_Shark_Future_Music_Ep_UTTU_82__297346" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Monomen_Monomen_OR34__281402" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Narchiveol_Esperance_Music_Wir_Lp_DEC001__293719" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Nocow_Samaya_Dolgaya_Noch_REKIDS112__296452" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Nu_Era_Aquarian_Android_OMNI1202__298324" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Sellorekt_La_Dreams_Turbo_Quest_Ep_TURBO02__298996" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Teddy_Mike_On_Point_Lp_NF06__293813" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/V_a_Mental_Groove_Classics_Vol1_MPD021MG125__294915" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Various_Nomada_White_NMD025__281775" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Velvet_Kills_Mischievous_Urges_Ep_OR37SE__299275" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Andi_Hanley_Edits_Rong_Promo_Only_%2310_limited_Edition_Hand-silkscreened_Jackets_RPR010__181879" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Black_Traxx_Volume_Iii_NCL005__285053" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Hot_Chip_Coming_On_Strong_MOSHILP6X__291750" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Incredible_Rock_City_Invasion_Of_The_Rock-o-mites_PPU-IRCB__295253" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Jg_Biberkopf_Fountain_Of_Meaning_DN010__295910" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]4
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]Fetcher::start( "http://www.deejay.de/content.php?param=/Shpongle_Codex_6_TWSLP48__279370" )
+[23.12.2017 18:46:32]Fetcher::on_finished() false
+[23.12.2017 18:46:32]progress =  100
+[23.12.2017 18:46:32]Fetcher::on_started
+[23.12.2017 18:46:32]waiting =  15000
+[23.12.2017 18:46:32]progress =  10
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]2
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]3
+[23.12.2017 18:46:32]SearchResultWidget::addTracks
